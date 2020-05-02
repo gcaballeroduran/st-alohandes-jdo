@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.persistencia;
+package uniandes.isis2304.alohandes.persistencia;
 
 import java.sql.Date;
 import java.util.List;

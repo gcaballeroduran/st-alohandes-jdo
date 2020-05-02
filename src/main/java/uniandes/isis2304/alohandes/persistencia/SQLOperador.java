@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.persistencia;
+package uniandes.isis2304.alohandes.persistencia;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -93,6 +93,34 @@ public class SQLOperador {
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaOperador() + " WHERE id = ?");
 		q.setResultClass(Operador.class);
 		q.setParameters(idOperador);
+		return (Operador) q.executeUnique();
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para eliminar OPERADORES de la base de datos de Alohandes, por su login
+	 * @param pm - El manejador de persistencia
+	 * @param loginOperador - id del operador
+	 * @return EL número de tuplas eliminadas
+	 */
+	public long eliminarOperadorPorLogin (PersistenceManager pm, long loginOperador)
+	{
+        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaOperador() + " WHERE login = ?");
+        q.setParameters(loginOperador);
+        return (long) q.executeUnique();            
+	}
+
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN OPERADOR de la 
+	 * base de datos de Alohandes, por su login
+	 * @param pm - El manejador de persistencia
+	 * @param loginOperador - El identificador del operador
+	 * @return El objeto OPERADOR que tiene el identificador dado
+	 */
+	public Operador darOperadorPorLogin (PersistenceManager pm, String loginOperador) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaOperador() + " WHERE login = ?");
+		q.setResultClass(Operador.class);
+		q.setParameters(loginOperador);
 		return (Operador) q.executeUnique();
 	}
 

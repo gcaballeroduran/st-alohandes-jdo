@@ -23,7 +23,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
-import uniandes.isis2304.parranderos.persistencia.PersistenciaAlohandes;
+
+import uniandes.isis2304.alohandes.persistencia.PersistenciaAlohandes;
 
 /**
  * Clase principal del negocio
@@ -315,11 +316,10 @@ public class Alohandes
 	 * @param pPiso piso en el que se encuentra la propiedad
 	 * @param pDireccion direccion en la que se encuentra la propiedad
 	 */
-	public Propiedad adicionarPropiedad (long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion)
+	public Propiedad adicionarPropiedad(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion)
 	{
         log.info ("Adicionando Propiedad: " + pID);
-        Propiedad propiedad = pp.adicionarPropiedad(pID, pCapacidad, pTamanio, pPrecio, pFecha,
-        		pDiasR, pPiso, pDireccion);		
+        Propiedad propiedad = pp.adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);	
         log.info ("Adicionando propiedad: " + propiedad);
         return propiedad;
 	}
@@ -356,11 +356,11 @@ public class Alohandes
 	 * Adiciona entradas al log de la aplicación
 	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
 	 */
-	public List<VOPropiedad> darVOTPropiedad()
+	public List<VOPropiedad> darVOPropiedad()
 	{
 		log.info ("Generando los VO de Propiedad");        
         List<VOPropiedad> voPropiedad = new LinkedList<VOPropiedad> ();
-        for (Propiedad tb : pp.darPropiedad())
+        for (Propiedad tb : pp.darPropiedades())
         {
         	voPropiedad.add (tb);
         }
@@ -368,6 +368,7 @@ public class Alohandes
         return voPropiedad;
 	}
 	
+		
 	/* ****************************************************************
 	 * 			Métodos para manejar las APARTAMENTO
 	 *****************************************************************/
@@ -439,7 +440,7 @@ public class Alohandes
 	 * Adiciona entradas al log de la aplicación
 	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
 	 */
-	public List<VOApartamento> darVOTApartamento()
+	public List<VOApartamento> darVOApartamento()
 	{
 		log.info ("Generando los VO de Apartamento");        
         List<VOApartamento> voApartamento = new LinkedList<VOApartamento> ();
@@ -509,7 +510,7 @@ public class Alohandes
 	 * Adiciona entradas al log de la aplicación
 	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
 	 */
-	public List<VOHabitacion> darVOTHabitacion()
+	public List<VOHabitacion> darVOHabitacion()
 	{
 		log.info ("Generando los VO de Habitacion");        
         List<VOHabitacion> voHabitacion = new LinkedList<VOHabitacion> ();
@@ -655,7 +656,71 @@ public class Alohandes
 		return voReservas;
 	}
 	
+	/* ****************************************************************
+	 * 			Métodos para manejar los SERVICIOS
+	 *****************************************************************/
+	/**
+	 * Adiciona de manera persistente una propiedad
+	 * Adiciona entradas al log de la aplicación
+	 * Adiciona entradas al log de la aplicación
+	 * @param pID identificador del servicio
+	 * @param pTipo tipo de servicio
+	 * @param pPrecio precio del servicio
+	 * @param pIntervalo intervalo de pago del servicio
+	 */
+	public Propiedad adicionarServicio(long pID, String pTipo, double pPrecio, int pIntervalo)
+	{
+        log.info ("Adicionando Servicio: " + pID);
+        Propiedad servicio = pp.adicionarPropiedad(pID, pTipo, pPrecio, pIntervalo);		
+        log.info ("Adicionando servicio: " + servicio);
+        return servicio;
+	}
 	
+	/**
+	 * Elimina una Servicio por su identificador
+	 * Adiciona entradas al log de la aplicación
+	 * @param idServicio - El id de la Servicio a eliminar
+	 * @return El número de tuplas eliminadas
+	 */
+	public long eliminarServicioPorId (long idServicio)
+	{
+		log.info ("Eliminando Servicio por id: " + idServicio);
+        long resp = pp.eliminarServicioPorId(idServicio);		
+        log.info ("Eliminando Servicio por id: " + resp + " tuplas eliminadas");
+        return resp;
+	}
+	
+	/**
+	 * Encuentra todos los servicios en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos servicios con todos las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<Propiedad> darServicio()
+	{
+		log.info ("Consultando Servicio");
+        List<Propiedad> servicio = pp.darServicio();	
+        log.info ("Consultando servicios: " + servicio.size() + " existentes");
+        return servicio;
+	}
+
+	/**
+	 * Encuentra todos las servicios en Alohandes y los devuelve como una lista de VOServicio
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos VOServicio con todas las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<VOServicio> darVOServicio()
+	{
+		log.info ("Generando los VO de Servicio");        
+        List<VOServicio> voServicio = new LinkedList<VOServicio> ();
+        for (Servicio tb : pp.darServicio())
+        {
+        	voServicio.add (tb);
+        }
+        log.info ("Generando los VO de la Servicio: " + voServicio.size() + " existentes");
+        return voServicio;
+	}
+	
+
 	
 	
 	/* ****************************************************************

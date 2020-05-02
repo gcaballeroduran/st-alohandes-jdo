@@ -50,7 +50,7 @@ class SQLApartamento
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 * @return El número de tuplas insertadas
 	 */
-	public long adicionarApartamento (PersistenceManager pm, long idApt, boolean am, String desMenaje, String descrSeguro, Date venceSeguro) 
+	public long adicionarApartamento (PersistenceManager pm, long idApt, boolean am, String desMenaje, String descrSeguro, Date venceSeguro, long idOp) 
 	{
         Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaApartamento () + "(id, amueblado, habitaciones, descripcion_menaje, descripcion_seguro, vence_seguro) values (?, ?, ?, ?, ?)");
         q.setParameters(idApt, am, desMenaje, descrSeguro, venceSeguro);

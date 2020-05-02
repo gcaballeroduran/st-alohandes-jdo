@@ -49,18 +49,11 @@ import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.interfazApp.PanelDatos;
 import uniandes.isis2304.alohandes.negocio.Alohandes;
-import uniandes.isis2304.alohandes.negocio.VOBar;
-import uniandes.isis2304.alohandes.negocio.VOBebedor;
-import uniandes.isis2304.alohandes.negocio.VOBebida;
-import uniandes.isis2304.alohandes.negocio.VOGustan;
-import uniandes.isis2304.alohandes.negocio.VOSirven;
-import uniandes.isis2304.alohandes.negocio.VOTipoBebida;
-import uniandes.isis2304.alohandes.negocio.VOVisitan;
 
 /**
  * Clase principal de la interfaz
  * 
- * @author Germán Bravo
+ * 
  */
 @SuppressWarnings("serial")
 

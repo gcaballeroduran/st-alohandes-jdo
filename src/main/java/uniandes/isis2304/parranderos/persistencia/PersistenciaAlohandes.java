@@ -34,11 +34,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import uniandes.isis2304.alohandes.negocio.Cliente;
-import uniandes.isis2304.alohandes.negocio.Modalidad;
 import uniandes.isis2304.alohandes.negocio.Operador;
 import uniandes.isis2304.alohandes.negocio.Reserva;
-import uniandes.isis2304.alohandes.negocio.TipoCliente;
-import uniandes.isis2304.alohandes.negocio.TipoIdentificacion;
 import uniandes.isis2304.alohandes.negocio.Usuario;
 
 /**
@@ -338,7 +335,7 @@ public class PersistenciaAlohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente(String logIn,TipoIdentificacion tipoId,TipoCliente relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente(String logIn,String tipoId,String relacionU, String medioPago, int reservas)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
@@ -445,7 +442,7 @@ public class PersistenciaAlohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,TipoIdentificacion tipoId,TipoCliente relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,Modalidad categoria, String direccion, 
+	public Operador adicionarOperador(String logIn,String tipoId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -545,7 +542,7 @@ public class PersistenciaAlohandes
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 * @return El objeto USUARIOS adicionado. null si ocurre alguna Excepción
 	 */
-	public Usuario adicionarUsuario(String logIn,TipoIdentificacion tipoId, int numeroId, TipoCliente relacionU) 
+	public Usuario adicionarUsuario(String logIn,String tipoId, int numeroId, String relacionU) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();

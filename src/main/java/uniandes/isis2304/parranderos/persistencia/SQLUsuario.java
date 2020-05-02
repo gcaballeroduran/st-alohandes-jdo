@@ -6,8 +6,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import uniandes.isis2304.alohandes.negocio.Reserva;
-import uniandes.isis2304.alohandes.negocio.TipoCliente;
-import uniandes.isis2304.alohandes.negocio.TipoIdentificacion;
 import uniandes.isis2304.alohandes.negocio.Usuario;
 
 public class SQLUsuario {
@@ -47,7 +45,7 @@ public class SQLUsuario {
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarUsuario(PersistenceManager pm,String logIn, TipoIdentificacion tipoId, int numeroId, TipoCliente relacionU){
+	public long adicionarUsuario(PersistenceManager pm,String logIn, String tipoId, int numeroId, String relacionU){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCliente() + "(logIn,tipoId,numeroId,relacionU) values (?, ?, ?, ?)");
         q.setParameters( logIn,tipoId,numeroId,relacionU);

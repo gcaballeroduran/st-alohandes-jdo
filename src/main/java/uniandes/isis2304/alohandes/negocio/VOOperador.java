@@ -40,7 +40,7 @@ public interface VOOperador {
 	 * 
 	 * @return categoria del operador.
 	 */
-	public Modalidad getCategoria();
+	public String getCategoria();
 
 	/**
 	 * 

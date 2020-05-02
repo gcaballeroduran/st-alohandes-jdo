@@ -7,7 +7,6 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import uniandes.isis2304.alohandes.negocio.Modalidad;
 import uniandes.isis2304.alohandes.negocio.Operador;
 
 public class SQLOperador {
@@ -58,7 +57,7 @@ public class SQLOperador {
 	 * @param apartamentos - apartamentos del operador.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,Modalidad categoria, String direccion, 
+	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,"

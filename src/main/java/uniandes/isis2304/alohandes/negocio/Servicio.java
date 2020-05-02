@@ -1,6 +1,6 @@
 package uniandes.isis2304.alohandes.negocio;
 
-
+import java.util.ArrayList;
 
 public class Servicio implements VOServicio
 {
@@ -20,6 +20,12 @@ public class Servicio implements VOServicio
 	/** El intervalo en el que se paga este servicio, cada cuanto debe pagarse en días */
 	private int intervaloPago;
 
+	/** Lista de los apartamentos que tienen este servicio */
+	private ArrayList<Apartamento> apartamentos;
+	
+	/** Lista de las habitaciones que tienen este servicio */
+	private ArrayList<Habitacion> habitaciones;
+	
 	///////////////////////////////////////
 	/////////// Constructor ///////////////
 	///////////////////////////////////////
@@ -31,6 +37,8 @@ public class Servicio implements VOServicio
 		tipo = "";
 		precio = 0;
 		intervaloPago = 0;
+		apartamentos = new ArrayList<Apartamento>();
+		habitaciones = new ArrayList<Habitacion>();
 	}
 
 	/**
@@ -46,6 +54,8 @@ public class Servicio implements VOServicio
 		tipo = pTipo;
 		precio = pPrecio;
 		intervaloPago = pIntervalo;
+		apartamentos = new ArrayList<Apartamento>();
+		habitaciones = new ArrayList<Habitacion>();
 	}
 
 
@@ -78,6 +88,22 @@ public class Servicio implements VOServicio
 		this.precio = pPrecio;
 	}
 
+	public ArrayList<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(ArrayList<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
+	}
+
+	public ArrayList<Habitacion> getHabitaciones() {
+		return habitaciones;
+	}
+
+	public void setHabitaciones(ArrayList<Habitacion> habitaciones) {
+		this.habitaciones = habitaciones;
+	}
+
 	public int getIntervaloPago() {
 		return intervaloPago;
 	}
@@ -106,7 +132,33 @@ public class Servicio implements VOServicio
 	 */
 	public String toString() 
 	{
-		return "Servicio [id=" + id + ", tipo=" + tipo + ", precio=" + precio + ", intervaloPago=" + intervaloPago + "]";
+		return "Servicio [id=" + id + ", tipo=" + tipo + ", precio=" + precio + 
+				", intervaloPago=" + intervaloPago +
+				", apartamentos:" +"]";
+	}
+	
+	public String apartamentosToString()
+	{
+		String s = "";
+		for( int i = 0; i<apartamentos.size(); i++)
+		{
+			s = s + "," + apartamentos.get(i).getId();
+		}
+		
+		
+		return s;
+	}
+	
+	public String habitacionesToString()
+	{
+		String s = "";
+		for( int i = 0; i<habitaciones.size(); i++)
+		{
+			s = s + "," + habitaciones.get(i).getId();
+		}
+		
+		
+		return s;
 	}
 
 }

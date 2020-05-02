@@ -76,6 +76,86 @@ public class Alohandes
 	}
 	
 	/* ****************************************************************
+	 * 			Métodos para manejar los USUARIOS
+	 *****************************************************************/
+
+	/**
+	 * Adiciona de manera persistente un usuario 
+	 * Adiciona entradas al log de la aplicación
+	 * @param logIn - log in del ususario.
+	 * @param tipoId - tipo de identificacion del ususario.
+	 * @param numeroId - numero de id del ususario.
+	 * @param relacionU -  relacion de usuario con la universidad.
+	 * @return El objeto USUARIO adicionado. null si ocurre alguna Excepción
+	 */
+	public Usuario adicionarUsuario (String logIn,String tipoId, int numeroId, String relacionU)
+	{
+        log.info ("Adicionando usuario: " + logIn);
+        Usuario usuario = pp.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+        log.info ("Adicionando usuario: " + usuario);
+        return usuario;
+	}
+
+	/**
+	 * Elimina un usuario por su id
+	 * Adiciona entradas al log de la aplicación
+	 * @param id - El id del usuario a eliminar
+	 * @return El número de tuplas eliminadas
+	 */
+	public long eliminarUsuarioPorId(long id)
+	{
+        log.info ("Eliminando usuario por logIn: " + id);
+        long resp = pp.eliminarUsuarioPorId(id);
+        log.info ("Eliminando usuario por logIn: " + resp + " tuplas eliminadas");
+        return resp;
+	}
+
+	/**
+	 * Encuentra un usuario y su información básica, según su identificador
+	 * @param id - El id del usuario buscado
+	 * @return Un objeto Usuario que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si un usuario con dicho id no existe.
+	 */
+	public Usuario darUsuarioPorLogin (long login)
+	{
+        log.info ("Dar información de un usuario por logIn: " + login);
+        Usuario usuario = pp.darUsuarioPorId(login);
+        log.info ("Buscando usuario por logIn: " + usuario != null ? usuario : "NO EXISTE");
+        return usuario;
+	}
+	
+	/**
+	 * Encuentra todos los Usuarios en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Usuario con todos los usuarios que conoce la aplicación, llenos con su información básica
+	 */
+	public List<Usuario> darUsuarios ()
+	{
+        log.info ("Consultando Usuarios");
+        List<Usuario> usuario = pp.darUsuarios();	
+        log.info ("Consultando Usuarios: " + usuario.size() + " Usuarios existentes");
+        return usuario;
+	}
+
+	/**
+	 * Encuentra la información básica de los usuarios y los devuelve como VO.
+	 * @return Una lista de Usuarios con su información básica.
+	 * 	La lista vacía indica que no existen usuarios.
+	 */
+	public List<VOUsuario> darVOUsuarios()
+	{
+		log.info ("Generando los VO de los usuarios");       
+        List<VOUsuario> voUsuario = new LinkedList<VOUsuario> ();
+        for (Usuario beb : pp.darUsuarios())
+        {
+        	voUsuario.add (beb);
+        }
+        log.info ("Generando los VO de los usuarios: " + voUsuario.size() + " existentes");
+        return voUsuario;
+ 	}
+
+	
+	/* ****************************************************************
 	 * 			Métodos para manejar los CLIENTES
 	 *****************************************************************/
 	/**
@@ -91,7 +171,7 @@ public class Alohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente (String logIn,TipoIdentificacion tipoId, TipoCliente relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente (String logIn,String tipoId, String relacionU, String medioPago, int reservas)
 	{
         log.info ("Adicionando Cliente: " + logIn);
         Cliente cliente = pp.adicionarCliente(logIn, tipoId,  relacionU, medioPago, reservas);		
@@ -165,7 +245,7 @@ public class Alohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,TipoIdentificacion tipoId, int numeroId,TipoCliente relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,Modalidad categoria, String direccion, 
+	public Operador adicionarOperador(String logIn,String tipoId, int numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
 	{
 		log.info ("Adicionando operador " + logIn);
@@ -218,87 +298,230 @@ public class Alohandes
         return voOperador;
 	}
 
-
+	
 	/* ****************************************************************
-	 * 			Métodos para manejar los USUARIOS
+	 * 			Métodos para manejar las PROPIEDADES
 	 *****************************************************************/
-
 	/**
-	 * Adiciona de manera persistente un usuario 
+	 * Adiciona de manera persistente una propiedad
 	 * Adiciona entradas al log de la aplicación
-	 * @param logIn - log in del ususario.
-	 * @param tipoId - tipo de identificacion del ususario.
-	 * @param numeroId - numero de id del ususario.
-	 * @param relacionU -  relacion de usuario con la universidad.
-	 * @return El objeto USUARIO adicionado. null si ocurre alguna Excepción
-	 */
-	public Usuario adicionarUsuario (String logIn,TipoIdentificacion tipoId, int numeroId, TipoCliente relacionU)
-	{
-        log.info ("Adicionando usuario: " + logIn);
-        Usuario usuario = pp.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
-        log.info ("Adicionando usuario: " + usuario);
-        return usuario;
-	}
-
-	/**
-	 * Elimina un usuario por su id
 	 * Adiciona entradas al log de la aplicación
-	 * @param id - El id del usuario a eliminar
-	 * @return El número de tuplas eliminadas
+	 * @param pID identificador de la propiedad
+	 * @param pCapacidad capacidad en numero de personas de la propiedad
+	 * @param pTamanio tamaño de la propiedad en m2
+	 * @param pPrecio precio por tiempo minimo de reserva de la propiedad
+	 * @param pFecha fecha de registro de la propiedad en la aplicacion
+	 * @param pDiasR dias que la propiedad ha estado reservada desde su registro en la aplicacion
+	 * @param pPiso piso en el que se encuentra la propiedad
+	 * @param pDireccion direccion en la que se encuentra la propiedad
 	 */
-	public long eliminarUsuarioPorId(long id)
+	public Propiedad adicionarPropiedad (long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion)
 	{
-        log.info ("Eliminando usuario por logIn: " + id);
-        long resp = pp.eliminarUsuarioPorId(id);
-        log.info ("Eliminando usuario por logIn: " + resp + " tuplas eliminadas");
-        return resp;
-	}
-
-	/**
-	 * Encuentra un usuario y su información básica, según su identificador
-	 * @param id - El id del usuario buscado
-	 * @return Un objeto Usuario que corresponde con el id buscado y lleno con su información básica
-	 * 			null, si un usuario con dicho id no existe.
-	 */
-	public Usuario darUsuarioPorLogin (long login)
-	{
-        log.info ("Dar información de un usuario por logIn: " + login);
-        Usuario usuario = pp.darUsuarioPorId(login);
-        log.info ("Buscando usuario por logIn: " + usuario != null ? usuario : "NO EXISTE");
-        return usuario;
+        log.info ("Adicionando Propiedad: " + pID);
+        Propiedad propiedad = pp.adicionarPropiedad(pID, pCapacidad, pTamanio, pPrecio, pFecha,
+        		pDiasR, pPiso, pDireccion);		
+        log.info ("Adicionando propiedad: " + propiedad);
+        return propiedad;
 	}
 	
 	/**
-	 * Encuentra todos los Usuarios en Alohandes
+	 * Elimina una propiedad por su identificador
 	 * Adiciona entradas al log de la aplicación
-	 * @return Una lista de objetos Usuario con todos los usuarios que conoce la aplicación, llenos con su información básica
+	 * @param idPropiedad - El id de la propiedad a eliminar
+	 * @return El número de tuplas eliminadas
 	 */
-	public List<Usuario> darUsuarios ()
+	public long eliminarPropiedadPorId (long idPropiedad)
 	{
-        log.info ("Consultando Usuarios");
-        List<Usuario> usuario = pp.darUsuarios();	
-        log.info ("Consultando Usuarios: " + usuario.size() + " Usuarios existentes");
-        return usuario;
+		log.info ("Eliminando Propiedad por id: " + idPropiedad);
+        long resp = pp.eliminarPropiedadPorId(idPropiedad);		
+        log.info ("Eliminando Propiedad por id: " + resp + " tuplas eliminadas");
+        return resp;
+	}
+	
+	/**
+	 * Encuentra todos las propiedades en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Propiedad con todos las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<Propiedad> darPropiedad()
+	{
+		log.info ("Consultando Propiedades");
+        List<Propiedad> propiedades = pp.darPropiedades();	
+        log.info ("Consultando Propiedades: " + propiedades.size() + " existentes");
+        return propiedades;
 	}
 
 	/**
-	 * Encuentra la información básica de los usuarios y los devuelve como VO.
-	 * @return Una lista de Usuarios con su información básica.
-	 * 	La lista vacía indica que no existen usuarios.
+	 * Encuentra todos las propiedades en Alohandes y los devuelve como una lista de VOPropiedad
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
 	 */
-	public List<VOUsuario> darVOUsuarios()
+	public List<VOPropiedad> darVOTPropiedad()
 	{
-		log.info ("Generando los VO de los usuarios");       
-        List<VOUsuario> voUsuario = new LinkedList<VOUsuario> ();
-        for (Usuario beb : pp.darUsuarios())
+		log.info ("Generando los VO de Propiedad");        
+        List<VOPropiedad> voPropiedad = new LinkedList<VOPropiedad> ();
+        for (Propiedad tb : pp.darPropiedad())
         {
-        	voUsuario.add (beb);
+        	voPropiedad.add (tb);
         }
-        log.info ("Generando los VO de los usuarios: " + voUsuario.size() + " existentes");
-        return voUsuario;
- 	}
+        log.info ("Generando los VO de la Propiedad: " + voPropiedad.size() + " existentes");
+        return voPropiedad;
+	}
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar las APARTAMENTO
+	 *****************************************************************/
+	/**
+	 * Adiciona de manera persistente un apartamento
+	 * Adiciona entradas al log de la aplicación
+	 * Adiciona entradas al log de la aplicacióN
+	 * Al adicionar apartamento se adiciona como propiedad
+	 * @param pID
+	 * @param pCapacidad
+	 * @param pTamanio
+	 * @param pPrecio
+	 * @param pFecha
+	 * @param pDiasR
+	 * @param pPiso
+	 * @param pDireccion
+	 * @param pAmueblado
+	 * @param pHabitaciones
+	 * @param pDMenaje
+	 * @param pVenceSeguro
+	 * @param pDSeguro
+	 */
+	public Propiedad adicionarApartamento(int pId, int pCapacidad, double pTamanio, 
+			double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, 
+			boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, 
+			String pDSeguro, Operador pOperador)
+	{
+		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
+		
+		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		
+        log.info ("Adicionando Apartamento: " + pId);
+        Propiedad apartamento = pp.adicionarApartamento( pId, pCapacidad, pTamanio, pPrecio,
+        		pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje,
+        		pVenceSeguro, pDSeguro, pOperador);		
+        log.info ("Adicionando apartamento: " + apartamento);
+        return apartamento;
+	}
+	
+	/**
+	 * Elimina un apartamento por su identificador
+	 * Adiciona entradas al log de la aplicación
+	 * @param idApartamento - El id del Apartamento a eliminar
+	 * @return El número de tuplas eliminadas
+	 */
+	public long eliminarApartamentoPorId (long idApartamento)
+	{
+		log.info ("Eliminando Apartamento por id: " + idApartamento);
+        long resp = pp.eliminarApartamentoPorId(idApartamento);		
+        log.info ("Eliminando Apartamento por id: " + resp + " tuplas eliminadas");
+        return resp;
+	}
+	
+	/**
+	 * Encuentra todos los Apartamento en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Apartamento con todos las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<Apartamento> darApartamento()
+	{
+		log.info ("Consultando Apartamento");
+        List<Apartamento> apartamento = pp.darApartamento();	
+        log.info ("Consultando Apartamento: " + apartamento.size() + " existentes");
+        return apartamento;
+	}
 
+	/**
+	 * Encuentra todos las propiedades en Alohandes y los devuelve como una lista de VOApartamento
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<VOApartamento> darVOTApartamento()
+	{
+		log.info ("Generando los VO de Apartamento");        
+        List<VOApartamento> voApartamento = new LinkedList<VOApartamento> ();
+        for (Apartamento tb : pp.darApartamento())
+        {
+        	voApartamento.add (tb);
+        }
+        log.info ("Generando los VO de Apartamento: " + voApartamento.size() + " existentes");
+        return voApartamento;
+	}
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar la HABITACION
+	 *****************************************************************/
+	/**
+	 * Adiciona de manera persistente una habitación
+	 * Adiciona entradas al log de la aplicación
+	 * Adiciona entradas al log de la aplicacióN
+	 * Al adicionar habitación se adiciona como propiedad
+	 *
+	 * @param pIndiv
+	 * @param pEsquema
+	 * @param pTipo
+	 */
+	public Propiedad adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, Operador pOperador)
+	{
+		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
+		
+		adicionarPropiedad( pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		
+        log.info ("Adicionando Habitacion: " + pID);
+        Propiedad habitacion = pp.adicionarHabitacion( pID, pCapacidad, pTamanio, pPrecio,
+        		pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);		
+        log.info ("Adicionando Habitacion: " + habitacion);
+        return habitacion;
+	}
+	
+	/**
+	 * Elimina una habitacion por su identificador
+	 * Adiciona entradas al log de la aplicación
+	 * @param idHabitacion - El id del Habitacion a eliminar
+	 * @return El número de tuplas eliminadas
+	 */
+	public long eliminarHabitacionPorId (long idHabitacion)
+	{
+		log.info ("Eliminando Habitacion por id: " + idHabitacion);
+        long resp = pp.eliminarHabitacionPorId(idHabitacion);		
+        log.info ("Eliminando Habitacion por id: " + resp + " tuplas eliminadas");
+        return resp;
+	}
+	
+	/**
+	 * Encuentra todas las Habitaciones en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Apartamento con todos las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<Habitacion> darHabitacion()
+	{
+		log.info ("Consultando Habitacion");
+        List<Habitacion> habitacion = pp.darHabitacion();	
+        log.info ("Consultando Habitacion: " + habitacion.size() + " existentes");
+        return habitacion;
+	}
 
+	/**
+	 * Encuentra todos las propiedades en Alohandes y los devuelve como una lista de VOApartamento
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
+	 */
+	public List<VOHabitacion> darVOTHabitacion()
+	{
+		log.info ("Generando los VO de Habitacion");        
+        List<VOHabitacion> voHabitacion = new LinkedList<VOHabitacion> ();
+        for (Habitacion tb : pp.darHabitacion())
+        {
+        	voHabitacion.add(tb);
+        }
+        log.info ("Generando los VO de Habitacion: " + voHabitacion.size() + " existentes");
+        return voHabitacion;
+	}
+
+	
 	/* ****************************************************************
 	 * 			Métodos para manejar las RESERVAS
 	 *****************************************************************/
@@ -307,7 +530,7 @@ public class Alohandes
 	 * Adiciona entradas al log de la aplicación
 	 * @param fechaInicio - fecha de inicio de la reserva.
 	 * @param fechaFin - fecha final de la reserva.
-	 * @param personas - numero de personas que reservaron.(Mayoe o igual a 1)
+	 * @param personas - numero de personas que reservaron.(Mayor o igual a 1)
 	 * @param finCancelacionOportuna - fecha final para cancelar la reserva.
 	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
 	 * @param montoTotal - monto total de la reserva.
@@ -365,6 +588,76 @@ public class Alohandes
 		log.info ("Generando los VO de Reservas: " + voReservas.size () + " Reservas existentes");
 		return voReservas;
 	}
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar las RESERVAS COLECTIVAS
+	 *****************************************************************/
+	/**
+	 * Adiciona de manera persistente una reserva colectiva. 
+	 * Adiciona entradas al log de la aplicación
+	 * @param fechaInicio - fecha de inicio de la reserva.
+	 * @param fechaFin - fecha final de la reserva.
+	 * @param personas - numero de personas que reservaron.(Mayoe o igual a 1)
+	 * @param finCancelacionOportuna - fecha final para cancelar la reserva.
+	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
+	 * @param montoTotal - monto total de la reserva.
+	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
+	 */
+	public Reserva adicionarReserva (long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
+	{
+        log.info ("Adicionando reserva colectiva: " );
+        Reserva reserva = pp.adicionarReservaColectiva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        log.info ("Adicionando reserva colectiva: " + reserva);
+        return reserva;
+	}
+	
+	/**
+	 * Elimina una reserva colectiva por su identificador
+	 * Adiciona entradas al log de la aplicación
+	 * @param idReserva - El identificador de la reserva colectiva a eliminar
+	 * @return El número de tuplas eliminadas
+	 */
+	public long eliminarReservaColectivaPorId (long idReserva)
+	{
+        log.info ("Eliminando reserva colectiva por id: " + idReserva);
+        long resp = pp.eliminarRservaColectivaPorId(idReserva);
+        log.info ("Eliminando reserva colectiva: " + resp);
+        return resp;
+	}
+	
+	/**
+	 * Encuentra todas las reservas colectivas en Alohandes
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Reserva con todas las reservas colectivas que conoce la aplicación, llenos con su información básica
+	 */
+	public List<ReservaColectiva> darReservasColectivas()
+	{
+        log.info ("Listando Reservas Colectivas");
+        List<ReservaColectiva> reservas = pp.darRerservasColectivas();	
+        log.info ("Listando Reservas Colectivas: " + reservas.size() + " Reservas colectivas existentes");
+        return reservas;
+	}
+
+	/**
+	 * Encuentra todas las reservas en Alohandes y los devuelve como VO
+	 * Adiciona entradas al log de la aplicación
+	 * @return Una lista de objetos Reserva con todos las reservas que conoce la aplicación, llenos con su información básica
+	 */
+	public List<VOReservaColectiva> darVOReservaColectiva ()
+	{
+		log.info ("Generando los VO de Reservas");
+		List<VOReservaColectiva> voReservas = new LinkedList<VOReservaColectiva> ();
+		for (ReservaColectiva bar: pp.darRerservasReservaColectivas())
+		{
+			voReservas.add (bar);
+		}
+		log.info ("Generando los VO de Reservas Colectivas: " + voReservas.size () + " Reservas colectivas existentes");
+		return voReservas;
+	}
+	
+	
+	
+	
 	/* ****************************************************************
 	 * 			Métodos para administración
 	 *****************************************************************/

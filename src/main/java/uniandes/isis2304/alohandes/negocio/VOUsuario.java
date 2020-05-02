@@ -21,7 +21,7 @@ public interface VOUsuario {
 	 * 
 	 * @return tipo de id
 	 */
-	public TipoIdentificacion getTipoId();
+	public String getTipoId();
 
 	/**
 	 * 
@@ -34,7 +34,7 @@ public interface VOUsuario {
 	 * 
 	 * @return relacionU.
 	 */
-	public TipoCliente getRelacioU();
+	public String getRelacioU();
 
 	
 }

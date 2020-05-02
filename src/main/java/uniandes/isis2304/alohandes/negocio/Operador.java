@@ -33,7 +33,7 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 *  Categoria a la que pertenece el operador.
 	 */
-	private Modalidad categoria;
+	private String categoria;
 	
 	/**
 	 * Direccion del operador.
@@ -118,7 +118,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * @param habitaciones - habitaciones del operador.
 	 * @param apartamentos - apartamentos del operador.
 	 */
-	public Operador(String logIn,TipoIdentificacion tipoId, long numeroId,TipoCliente relacionU, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,Modalidad categoria, String direccion, 
+	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
 		super(logIn, tipoId, numeroId, relacionU);
@@ -207,7 +207,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return categoria del operador.
 	 */
-	public Modalidad getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
@@ -215,7 +215,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @param categoria - nueva categoria del operador.
 	 */
-	public void setCategoria(Modalidad categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 

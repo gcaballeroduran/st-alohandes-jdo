@@ -41,7 +41,7 @@ public class Cliente  extends Usuario implements VOCliente {
 	 * @param medioPago - medio de pago del cliente.
 	 * @param reservas - reservas del cliente.(Mayor o igual a 0)
 	 */
-	public Cliente (String logIn,TipoIdentificacion tipoId, long numeroId,TipoCliente relacionU, String medioPago, int reservas){
+	public Cliente (String logIn,String tipoId, long numeroId,String relacionU, String medioPago, int reservas){
 		
 		super(logIn, tipoId, numeroId, relacionU);
 		this.medioPago = medioPago;

@@ -14,7 +14,7 @@ public class Usuario implements VOUsuario {
 	/**
 	 * tipo de identificacion del usuario.
 	 */
-	private TipoIdentificacion tipoId;
+	private String tipoId;
 	
 	/**
 	 * numero de id del usuario.
@@ -24,7 +24,7 @@ public class Usuario implements VOUsuario {
 	/**
 	 * relacion del usuario con la universidad.
 	 */
-	private TipoCliente relacionU;
+	private String relacionU;
 	
 	/* ****************************************************************
 	 * 			Métodos
@@ -48,7 +48,7 @@ public class Usuario implements VOUsuario {
 	 * @param numeroId - numero de id del ususario.
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 */
-	public Usuario(String logIn, TipoIdentificacion tipoId, long numeroId, TipoCliente relacionU){
+	public Usuario(String logIn, String tipoId, long numeroId, String relacionU){
 		
 		this.logIn = logIn;
 		this.tipoId = tipoId;
@@ -77,7 +77,7 @@ public class Usuario implements VOUsuario {
 	 * 
 	 * @return tipo de id
 	 */
-	public TipoIdentificacion getTipoId() {
+	public String getTipoId() {
 		return tipoId;
 	}
 
@@ -86,7 +86,7 @@ public class Usuario implements VOUsuario {
 	 * 
 	 * @param tipoId - nuevo tipo de id del ususario.
 	 */
-	public void setTipoId(TipoIdentificacion tipoId) {
+	public void setTipoId(String tipoId) {
 		this.tipoId = tipoId;
 	}
 
@@ -110,7 +110,7 @@ public class Usuario implements VOUsuario {
 	 * 
 	 * @return relacionU.
 	 */
-	public TipoCliente getRelacioU() {
+	public String getRelacioU() {
 		return relacionU;
 	}
 
@@ -118,7 +118,7 @@ public class Usuario implements VOUsuario {
 	 * 
 	 * @param relacionU - nueva relacionU del ususario.
 	 */
-	public void setRelacioU(TipoCliente relacionU) {
+	public void setRelacioU(String relacionU) {
 		this.relacionU = relacionU;
 	}
 

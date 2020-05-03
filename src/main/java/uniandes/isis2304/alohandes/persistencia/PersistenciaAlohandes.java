@@ -922,14 +922,14 @@ public class PersistenciaAlohandes
 		{
 			adicionarPropiedad(idProp, capacidad, precio, tam, diasR, piso, fechaCrea, direccion);
 			tx.begin();
-			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, idApt, am, desMenaje, descrSeguro, venceSeguro);
+			//long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, idApt, am, desMenaje, descrSeguro, venceSeguro);
 			tx.commit();
 
-			log.trace ("Inserción de apartamento: " + idProp + ": " + tuplasInsertadas + " tuplas insertadas");
+			//log.trace ("Inserción de apartamento: " + idProp + ": " + tuplasInsertadas + " tuplas insertadas");
 			
 			
 			
-			return new Habitacion(pID, capacidad, tam, precio, fechaCrea, diasR, piso, direccion, am, pEsquema, pTipo, pOperador)
+			return null;//new Habitacion(pID, capacidad, tam, precio, fechaCrea, diasR, piso, direccion, am, pEsquema, pTipo, pOperador)
 					}
 		catch (Exception e)
 		{
@@ -1110,7 +1110,7 @@ public class PersistenciaAlohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
-	public ReservaColectiva adicionarReservaColectiva( Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
+	public ReservaColectiva adicionarReservaColectiva( Date fechaInicio, int duracion, int cantidad, Date finCancelacionOportuna,
 			double porcentajeAPagar, double montoTotal) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1119,12 +1119,12 @@ public class PersistenciaAlohandes
 		{
 			tx.begin();
 			long id = nextval ();
-			long tuplasInsertadas = sqlReservaColectiva.adicionarReservaColectiva(pm, id, fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
+			long tuplasInsertadas = sqlReservaColectiva.adicionarReserva(pm, id, fechaInicio, duracion, cantidad);
 			tx.commit();
 
 			log.trace ("Inserción de Reserva: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
 
-			return new Reserva(id, fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
+			return null;//new ReservaColectiva(id, fechaInicio, duracion);
 		}
 		catch (Exception e)
 		{

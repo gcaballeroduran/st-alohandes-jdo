@@ -48,13 +48,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.negocio.Alohandes;
-import uniandes.isis2304.alohandes.negocio.Modalidad;
-import uniandes.isis2304.alohandes.negocio.TipoCliente;
-import uniandes.isis2304.alohandes.negocio.TipoIdentificacion;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
 import uniandes.isis2304.alohandes.negocio.VOOperador;
 import uniandes.isis2304.alohandes.negocio.VOReserva;
-import uniandes.isis2304.alohandes.negocio.VOTipoBebida;
 import uniandes.isis2304.alohandes.negocio.VOUsuario;
 
 /**

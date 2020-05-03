@@ -430,7 +430,7 @@ public class Alohandes
 	public List<Apartamento> darApartamento()
 	{
 		log.info ("Consultando Apartamento");
-        List<Apartamento> apartamento = pp.darApartamento();	
+        List<Apartamento> apartamento = pp.darApartamentos();	
         log.info ("Consultando Apartamento: " + apartamento.size() + " existentes");
         return apartamento;
 	}
@@ -444,7 +444,7 @@ public class Alohandes
 	{
 		log.info ("Generando los VO de Apartamento");        
         List<VOApartamento> voApartamento = new LinkedList<VOApartamento> ();
-        for (Apartamento tb : pp.darApartamento())
+        for (Apartamento tb : pp.darApartamentos())
         {
         	voApartamento.add (tb);
         }
@@ -465,15 +465,14 @@ public class Alohandes
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Propiedad adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, Operador pOperador)
+	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, Operador pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
 		adicionarPropiedad( pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		
         log.info ("Adicionando Habitacion: " + pID);
-        Propiedad habitacion = pp.adicionarHabitacion( pID, pCapacidad, pTamanio, pPrecio,
-        		pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);		
+        Habitacion habitacion = pp.adicionarHabitacion(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion, pID, pIndiv, pDireccion, pEsquema, pFecha, pID); 		
         log.info ("Adicionando Habitacion: " + habitacion);
         return habitacion;
 	}
@@ -500,7 +499,7 @@ public class Alohandes
 	public List<Habitacion> darHabitacion()
 	{
 		log.info ("Consultando Habitacion");
-        List<Habitacion> habitacion = pp.darHabitacion();	
+        List<Habitacion> habitacion = pp.darHabitaciones();	
         log.info ("Consultando Habitacion: " + habitacion.size() + " existentes");
         return habitacion;
 	}
@@ -514,7 +513,7 @@ public class Alohandes
 	{
 		log.info ("Generando los VO de Habitacion");        
         List<VOHabitacion> voHabitacion = new LinkedList<VOHabitacion> ();
-        for (Habitacion tb : pp.darHabitacion())
+        for (Habitacion tb : pp.darHabitaciones())
         {
         	voHabitacion.add(tb);
         }
@@ -607,7 +606,7 @@ public class Alohandes
 	public Reserva adicionarReserva (long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
 	{
         log.info ("Adicionando reserva colectiva: " );
-        Reserva reserva = pp.adicionarReservaColectiva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        Reserva reserva = null; //pp.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
         log.info ("Adicionando reserva colectiva: " + reserva);
         return reserva;
 	}
@@ -648,7 +647,7 @@ public class Alohandes
 	{
 		log.info ("Generando los VO de Reservas");
 		List<VOReservaColectiva> voReservas = new LinkedList<VOReservaColectiva> ();
-		for (ReservaColectiva bar: pp.darRerservasReservaColectivas())
+		for (ReservaColectiva bar: pp.darRerservasColectivas())
 		{
 			voReservas.add (bar);
 		}
@@ -668,10 +667,10 @@ public class Alohandes
 	 * @param pPrecio precio del servicio
 	 * @param pIntervalo intervalo de pago del servicio
 	 */
-	public Propiedad adicionarServicio(long pID, String pTipo, double pPrecio, int pIntervalo)
+	public Servicio adicionarServicio(long pID, String pTipo, double pPrecio, int pIntervalo)
 	{
         log.info ("Adicionando Servicio: " + pID);
-        Propiedad servicio = pp.adicionarPropiedad(pID, pTipo, pPrecio, pIntervalo);		
+        Servicio servicio = pp.adicionarServicio(pID, pTipo, pPrecio, pIntervalo);		
         log.info ("Adicionando servicio: " + servicio);
         return servicio;
 	}
@@ -695,10 +694,10 @@ public class Alohandes
 	 * Adiciona entradas al log de la aplicación
 	 * @return Una lista de objetos servicios con todos las propiedades que conoce la aplicación, llenos con su información básica
 	 */
-	public List<Propiedad> darServicio()
+	public List<Servicio> darServicio()
 	{
 		log.info ("Consultando Servicio");
-        List<Propiedad> servicio = pp.darServicio();	
+        List<Servicio> servicio = pp.darServicio();	
         log.info ("Consultando servicios: " + servicio.size() + " existentes");
         return servicio;
 	}

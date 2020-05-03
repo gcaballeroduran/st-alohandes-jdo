@@ -151,8 +151,8 @@ public class SQLOperador {
 		String sql = "with anio as(";
 		sql += "select EXTRACT(YEAR FROM fecha_fin) AS fecha, res.monto_total AS monto, op.id as id ";
 		sql += " FROM " + pp.darTablaOperador()+"op";
-		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitacion = hab.id)";
-		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamento = ap.id)";
+		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitaciones = hab.id)";
+		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamentos = ap.id)";
 		sql+= "INNER JOIN" + pp.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
 		sql+= "INNER JOIN" + pp.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
 		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = respa.id_Reserva)";
@@ -175,12 +175,12 @@ public class SQLOperador {
 	{
 		String sql ="select op.id , count( res.monto_total )";
 		sql += " FROM " + pp.darTablaOperador()+"op";
-		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitacion = hab.id)";
-		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamento = ap.id)";
+		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitaciones = hab.id)";
+		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamentos = ap.id)";
 		sql+= "INNER JOIN" + pp.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
 		sql+= "INNER JOIN" + pp.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
 		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = respa.id_Reserva)";
-		sql += "WHERE WHERE fecha_fin > DATE_SUB(CURRENT_TIMESTRAP, INTERVAL 1 YEAR)  AND fecha_fin <= CURRENT_TIMESTRAP";
+		sql += "WHERE  fecha_fin > DATE_SUB(CURRENT_TIMESTRAP, INTERVAL 1 YEAR)  AND fecha_fin <= CURRENT_TIMESTRAP";
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}

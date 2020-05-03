@@ -99,6 +99,59 @@ class SQLPropiedad
 		q.setResultClass(Propiedad.class);
 		return (List<Propiedad>) q.executeList();
 	}
+	
+	/**  RFC7
+	 * Mayor ocupacion segun un tiempo y tipo
+	 * @param pm - El manejador de persistencia
+	 * @param tiempo - intervalo ded tiempo
+	 * @param tipo - tipo de habitacion
+	 * @return Una lista de arreglos de objetos, de tamaño 2. Los elementos del arreglo corresponden a los datos de la propuedad y el monto maximo
+	 */
+	public List<Object> darMayorOcupacion(PersistenceManager pm, Date tiempo, String tipo)
+	{
+		String sql = "with tab as(";
+		sql +="select count(p.dias_reservados) , count( res.monto_total )as m";
+		sql += " FROM " + pa.darTablaPropiedad()+"p";
+		sql+= "INNER JOIN" + pa.darTablaHabitacion()+"hab ON(p.id = hab.id)";
+		sql+= "INNER JOIN" + pa.darTablaApartamento()+"ap ON(p.id = ap.id)";
+		sql+= "INNER JOIN" + pa.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
+		sql+= "INNER JOIN" + pa.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
+		sql+= "INNER JOIN" + pa.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
+		sql += "WHERE tiempo >= res.fecha_Inicio AND tiempo <= res.fecha_ AND tipo = hab.tipo";
+		sql += ")";
+		sql +="Where max(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
+		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
 
+	/**  RFC7
+	 * Menor ocupacion segun un tiempo y tipo
+	 * @param pm - El manejador de persistencia
+	 * @param tiempo - intervalo ded tiempo
+	 * @param tipo - tipo de habitacion
+	 * @return Una lista de arreglos de objetos, de tamaño 2. Los elementos del arreglo corresponden a los datos de la propuedad y el monto maximo
+	 */
+	public List<Object> darMenorOcupacion(PersistenceManager pm, Date tiempo, String tipo)
+	{
+		String sql = "with tab as(";
+		sql +="select count(p.dias_reservados) , count( res.monto_total )as m";
+		sql += " FROM " + pa.darTablaPropiedad()+"p";
+		sql+= "INNER JOIN" + pa.darTablaHabitacion()+"hab ON(p.id = hab.id)";
+		sql+= "INNER JOIN" + pa.darTablaApartamento()+"ap ON(p.id = ap.id)";
+		sql+= "INNER JOIN" + pa.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
+		sql+= "INNER JOIN" + pa.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
+		sql+= "INNER JOIN" + pa.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
+		sql += "WHERE tiempo >= res.fecha_Inicio AND tiempo <= res.fecha_ AND tipo = hab.tipo";
+		sql += ")";
+		sql +="Where min(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
+		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
 
 }

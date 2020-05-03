@@ -26,7 +26,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.jdo.JDODataStoreException;
@@ -49,7 +51,16 @@ import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.interfazApp.PanelDatos;
 import uniandes.isis2304.alohandes.negocio.Alohandes;
+import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
+import uniandes.isis2304.alohandes.negocio.VOHabitacion;
+import uniandes.isis2304.alohandes.negocio.VOOperador;
+import uniandes.isis2304.alohandes.negocio.VOPropiedad;
+import uniandes.isis2304.alohandes.negocio.VOReserva;
+import uniandes.isis2304.alohandes.negocio.VOReservaApartamento;
+import uniandes.isis2304.alohandes.negocio.VOReservaColectiva;
+import uniandes.isis2304.alohandes.negocio.VOServicio;
+import uniandes.isis2304.alohandes.negocio.VOUsuario;
 
 /**
  * Clase principal de la interfaz
@@ -249,7 +260,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
      * Pre: La base de datos está vacía
      * Post: La base de datos está vacía
      */
-    public void demoTipoBebida( )
+    public void demoCliente( )
     {
     	try 
     	{
@@ -259,31 +270,35 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 			String tipoId = "Cedula";
 			String relacionU = "Estudiante";
 			String medioPago = "Tarjeta de credito";
+			int numeroId = 001;
 			boolean error = false;
 			int reservas = 0;
-			VOCliente cliente = alohandes.adicionarCliente(logIn, tipoId, relacionU, medioPago, reservas);
+			VOUsuario usuario = alohandes.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+			VOCliente cliente = alohandes.adicionarCliente(numeroId,logIn, tipoId, relacionU, medioPago, reservas);
 			if (logIn == null)
 			{
-				cliente = alohandes.darClientePorId;
+				cliente = alohandes.darClientePorId(numeroId);
+				usuario = alohandes.darUsuarioPorId(numeroId);
 				error = true;
 			}
-			List <VOTipoBebida> lista = alohandes.darVOTiposBebida();
-			long tbEliminados = alohandes.eliminarTipoBebidaPorId (cliente.getId ());
+			List <VOCliente> lista = alohandes.darVOTCliente();
+			long eliminados = alohandes.eliminarClientePorId(usuario.getNumeroId());
+			alohandes.eliminarUsuarioPorId(usuario.getNumeroId());
 			
 			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de TipoBebida\n\n";
+			String resultado = "Demo de creación y listado de Clientes\n\n";
 			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
+			if (error)
 			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
+				resultado += "*** Exception creando cliente !!\n";
+				resultado += "*** Es probable que ese cliente ya existiera\n";
+				resultado += "*** Revise el log de Alohandes para más detalles\n";
 			}
-			resultado += "Adicionado el tipo de bebida con nombre: " + nombreTipoBebida + "\n";
+			resultado += "Adicionado el cliente con logIn: " + logIn + "\n";
 			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado +=  "\n" + listarTiposBebida (lista);
+			resultado +=  "\n" + listarCliente(lista);
 			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
+			resultado += eliminados + " clientes eliminados\n";
 			resultado += "\n Demo terminada";
    
 			panelDatos.actualizarInterfaz(resultado);
@@ -295,203 +310,66 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 			panelDatos.actualizarInterfaz(resultado);
 		}
     }
-
-	/* ****************************************************************
-	 * 			Demos de Bebida
+    /* ****************************************************************
+	 * 			Demos de Operador
 	 *****************************************************************/
     /**
-     * Demostración de creación, consulta y borrado de Bebidas.
-     * Incluye también los tipos de bebida pues el tipo de bebida es llave foránea en las bebidas
+     * Demostración de creación, consulta y borrado de Operador
      * Muestra la traza de la ejecución en el panelDatos
      * 
      * Pre: La base de datos está vacía
      * Post: La base de datos está vacía
      */
-    @SuppressWarnings ("unused")
-	public void demoBebida( )
+    @SuppressWarnings("deprecation")
+	public void demoOperador( )
     {
     	try 
     	{
     		// Ejecución de la demo y recolección de los resultados
 			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			String nombreTipoBebida = "Vino tinto";
-			String nombreBebida = "120";
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida (nombreTipoBebida);
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre (nombreTipoBebida);
-				errorTipoBebida = true;
-			}
-			VOBebida bebida = alohandes.adicionarBebida(nombreBebida, tipoBebida.getId (), 10);
+			String logIn = "Vino tinto";
+			String tipoId = "Cedula";
+			String relacionU = "Estudiante";
+			String medioPago = "Tarjeta de credito";
+			int numeroId = 001;
+			int numeroRNT = 002;
+			Date vencimientoRNT = new Date(2025, 04, 12);
+			String registroSuperTurismo = "";
+			Date vencimientoRegistroSuperTurismo = new Date(2025, 04, 12);
+			String categoria = "";
+			String direccion = "";
+			Date horaApertura = new Date(2020, 12, 01);
+			Date horaCierre = new Date(2021, 12, 01); 
 			
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas();
-			long bebEliminadas = alohandes.eliminarBebidaPorNombre(nombreBebida);
-			long tbEliminados = alohandes.eliminarTipoBebidaPorId (tipoBebida.getId ());
+			boolean error = false;
+			int reservas = 0;
+			VOUsuario usuario = alohandes.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+			VOOperador operador = alohandes.adicionarOperador(logIn, tipoId, numeroId, relacionU, numeroRNT, vencimientoRNT,
+					registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, 3, 20000, 3000000, null, null);
+			if (logIn == null)
+			{
+				operador = alohandes.darOperadorPorId(numeroId);
+				usuario = alohandes.darUsuarioPorId(numeroId);
+				error = true;
+			}
+			List <VOOperador> lista = alohandes.darVOOperadores();
+			long eliminados = alohandes.eliminarOperadorPorId(usuario.getNumeroId());
+			alohandes.eliminarUsuarioPorId(usuario.getNumeroId());
 			
 			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Bebidas\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n\n";
-			if (errorTipoBebida)
+			String resultado = "Demo de creación y listado de Operador\n\n";
+			resultado += "\n\n************ Generando datos de prueba ************ \n";
+			if (error)
 			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
+				resultado += "*** Exception creando operador !!\n";
+				resultado += "*** Es probable que ese operador ya existiera\n";
+				resultado += "*** Revise el log de Alohandes para más detalles\n";
 			}
-			resultado += "Adicionado el tipo de bebida con nombre: " + nombreTipoBebida + "\n";
-			resultado += "Adicionada la bebida con nombre: " + nombreBebida + "\n";
+			resultado += "Adicionado el operador con logIn: " + logIn + "\n";
 			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado +=  "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas);
+			resultado +=  "\n" + listarOperador(lista);
 			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += bebEliminadas + " Bebidas eliminadas\n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de creación y borrado de bebidas no servidas.
-     * Incluye también los tipos de bebida pues el tipo de bebida es llave foránea en las bebidas
-     * Caso 1: Ninguna bebida es servida en ningún bar: La tabla de bebidas queda vacía antes de la fase de limpieza
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoElimNoServidas1 ( )
-    {
-    	try 
-    	{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			String nombreTipoBebida = "Vino tinto";
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida (nombreTipoBebida);
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre (nombreTipoBebida);
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida("120", tipoBebida.getId (), 10);
-			VOBebida bebida2 = alohandes.adicionarBebida("Gato Negro", tipoBebida.getId (), 11);
-			VOBebida bebida3 = alohandes.adicionarBebida("Don Pedro", tipoBebida.getId (), 12);
-			
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas1 = alohandes.darVOBebidas();
-			List <VOSirven> listaSirven = alohandes.darVOSirven ();
-			long noServidasEliminadas = alohandes.eliminarBebidasNoServidas();
-			List <VOBebida> listaBebidas2 = alohandes.darVOBebidas();
-			
-			long bebEliminadas1 = alohandes.eliminarBebidaPorId(bebida1.getId ());
-			long bebEliminadas2 = alohandes.eliminarBebidaPorId(bebida2.getId ());
-			long bebEliminadas3 = alohandes.eliminarBebidaPorId(bebida3.getId ());
-			long tbEliminados = alohandes.eliminarTipoBebidaPorNombre (nombreTipoBebida);
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de borrado de las bebidas no servidas 1\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado +=  "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas1);
-			resultado += "\n" + listarSirven (listaSirven);
-			resultado += "\n\n************ Ejecutando la demo: Borrando bebidas no servidas ************ \n";
-			resultado += noServidasEliminadas + " Bebidas eliminadas\n";
-			resultado += "\n" + listarBebidas (listaBebidas2);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += (bebEliminadas1 + bebEliminadas2 + bebEliminadas3) + " Bebidas eliminadas\n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de creación y borrado de bebidas no servidas.
-     * Incluye también los tipos de bebida pues el tipo de bebida es llave foránea en las bebidas
-     * Incluye también los bares pues son llave foránea en la relación Sirven
-     * Caso 2: Hay bebidas que son servidas y estas quedan en la tabla de bebidas
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoElimNoServidas2 ( )
-    {
-    	try 
-    	{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			String nombreTipoBebida = "Vino tinto";
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida (nombreTipoBebida);
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre (nombreTipoBebida);
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida("120", tipoBebida.getId (), 10);
-			VOBebida bebida2 = alohandes.adicionarBebida("Gato Negro", tipoBebida.getId (), 11);
-			VOBebida bebida3 = alohandes.adicionarBebida("Don Pedro", tipoBebida.getId (), 12);
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos", "Bogotá", "Bajo", 2);
-			alohandes.adicionarSirven (bar1.getId (), bebida1.getId (), "diurno");
-			
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas1 = alohandes.darVOBebidas();
-			List <VOBar> bares = alohandes.darVOBares ();
-			List <VOSirven> sirven = alohandes.darVOSirven ();
-			long noServidasEliminadas = alohandes.eliminarBebidasNoServidas();
-			List <VOBebida> listaBebidas2 = alohandes.darVOBebidas();
-			
-			long sirvenEliminados = alohandes.eliminarSirven(bar1.getId (), bebida1.getId ());
-			long bebEliminadas1 = alohandes.eliminarBebidaPorId(bebida1.getId ());
-			long bebEliminadas2 = alohandes.eliminarBebidaPorId(bebida2.getId ());
-			long bebEliminadas3 = alohandes.eliminarBebidaPorId(bebida3.getId ());
-			long tbEliminados = alohandes.eliminarTipoBebidaPorNombre (nombreTipoBebida);
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos");
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de borrado de las bebidas no servidas 2\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas1);
-			resultado += "\n" + listarBares (bares);
-			resultado += "\n" + listarSirven (sirven);
-			resultado += "\n\n************ Ejecutando la demo: Borrando bebidas no servidas ************ \n";
-			resultado += noServidasEliminadas + " Bebidas eliminadas\n";
-			resultado += "\n" + listarBebidas (listaBebidas2);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += sirvenEliminados + " Sirven eliminados\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += (bebEliminadas1 + bebEliminadas2 + bebEliminadas3) + " Bebidas eliminadas\n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
+			resultado += eliminados + " operador eliminados\n";
 			resultado += "\n Demo terminada";
    
 			panelDatos.actualizarInterfaz(resultado);
@@ -504,918 +382,330 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 		}
     }
     
-	/* ****************************************************************
-	 * 			Demos de Bar
-	 *****************************************************************/
-    /**
-     * Demostración de creación, consulta y borrado de Bares
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoBar ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos", "Bogotá", "Bajo", 2);
-			
-			List <VOBar> lista = alohandes.darVOBares ();
-			
-			long baresEliminados = alohandes.eliminarBarPorNombre("Los Amigos");
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Bares\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "Adicionado el bar: " + bar1 + "\n";
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarBares (lista);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
+    /* ****************************************************************
+   	 * 			Demos de Habitacion
+   	 *****************************************************************/
+       /**
+        * Demostración de creación, consulta y borrado de habitacion
+        * Muestra la traza de la ejecución en el panelDatos
+        * 
+        * Pre: La base de datos está vacía
+        * Post: La base de datos está vacía
+        */
+       @SuppressWarnings("deprecation")
+   	public void demoHabitacion( )
+       {
+       	try 
+       	{
+       		// Ejecución de la demo y recolección de los resultados
+   			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
+   			int pPiso = 5;
+   			int pCapacidad = 4;
+   			double pTamanio = 130.5;
+   			double pPrecio = 150000;
+   			int pId = 001;
+   			int pDiasR = 2;
+   			Date pFecha = new Date(2025, 04, 12);
+   			String pDireccion = ""; 
+   			boolean pIndiv = true;
+   			String pEsquema = "";
+   			int pTipo =2;
+   			long pOperador = 002;
+   			
+   			boolean error = false;
+   			int reservas = 0;
+   			VOPropiedad propiedad = alohandes.adicionarPropiedad(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);;
+   			VOHabitacion habitacion = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+   			{
+   				propiedad = alohandes.darPropiedadPorId(pId);
+   				habitacion = alohandes.darHabitacionPorId(pId);
+   				error = true;
+   			}
+   			List <VOHabitacion> lista = alohandes.darVOHabitacion();
+   			long eliminados = alohandes.eliminarHabitacionPorId(pId);
+   			alohandes.eliminarPropiedadPorId(pId);
+   			
+   			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
+   			String resultado = "Demo de creación y listado de Habitaciones\n\n";
+   			resultado += "\n\n************ Generando datos de prueba ************ \n";
+   			if (error)
+   			{
+   				resultado += "*** Exception creando habitacion !!\n";
+   				resultado += "*** Es probable que esa habitacion ya existiera\n";
+   				resultado += "*** Revise el log de Alohandes para más detalles\n";
+   			}
+   			resultado += "Adicionado la habitacion con id: " + pId + "\n";
+   			resultado += "\n\n************ Ejecutando la demo ************ \n";
+   			resultado +=  "\n" + listarHabitacion(lista);
+   			resultado += "\n\n************ Limpiando la base de datos ************ \n";
+   			resultado += eliminados + " habitaciones eliminadas\n";
+   			resultado += "\n Demo terminada";
+      
+   			panelDatos.actualizarInterfaz(resultado);
+   		} 
+       	catch (Exception e) 
+       	{
+//   			e.printStackTrace();
+   			String resultado = generarMensajeError(e);
+   			panelDatos.actualizarInterfaz(resultado);
+   		}
+       }
 
-    /**
-     * Demostración de la consulta: Dar el id y el número de bebidas que sirve cada bar, siempre y cuando el bar sirva por los menos una bebida
-     * Incluye el manejo de los tipos de bebida pues el tipo de bebida es llave foránea en las bebidas
-     * Incluye el manajo de las bebidas
-     * Incluye el manejo de los bares
-     * Incluye el manejo de la relación sirven
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoBaresBebidas ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			VOBebida bebida2 = alohandes.adicionarBebida ("121", tipoBebida.getId (), 10);
-			VOBebida bebida3 = alohandes.adicionarBebida ("122", tipoBebida.getId (), 10);
-			VOBebida bebida4 = alohandes.adicionarBebida ("123", tipoBebida.getId (), 10);
-			VOBebida bebida5 = alohandes.adicionarBebida ("124", tipoBebida.getId (), 10);
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			VOBar bar2 = alohandes.adicionarBar ("Los Amigos2", "Bogotá", "Bajo", 3);
-			VOBar bar3 = alohandes.adicionarBar ("Los Amigos3", "Bogotá", "Bajo", 4);
-			VOBar bar4 = alohandes.adicionarBar ("Los Amigos4", "Medellín", "Bajo", 5);
-			alohandes.adicionarSirven (bar1.getId (), bebida1.getId (), "diurno");
-			alohandes.adicionarSirven (bar1.getId (), bebida2.getId (), "diurno");
-			alohandes.adicionarSirven (bar2.getId (), bebida1.getId (), "diurno");
-			alohandes.adicionarSirven (bar2.getId (), bebida2.getId (), "diurno");
-			alohandes.adicionarSirven (bar2.getId (), bebida3.getId (), "diurno");
-			alohandes.adicionarSirven (bar3.getId (), bebida1.getId (), "diurno");
-			alohandes.adicionarSirven (bar3.getId (), bebida2.getId (), "diurno");
-			alohandes.adicionarSirven (bar3.getId (), bebida3.getId (), "diurno");
-			alohandes.adicionarSirven (bar3.getId (), bebida4.getId (), "diurno");
-			alohandes.adicionarSirven (bar3.getId (), bebida5.getId (), "diurno");
-			
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida ();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas ();
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOSirven> listaSirven = alohandes.darVOSirven ();
+       /* ****************************************************************
+      	 * 			Demos de Apartamento
+      	 *****************************************************************/
+          /**
+           * Demostración de creación, consulta y borrado de apartamento
+           * Muestra la traza de la ejecución en el panelDatos
+           * 
+           * Pre: La base de datos está vacía
+           * Post: La base de datos está vacía
+           */
+          @SuppressWarnings("deprecation")
+      	public void demoApartamento( )
+          {
+          	try 
+          	{
+          		// Ejecución de la demo y recolección de los resultados
+      			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
+      			int pPiso = 5;
+      			int pCapacidad = 4;
+      			double pTamanio = 130.5;
+      			double pPrecio = 150000;
+      			int pId = 001;
+      			int pDiasR = 2;
+      			Date pFecha = new Date(2025, 04, 12);
+      			String pDireccion = ""; 
+      			boolean pAmueblado= true;
+      			String pDMenaje = "";
+      			int pTipo =2;
+      			int pHabitaciones = 3;
+      			Date pVenceSeguro = new Date(2023, 06, 21);
+      			String pDSeguro = "";
+      			long pOperador = 002;
+      			
+      			boolean error = false;
+      			int reservas = 0;
+      			VOPropiedad propiedad = alohandes.adicionarPropiedad(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);;
+      			VOApartamento apartamento = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);;
+      			{
+      				propiedad = alohandes.darPropiedadPorId(pId);
+      				apartamento = alohandes.darApartamentoPorId(pId);
+      				error = true;
+      			}
+      			List <VOApartamento> lista = alohandes.darVOApartamento();
+      			long eliminados = alohandes.eliminarApartamentoPorId(pId);
+      			alohandes.eliminarPropiedadPorId(pId);
+      			
+      			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
+      			String resultado = "Demo de creación y listado de Apartamentos\n\n";
+      			resultado += "\n\n************ Generando datos de prueba ************ \n";
+      			if (error)
+      			{
+      				resultado += "*** Exception creando apartamento !!\n";
+      				resultado += "*** Es probable que ese apartamento ya existiera\n";
+      				resultado += "*** Revise el log de Alohandes para más detalles\n";
+      			}
+      			resultado += "Adicionado la habitacion con id: " + pId + "\n";
+      			resultado += "\n\n************ Ejecutando la demo ************ \n";
+      			resultado +=  "\n" + listarApartamento(lista);
+      			resultado += "\n\n************ Limpiando la base de datos ************ \n";
+      			resultado += eliminados + " apartamentos eliminados\n";
+      			resultado += "\n Demo terminada";
+         
+      			panelDatos.actualizarInterfaz(resultado);
+      		} 
+          	catch (Exception e) 
+          	{
+//      			e.printStackTrace();
+      			String resultado = generarMensajeError(e);
+      			panelDatos.actualizarInterfaz(resultado);
+      		}
+          }
 
-			List <long []> listaByB = alohandes.darBaresYCantidadBebidasSirven();
-
-			long sirvenEliminados = alohandes.eliminarSirven (bar1.getId (), bebida1.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar1.getId (), bebida2.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar2.getId (), bebida1.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar2.getId (), bebida2.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar2.getId (), bebida3.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar3.getId (), bebida1.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar3.getId (), bebida2.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar3.getId (), bebida3.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar3.getId (), bebida4.getId ());
-			sirvenEliminados += alohandes.eliminarSirven (bar3.getId (), bebida5.getId ());
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			bebidasEliminadas += alohandes.eliminarBebidaPorNombre ("121");
-			bebidasEliminadas += alohandes.eliminarBebidaPorNombre ("122");
-			bebidasEliminadas += alohandes.eliminarBebidaPorNombre ("123");
-			bebidasEliminadas += alohandes.eliminarBebidaPorNombre ("124");
-			long tbEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos1");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos2");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos3");
-			baresEliminados += alohandes.eliminarBarPorId (bar4.getId ());
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Bares y cantidad de visitas que reciben\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n" + listarSirven (listaSirven);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarBaresYBebidas (listaByB);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += sirvenEliminados + " Sirven eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminados\n";
-			resultado += tbEliminados + " Tipos de Bebida eliminados\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de la modificación: Aumentar en uno el número de sedes de los bares de una ciudad
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoAumentarSedesBaresEnCiudad ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			VOBar bar2 = alohandes.adicionarBar ("Los Amigos2", "Bogotá", "Bajo", 3);
-			VOBar bar3 = alohandes.adicionarBar ("Los Amigos3", "Bogotá", "Bajo", 4);
-			VOBar bar4 = alohandes.adicionarBar ("Los Amigos4", "Medellín", "Bajo", 5);
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			
-			long baresModificados = alohandes.aumentarSedesBaresCiudad("Bogotá");
-			List <VOBar> listaBares2 = alohandes.darVOBares ();
-
-			long baresEliminados = alohandes.eliminarBarPorId (bar1.getId ());
-			baresEliminados += alohandes.eliminarBarPorId (bar2.getId ());
-			baresEliminados += alohandes.eliminarBarPorId (bar3.getId ());
-			baresEliminados += alohandes.eliminarBarPorId (bar4.getId ());
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-
-			String resultado = "Demo de modificación número de sedes de los bares de una ciudad\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += baresModificados + " Bares modificados\n";
-			resultado += "\n" + listarBares (listaBares2);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-	/* ****************************************************************
-	 * 			Demos de Bebedor
-	 *****************************************************************/
-    /**
-     * Demostración de creación, consulta y borrado de Bebedores
-     * Incluye la consulta por nombre y por id
-     * Incluye el borrado por nombre
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    @SuppressWarnings ("unused")
-	public void demoBebedor ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			VOBebedor bdor2 = alohandes.adicionarBebedor ("Pepito", "Medellín", "Alto");
-			VOBebedor bdor3 = alohandes.adicionarBebedor ("Pedrito", "Cali", "Alto");
-			
-			List <VOBebedor> bebedores = alohandes.darVOBebedores();
-			VOBebedor bdor5 = alohandes.darBebedorPorId(bdor1.getId ());
-			VOBebedor bdor6 = alohandes.darBebedorPorId(0);
-			List <VOBebedor> pepitos = alohandes.darVOBebedoresPorNombre("Pepito");
-			List <VOBebedor> pedritos = alohandes.darVOBebedoresPorNombre("Pedrito");
-			
-			long pepitosEliminados = alohandes.eliminarBebedorPorNombre ("Pepito");
-			long pedritosEliminados = alohandes.eliminarBebedorPorNombre ("Pedrito");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Bebedores\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\nBuscando el bebedor con id " + bdor1 + ":\n";
-			resultado += bdor5 != null ? "El bebedor es: " + bdor5 + "\n" : "Ese bebedor no existe\n";
-			resultado += "\nBuscando el bebedor con id " + 0 + ":\n";
-			resultado += bdor6 != null ? "El bebedor es: " + bdor6 + "\n" : "Ese bebedor no existe\n";
-			resultado += "\nBuscando los bebedores con nombre Pepito:";
-			resultado += "\n" + listarBebedores (pepitos);
-			resultado += "\nBuscando los bebedores con nombre Pedrito:";
-			resultado += "\n" + listarBebedores (pedritos);
-			
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += pepitosEliminados + " Pepitos eliminados\n";
-			resultado += pedritosEliminados + " Pedritos eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de creación, consulta de TODA LA INFORMACIÖN de un bebedor y borrado de un bebedor y sus visitas
-     * Incluye el manejo de tipos de bebida
-     * Incluye el manejo de bebidas
-     * Incluye el manejo de bares
-     * Incluye el manejo de la relación sirven
-     * Incluye el manejo de la relación gustan
-     * Incluye el borrado de un bebedor y todas sus visitas
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoDarBebedorCompleto ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados.
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos", "Bogotá", "Bajo", 2);
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "nocturno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "todos");
-			alohandes.adicionarGustan (bdor1.getId (), bebida1.getId ());
-
-			List <VOTipoBebida> listaTipos = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas();
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOBebedor> bebedores = alohandes.darVOBebedores();
-			List <VOGustan> listaGustan = alohandes.darVOGustan();
-			List <VOVisitan> listaVisitan = alohandes.darVOVisitan();
-
-			VOBebedor bdor2 = alohandes.darBebedorCompleto(bdor1.getId ());
-
-			long gustanEliminados = alohandes.eliminarGustan (bdor1.getId (), bebida1.getId ());
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			long tiposEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long [] bebedorVisitasEliminados = alohandes.eliminarBebedorYVisitas_v1 (bdor1.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de toda la información de un bebedor\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTipos);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n" + listarGustan (listaGustan);
-			resultado += "\n" + listarVisitan (listaVisitan);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\nBuscando toda la información del bebedor con id " + bdor1 + ":\n";
-			resultado += bdor2 != null ? "El bebedor es: " + bdor2.toStringCompleto() + "\n" : "Ese bebedor no existe\n";	
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += gustanEliminados + " Gustan eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminadas\n";
-			resultado += tiposEliminados + " Tipos de Bebida eliminados\n";
-			resultado += bebedorVisitasEliminados [0] + " Bebedores eliminados y " + bebedorVisitasEliminados [1] +" Visitas eliminadas\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-}
-
-    /**
-     * Demostración de creación, consulta de TODA LA INFORMACIÖN de un bebedor y borrado de un bebedor y sus visitas.
-     * Si hay posibilidades de alguna incoherencia con esta operación NO SE BORRA NI EL BEBEDOR NI SUS VISITAS
-     * Incluye el manejo de tipos de bebida
-     * Incluye el manejo de bebidas
-     * Incluye el manejo de bares
-     * Incluye el manejo de la relación sirven
-     * Incluye el manejo de la relación gustan
-     * Incluye el borrado de un bebedor y todas sus visitas v1
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos queda con las tuplas que no se pudieron borrar: ES COHERENTE DE TODAS MANERAS
-     */
-    public void demoEliminarBebedorYVisitas_v1 ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados.
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos", "Bogotá", "Bajo", 2);
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "nocturno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "todos");
-			alohandes.adicionarGustan (bdor1.getId (), bebida1.getId ());
-
-			List <VOTipoBebida> listaTipos = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas();
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOBebedor> bebedores = alohandes.darVOBebedores();
-			List <VOGustan> listaGustan = alohandes.darVOGustan();
-			List <VOVisitan> listaVisitan = alohandes.darVOVisitan();
-
-			VOBebedor bdor2 = alohandes.darBebedorCompleto(bdor1.getId ());
-
-			// No se elimina la tupla de GUSTAN para estudiar la coherencia de las operaciones en la base de daatos
-			long gustanEliminados = 0;
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			long tiposEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long [] bebedorVisitasEliminados = alohandes.eliminarBebedorYVisitas_v1 (bdor1.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de toda la información de un bebedor\n";
-			resultado += "Y DE BORRADO DE BEBEDOR Y VISITAS cuando el bebedor aún está referenciado cuando se quiere borrar\n";
-			resultado += "v1: No se borra NI el bebedor NI sus visitas";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTipos);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n" + listarGustan (listaGustan);
-			resultado += "\n" + listarVisitan (listaVisitan);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\nBuscando toda la información del bebedor con id " + bdor1 + ":\n";
-			resultado += bdor2 != null ? "El bebedor es: " + bdor2.toStringCompleto() + "\n" : "Ese bebedor no existe\n";	
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += gustanEliminados + " Gustan eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminadas\n";
-			resultado += tiposEliminados + " Tipos de Bebida eliminados\n";
-			resultado += bebedorVisitasEliminados [0] + " Bebedores eliminados y " + bebedorVisitasEliminados [1] +" Visitas eliminadas\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n\n************ ATENCIÓN - ATENCIÓN - ATENCIÓN - ATENCIÓN ************ \n";
-			resultado += "\nRecuerde que -1 registros borrados significa que hubo un problema !! \n";
-			resultado += "\nREVISE EL LOG DE PARRANDEROS Y EL DE DATANUCLEUS \n";
-			resultado += "\nNO OLVIDE LIMPIAR LA BASE DE DATOS \n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-}
-
-    /**
-     * Demostración de creación, consulta de TODA LA INFORMACIÖN de un bebedor y borrado de un bebedor y sus visitas
-     * Si hay posibilidades de alguna incoherencia con esta operación SE BORRA LO AQUELLO QUE SEA POSIBLE, 
-     * PERO CONSERVANDO LA COHERENCIA DE LA BASE DE DATOS
-     * Incluye el manejo de tipos de bebida
-     * Incluye el manejo de bebidas
-     * Incluye el manejo de bares
-     * Incluye el manejo de la relación sirven
-     * Incluye el manejo de la relación gustan
-     * Incluye el borrado de un bebedor y todas sus visitas v2
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos queda con las tuplas que no se pudieron borrar
-     */
-    public void demoEliminarBebedorYVisitas_v2 ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados.
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos", "Bogotá", "Bajo", 2);
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "nocturno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "todos");
-			alohandes.adicionarGustan (bdor1.getId (), bebida1.getId ());
-
-			List <VOTipoBebida> listaTipos = alohandes.darVOTiposBebida();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas();
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOBebedor> bebedores = alohandes.darVOBebedores();
-			List <VOGustan> listaGustan = alohandes.darVOGustan();
-			List <VOVisitan> listaVisitan = alohandes.darVOVisitan();
-
-			VOBebedor bdor2 = alohandes.darBebedorCompleto(bdor1.getId ());
-
-			// No se elimina la tupla de GUSTAN para estudiar la coherencia de las operaciones en la base de daatos
-			long gustanEliminados = 0;
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			long tiposEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long [] bebedorVisitasEliminados = alohandes.eliminarBebedorYVisitas_v2 (bdor1.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de toda la información de un bebedor\n";
-			resultado += "Y DE BORRADO DE BEBEDOR Y VISITA,S cuando el bebedor aún está referenciado cuando se quiere borrar\n";
-			resultado += "v2: El bebedor no se puede borrar, pero sus visitas SÍ";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTipos);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n" + listarGustan (listaGustan);
-			resultado += "\n" + listarVisitan (listaVisitan);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\nBuscando toda la información del bebedor con id " + bdor1 + ":\n";
-			resultado += bdor2 != null ? "El bebedor es: " + bdor2.toStringCompleto() + "\n" : "Ese bebedor no existe\n";	
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += gustanEliminados + " Gustan eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminadas\n";
-			resultado += tiposEliminados + " Tipos de Bebida eliminados\n";
-			resultado += bebedorVisitasEliminados [0] + " Bebedores eliminados y " + bebedorVisitasEliminados [1] +" Visitas eliminadas\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n\n************ ATENCIÓN - ATENCIÓN - ATENCIÓN - ATENCIÓN ************ \n";
-			resultado += "\nRecuerde que -1 registros borrados significa que hubo un problema !! \n";
-			resultado += "\nREVISE EL LOG DE PARRANDEROS Y EL DE DATANUCLEUS \n";
-			resultado += "\nNO OLVIDE LIMPIAR LA BASE DE DATOS \n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-}
-
-    /**
-     * Demostración de la modificación: Cambiar la ciudad de un bebedor
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-    */
-    public void demoCambiarCiudadBebedor ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			
-			List<VOBebedor> bebedores1 = alohandes.darVOBebedores ();
-			long bebedoresActualizados = alohandes.cambiarCiudadBebedor (bdor1.getId (), "Medellín");
-			List<VOBebedor> bebedores2 = alohandes.darVOBebedores ();
-			
-			long bebedoresEliminados = alohandes.eliminarBebedorPorNombre ("Pepito");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de modificación de la ciudad de un bebedor\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBebedores (bebedores1);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += bebedoresActualizados + " Bebedores modificados\n";
-			resultado += "\n" + listarBebedores (bebedores2);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += bebedoresEliminados + " Bebedores eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de la consulta: Dar la información de los bebedores y del número de bares que visita cada uno
-     * Incluye el manejo de los bares
-     * Incuye el manejo de la relación visitan
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoBebedoresYNumVisitasRealizadas ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			VOBar bar2 = alohandes.adicionarBar ("Los Amigos2", "Bogotá", "Bajo", 3);
-			VOBar bar3 = alohandes.adicionarBar ("Los Amigos3", "Bogotá", "Bajo", 4);
-			VOBar bar4 = alohandes.adicionarBar ("Los Amigos4", "Medellín", "Bajo", 5);
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			VOBebedor bdor2 = alohandes.adicionarBebedor ("Juanito", "Bogotá", "Alto");
-			VOBebedor bdor3 = alohandes.adicionarBebedor ("Carlitos", "Medellín", "Alto");
-			VOBebedor bdor4 = alohandes.adicionarBebedor ("Luis", "Cartagena", "Medio");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "nocturno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "todos");
-			alohandes.adicionarVisitan (bdor1.getId (), bar2.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar3.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor2.getId (), bar3.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor2.getId (), bar4.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-
-			List<VOBar> bares = alohandes.darVOBares();
-			List<VOBebedor> bebedores = alohandes.darVOBebedores();
-			List<VOVisitan> visitan = alohandes.darVOVisitan ();
-			List<Object []> bebedoresYNumVisitas = alohandes.darBebedoresYNumVisitasRealizadas ();
-
-			long [] elimBdor1 = alohandes.eliminarBebedorYVisitas_v1 (bdor1.getId ());
-			long [] elimBdor2 = alohandes.eliminarBebedorYVisitas_v1 (bdor2.getId ());
-			long [] elimBdor3 = alohandes.eliminarBebedorYVisitas_v1 (bdor3.getId ());
-			long [] elimBdor4 = alohandes.eliminarBebedorYVisitas_v1 (bdor4.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos1");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos2");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos3");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos4");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de dar bebedores y cuántas visitan han realizado\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBares (bares);
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n" + listarVisitan (visitan);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarBebedorYNumVisitas (bebedoresYNumVisitas);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += elimBdor1 [0] + " Bebedores eliminados y " + elimBdor1 [1] +" Visitas eliminadas\n";
-			resultado += elimBdor2 [0] + " Bebedores eliminados y " + elimBdor2 [1] +" Visitas eliminadas\n";
-			resultado += elimBdor3 [0] + " Bebedores eliminados y " + elimBdor3 [1] +" Visitas eliminadas\n";
-			resultado += elimBdor4 [0] + " Bebedores eliminados y " + elimBdor4 [1] +" Visitas eliminadas\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Demostración de la consulta: Para cada ciudad, cuántos bebedores vistan bares
-     * Incluye el manejo de bares
-     * Incluye el manejo de la relación visitan
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoBebedoresDeCiudad ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			VOBar bar2 = alohandes.adicionarBar ("Los Amigos2", "Bogotá", "Bajo", 3);
-			VOBar bar3 = alohandes.adicionarBar ("Los Amigos3", "Bogotá", "Bajo", 4);
-			VOBar bar4 = alohandes.adicionarBar ("Los Amigos4", "Medellín", "Bajo", 5);
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			VOBebedor bdor2 = alohandes.adicionarBebedor ("Juanito", "Medellín", "Alto");
-			VOBebedor bdor3 = alohandes.adicionarBebedor ("Pedrito", "Medellín", "Alto");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar2.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar3.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor2.getId (), bar3.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-			alohandes.adicionarVisitan (bdor1.getId (), bar4.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-
-			List<VOBar> bares = alohandes.darVOBares();
-			List<VOBebedor> bebedores = alohandes.darVOBebedores();
-			List<VOVisitan> visitan = alohandes.darVOVisitan ();
-			long bebedoresBogota = alohandes.darCantidadBebedoresCiudadVisitanBares ("Bogotá");
-			long bebedoresMedellin = alohandes.darCantidadBebedoresCiudadVisitanBares ("Medellín");
-
-			long [] elimBdor1 = alohandes.eliminarBebedorYVisitas_v1 (bdor1.getId ());
-			long [] elimBdor2 = alohandes.eliminarBebedorYVisitas_v1 (bdor2.getId ());
-			long elimBdor3 = alohandes.eliminarBebedorPorId (bdor3.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos1");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos2");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos3");
-			baresEliminados += alohandes.eliminarBarPorNombre ("Los Amigos4");
-
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de dar cantidad de bebedores de una ciudad que vistan baresn\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBares (bares);
-			resultado += "\n" + listarBebedores (bebedores);
-			resultado += "\n" + listarVisitan (visitan);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\nBebedores de Bogotá: " + bebedoresBogota;
-			resultado += "\nBebedores de Medellín: " + bebedoresMedellin;
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += elimBdor1 [0] + " Bebedores eliminados y " + elimBdor1 [1] +" Visitas eliminadas\n";
-			resultado += elimBdor2 [0] + " Bebedores eliminados y " + elimBdor2 [1] +" Visitas eliminadas\n";
-			resultado += elimBdor3 + " Bebedores eliminados\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-	/* ****************************************************************
-	 * 			Demos de Gustan
-	 *****************************************************************/
-    /**
-     * Demostración de creación, consulta y borrado de la relación Gustan
-     * Incluye el manejo de Bebedores
-     * Incluye el manejo de Bebidas
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoGustan ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			alohandes.adicionarGustan (bdor1.getId (), bebida1.getId ());
-
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida ();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas ();
-			List <VOBebedor> listaBebedores = alohandes.darVOBebedores ();
-			List <VOGustan> listaGustan = alohandes.darVOGustan();
-			long gustanEliminados = alohandes.eliminarGustan (bdor1.getId (), bebida1.getId ());
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			long tbEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long bebedoresEliminados = alohandes.eliminarBebedorPorNombre ("Pepito");
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Gustan\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBebedores (listaBebedores);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarGustan (listaGustan);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += gustanEliminados + " Gustan eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminadas\n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
-			resultado += bebedoresEliminados + " Bebedores eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-	/* ****************************************************************
-	 * 			Demos de Sirven
-	 *****************************************************************/
-    /**
-     * Demostración de creación, consulta y borrado de la relación Sirven
-     * Incluye el manejo de Bares
-     * Incluye el manejo de tipos de bebida
-     * Incluye el manejo de Bebidas
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoSirven ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			boolean errorTipoBebida = false;
-			VOTipoBebida tipoBebida = alohandes.adicionarTipoBebida ("Vino tinto");
-			if (tipoBebida == null)
-			{
-				tipoBebida = alohandes.darTipoBebidaPorNombre ("Vino tinto");
-				errorTipoBebida = true;
-			}
-			VOBebida bebida1 = alohandes.adicionarBebida ("120", tipoBebida.getId (), 10);
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			alohandes.adicionarSirven (bar1.getId (), bebida1.getId (), "diurno");
-
-			List <VOTipoBebida> listaTiposBebida = alohandes.darVOTiposBebida ();
-			List <VOBebida> listaBebidas = alohandes.darVOBebidas ();
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOSirven> listaSirven = alohandes.darVOSirven();
-			
-			long sirvenEliminados = alohandes.eliminarSirven (bar1.getId (), bebida1.getId ());
-			long bebidasEliminadas = alohandes.eliminarBebidaPorNombre ("120");
-			long tbEliminados = alohandes.eliminarTipoBebidaPorNombre ("Vino tinto");
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos1");
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Sirven\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			if (errorTipoBebida)
-			{
-				resultado += "*** Exception creando tipo de bebida !!\n";
-				resultado += "*** Es probable que ese tipo de bebida ya existiera y hay restricción de UNICIDAD sobre el nombre del tipo de bebida\n";
-				resultado += "*** Revise el log de parranderos para más detalles\n";
-			}
-			resultado += "\n" + listarTiposBebida (listaTiposBebida);
-			resultado += "\n" + listarBebidas (listaBebidas);
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarSirven (listaSirven);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += sirvenEliminados + " Sirven eliminados\n";
-			resultado += bebidasEliminadas + " Bebidas eliminadas\n";
-			resultado += tbEliminados + " Tipos de bebida eliminados\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-	/* ****************************************************************
-	 * 			Demos de Visitan
-	 *****************************************************************/
-    /**
-     * Demostración de creación, consulta y borrado de la relación Visitan
-     * Incluye el manejo de Bebedores
-     * Incluye el manejo de Bares
-     * Muestra la traza de la ejecución en el panelDatos
-     * 
-     * Pre: La base de datos está vacía
-     * Post: La base de datos está vacía
-     */
-    public void demoVisitan ( )
-    {
-		try 
-		{
-    		// Ejecución de la demo y recolección de los resultados
-			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-			VOBar bar1 = alohandes.adicionarBar ("Los Amigos1", "Bogotá", "Bajo", 2);
-			VOBebedor bdor1 = alohandes.adicionarBebedor ("Pepito", "Bogotá", "Alto");
-			alohandes.adicionarVisitan (bdor1.getId (), bar1.getId (), new Timestamp (System.currentTimeMillis()), "diurno");
-
-			List <VOBar> listaBares = alohandes.darVOBares ();
-			List <VOBebedor> listaBebedores = alohandes.darVOBebedores ();
-			List <VOVisitan> listaVisitan = alohandes.darVOVisitan();
-			long visitanEliminados = alohandes.eliminarVisitan (bdor1.getId (), bar1.getId ());
-			long baresEliminados = alohandes.eliminarBarPorNombre ("Los Amigos1");
-			long bebedoresEliminadas = alohandes.eliminarBebedorPorNombre ("Pepito");
-			
-			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-			String resultado = "Demo de creación y listado de Visitan\n\n";
-			resultado += "\n\n************ Generando datos de prueba ************ \n";
-			resultado += "\n" + listarBares (listaBares);
-			resultado += "\n" + listarBebedores (listaBebedores);
-			resultado += "\n\n************ Ejecutando la demo ************ \n";
-			resultado += "\n" + listarVisitan (listaVisitan);
-			resultado += "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += visitanEliminados + " Visitan eliminados\n";
-			resultado += bebedoresEliminadas + " Bebedores eliminadas\n";
-			resultado += baresEliminados + " Bares eliminados\n";
-			resultado += "\n Demo terminada";
-   
-			panelDatos.actualizarInterfaz(resultado);
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
+          /* ****************************************************************
+        	 * 			Demos de Servicio
+        	 *****************************************************************/
+            /**
+             * Demostración de creación, consulta y borrado de servicio
+             * Muestra la traza de la ejecución en el panelDatos
+             * 
+             * Pre: La base de datos está vacía
+             * Post: La base de datos está vacía
+             */
+            @SuppressWarnings("deprecation")
+        	public void demoServicio( )
+            {
+            	try 
+            	{
+            		// Ejecución de la demo y recolección de los resultados
+        			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
+        			int pIntervalo = 30;
+        			double pPrecio = 150000;
+        			int pId = 001;
+        			String pDireccion = ""; 
+        			String pTipo ="";
+        			
+        			boolean error = false;
+        			int reservas = 0;
+        			VOServicio propiedad = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
+        			{
+        				propiedad = alohandes.darServicioPorId(pId);
+        				error = true;
+        			}
+        			List <VOServicio> lista = alohandes.darVOServicio();
+        			long eliminados = alohandes.eliminarServicioPorId(pId);
+        			
+        			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
+        			String resultado = "Demo de creación y listado de Servicios\n\n";
+        			resultado += "\n\n************ Generando datos de prueba ************ \n";
+        			if (error)
+        			{
+        				resultado += "*** Exception creando servicios !!\n";
+        				resultado += "*** Es probable que ese servicio ya existiera\n";
+        				resultado += "*** Revise el log de Alohandes para más detalles\n";
+        			}
+        			resultado += "Adicionado el servicio con id: " + pId + "\n";
+        			resultado += "\n\n************ Ejecutando la demo ************ \n";
+        			resultado +=  "\n" + listarServicio(lista);
+        			resultado += "\n\n************ Limpiando la base de datos ************ \n";
+        			resultado += eliminados + " servicios eliminados\n";
+        			resultado += "\n Demo terminada";
+           
+        			panelDatos.actualizarInterfaz(resultado);
+        		} 
+            	catch (Exception e) 
+            	{
+//        			e.printStackTrace();
+        			String resultado = generarMensajeError(e);
+        			panelDatos.actualizarInterfaz(resultado);
+        		}
+            }
+            
+            /* ****************************************************************
+        	 * 			Demos de Reserva
+        	 *****************************************************************/
+            /**
+             * Demostración de creación, consulta y borrado de reservas
+             * Muestra la traza de la ejecución en el panelDatos
+             * 
+             * Pre: La base de datos está vacía
+             * Post: La base de datos está vacía
+             */
+            @SuppressWarnings("deprecation")
+        	public void demoReserva( )
+            {
+            	try 
+            	{
+            		// Ejecución de la demo y recolección de los resultados
+        			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
+        			int pDuracion = 5;
+        			int pCantidad = 4;
+        			int pId = 001;
+        			Date pInicio = new Date(2025, 04, 12);
+        			String pTipo ="";
+        			
+        			boolean error = false;
+        			VOReserva reserva = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        			{
+        				reserva = alohandes.darReservasPorId(pId);
+        				error = true;
+        			}
+        			List <VOReserva> lista = alohandes.darVOReservas();
+        			long eliminados = alohandes.eliminarReservasPorId(pId);
+        			
+        			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
+        			String resultado = "Demo de creación y listado de Reservas\n\n";
+        			resultado += "\n\n************ Generando datos de prueba ************ \n";
+        			if (error)
+        			{
+        				resultado += "*** Exception creando reserva !!\n";
+        				resultado += "*** Es probable que esa reserva ya existiera\n";
+        				resultado += "*** Revise el log de Alohandes para más detalles\n";
+        			}
+        			resultado += "Adicionado la reserva con id: " + pId + "\n";
+        			resultado += "\n\n************ Ejecutando la demo ************ \n";
+        			resultado +=  "\n" + listarReserva(lista);
+        			resultado += "\n\n************ Limpiando la base de datos ************ \n";
+        			resultado += eliminados + " RESERVAS eliminadas\n";
+        			resultado += "\n Demo terminada";
+           
+        			panelDatos.actualizarInterfaz(resultado);
+        		} 
+            	catch (Exception e) 
+            	{
+//        			e.printStackTrace();
+        			String resultado = generarMensajeError(e);
+        			panelDatos.actualizarInterfaz(resultado);
+        		}
+            }
+            
+            /* ****************************************************************
+        	 * 			Demos de ReservaColectiva
+        	 *****************************************************************/
+            /**
+             * Demostración de creación, consulta y borrado de reservas colectivas
+             * Muestra la traza de la ejecución en el panelDatos
+             * 
+             * Pre: La base de datos está vacía
+             * Post: La base de datos está vacía
+             */
+            @SuppressWarnings("deprecation")
+        	public void demoReservaColectiva( )
+            {
+            	try 
+            	{
+            		// Ejecución de la demo y recolección de los resultados
+        			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
+//        			int pDuracion = 5;
+//        			int pCantidad = 4;
+//        			int pId = 001;
+//        			Date pInicio = new Date(2025, 04, 12);
+//        			String pTipo ="";
+//        			
+//        			boolean error = false;
+//        			VOReservaColectiva reserva = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+//        			{
+//        				reserva = alohandes.darReservasPorId(pId);
+//        				error = true;
+//        			}
+//        			List <VOReserva> lista = alohandes.darVOReservas();
+//        			long eliminados = alohandes.eliminarReservasPorId(pId);
+//        			
+//        			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
+//        			String resultado = "Demo de creación y listado de Reservas\n\n";
+//        			resultado += "\n\n************ Generando datos de prueba ************ \n";
+//        			if (error)
+//        			{
+//        				resultado += "*** Exception creando reserva !!\n";
+//        				resultado += "*** Es probable que esa reserva ya existiera\n";
+//        				resultado += "*** Revise el log de Alohandes para más detalles\n";
+//        			}
+//        			resultado += "Adicionado la reserva con id: " + pId + "\n";
+//        			resultado += "\n\n************ Ejecutando la demo ************ \n";
+//        			resultado +=  "\n" + listarReserva(lista);
+//        			resultado += "\n\n************ Limpiando la base de datos ************ \n";
+//        			resultado += eliminados + " RESERVAS eliminadas\n";
+//        			resultado += "\n Demo terminada";
+//           
+//        			panelDatos.actualizarInterfaz(resultado);
+        		} 
+            	catch (Exception e) 
+            	{
+//        			e.printStackTrace();
+        			String resultado = generarMensajeError(e);
+        			panelDatos.actualizarInterfaz(resultado);
+        		}
+            }
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/
 	/**
-	 * Muestra el log de Parranderos
+	 * Muestra el log de Alohandes
 	 */
-	public void mostrarLogParranderos ()
+	public void mostrarLogAlohandes ()
 	{
-		mostrarArchivo ("parranderos.log");
+		mostrarArchivo ("alohandes.log");
 	}
 	
 	/**
@@ -1427,16 +717,16 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	}
 	
 	/**
-	 * Limpia el contenido del log de parranderos
+	 * Limpia el contenido del log de alohandes
 	 * Muestra en el panel de datos la traza de la ejecución
 	 */
-	public void limpiarLogParranderos ()
+	public void limpiarLogAlohandes ()
 	{
 		// Ejecución de la operación y recolección de los resultados
-		boolean resp = limpiarArchivo ("parranderos.log");
+		boolean resp = limpiarArchivo ("alohandes.log");
 
 		// Generación de la cadena de caracteres con la traza de la ejecución de la demo
-		String resultado = "\n\n************ Limpiando el log de parranderos ************ \n";
+		String resultado = "\n\n************ Limpiando el log de alohandes ************ \n";
 		resultado += "Archivo " + (resp ? "limpiado exitosamente" : "NO PUDO ser limpiado !!");
 		resultado += "\nLimpieza terminada";
 
@@ -1461,7 +751,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	}
 	
 	/**
-	 * Limpia todas las tuplas de todas las tablas de la base de datos de parranderos
+	 * Limpia todas las tuplas de todas las tablas de la base de datos de Alohandes
 	 * Muestra en el panel de datos el número de tuplas eliminadas de cada tabla
 	 */
 	public void limpiarBD ()
@@ -1469,17 +759,21 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 		try 
 		{
     		// Ejecución de la demo y recolección de los resultados
-			long eliminados [] = alohandes.limpiarParranderos();
+			long eliminados [] = alohandes.limpiarAlohandes();
 			
 			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
 			String resultado = "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += eliminados [0] + " Gustan eliminados\n";
-			resultado += eliminados [1] + " Sirven eliminados\n";
-			resultado += eliminados [2] + " Visitan eliminados\n";
-			resultado += eliminados [3] + " Bebidas eliminadas\n";
-			resultado += eliminados [4] + " Tipos de bebida eliminados\n";
-			resultado += eliminados [5] + " Bebedores eliminados\n";
-			resultado += eliminados [6] + " Bares eliminados\n";
+			resultado += eliminados [0] + " Reserva Habitacion eliminados\n";
+			resultado += eliminados [1] + " Reserva Apartamento eliminados\n";
+			resultado += eliminados [2] + " Reserva eliminados\n";
+			resultado += eliminados [3] + " Reserva Colectiva eliminadas\n";
+			resultado += eliminados [4] + " Servicios eliminados\n";
+			resultado += eliminados [5] + " Apartamentos eliminados\n";
+			resultado += eliminados [6] + " Habitaciones eliminados\n";
+            resultado += eliminados [7] + " Propiedades eliminados\n";
+            resultado += eliminados [8] + " Clientes eliminados\n";
+            resultado += eliminados [8] + " Operadores eliminados\n";
+            resultado += eliminados [8] + " Usuarios eliminados\n";
 			resultado += "\nLimpieza terminada";
    
 			panelDatos.actualizarInterfaz(resultado);
@@ -1551,7 +845,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 		resultado += " * Licenciado	bajo	el	esquema	Academic Free License versión 2.1\n";
 		resultado += " * \n";		
 		resultado += " * Curso: isis2304 - Sistemas Transaccionales\n";
-		resultado += " * Proyecto: Parranderos Uniandes\n";
+		resultado += " * Proyecto: Alohandes Uniandes\n";
 		resultado += " * @version 1.0\n";
 		resultado += " * @author Germán Bravo\n";
 		resultado += " * Julio de 2018\n";
@@ -1567,15 +861,78 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	 * 			Métodos privados para la presentación de resultados y otras operaciones
 	 *****************************************************************/
     /**
-     * Genera una cadena de caracteres con la lista de los tipos de bebida recibida: una línea por cada tipo de bebida
-     * @param lista - La lista con los tipos de bebida
-     * @return La cadena con una líea para cada tipo de bebida recibido
+     * Genera una cadena de caracteres con la lista de los clientes recibidos: una línea por cada cliente.
+     * @param lista - La lista con los clientes
+     * @return La cadena con una líea para cada cliente recibido
      */
-    private String listarTiposBebida(List<VOTipoBebida> lista) 
+    private String listarCliente(List<VOCliente> lista) 
     {
-    	String resp = "Los tipos de bebida existentes son:\n";
+    	String resp = "Los cliente existentes son:\n";
     	int i = 1;
-        for (VOTipoBebida tb : lista)
+        for (VOCliente tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    /**
+     * Genera una cadena de caracteres con la lista de los operadores recibidos: una línea por cada operador.
+     * @param lista - La lista con los operadores.
+     * @return La cadena con una líea para cada operador recibido
+     */
+    private String listarOperador(List<VOOperador> lista) 
+    {
+    	String resp = "Los  operadores existentes son:\n";
+    	int i = 1;
+        for (VOOperador tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    /**
+     * Genera una cadena de caracteres con la lista de las recervas recibidas: una línea por cada reserva.
+     * @param lista - La lista con las reservas.
+     * @return La cadena con una líea para cada reserva recibido
+     */
+    private String listarReserva(List<VOReserva> lista) 
+    {
+    	String resp = "Las reservas existentes son:\n";
+    	int i = 1;
+        for (VOReserva tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    /**
+     * Genera una cadena de caracteres con la lista de los apartamentos recibidos: una línea por cada apartamento.
+     * @param lista - La lista con los apartamentos.
+     * @return La cadena con una líea para cada apartamento recibido
+     */
+    private String listarApartamento(List<VOApartamento> lista) 
+    {
+    	String resp = "Los apartamentos existentes son:\n";
+    	int i = 1;
+        for (VOApartamento tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    /**
+     * Genera una cadena de caracteres con la lista de las habitaciones recibidos: una línea por cada habitacion.
+     * @param lista - La lista con las habitaciones.
+     * @return La cadena con una líea para cada habitacion recibido
+     */
+    private String listarHabitacion(List<VOHabitacion> lista) 
+    {
+    	String resp = "Las habitaciones existentes son:\n";
+    	int i = 1;
+        for (VOHabitacion tb : lista)
         {
         	resp += i++ + ". " + tb.toString() + "\n";
         }
@@ -1583,144 +940,35 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	}
 
     /**
-     * Genera una cadena de caracteres con la lista de bebidas recibida: una línea por cada bebida
-     * @param lista - La lista con las bebidas
-     * @return La cadena con una líea para cada bebida recibida
+     * Genera una cadena de caracteres con la lista de las reservas colectivas recibidos: una línea por cada reserva colectivas.
+     * @param lista - La lista con las reservas colectivas.
+     * @return La cadena con una líea para cada reserva colectivas recibido
      */
-    private String listarBebidas (List<VOBebida> lista) 
+    private String listarReservaColectiva(List<VOReservaColectiva> lista) 
     {
-    	String resp = "Las bebidas existentes son:\n";
+    	String resp = "Las reservas colectivas existentes son:\n";
     	int i = 1;
-        for (VOBebida beb : lista)
+        for (VOReservaColectiva tb : lista)
         {
-        	resp += i++ + ". " + beb.toString() + "\n";
+        	resp += i++ + ". " + tb.toString() + "\n";
         }
         return resp;
 	}
-
     /**
-     * Genera una cadena de caracteres con la lista de bebedores recibida: una línea por cada bebedor
-     * @param lista - La lista con los bebedores
-     * @return La cadena con una líea para cada bebedor recibido
+     * Genera una cadena de caracteres con la lista de los servicios recibidos: una línea por cada servicio.
+     * @param lista - La lista con los servicios.
+     * @return La cadena con una líea para cada servicio recibido
      */
-    private String listarBebedores (List<VOBebedor> lista) 
+    private String listarServicio(List<VOServicio> lista) 
     {
-    	String resp = "Los bebedores existentes son:\n";
+    	String resp = "Los servicios existentes son:\n";
     	int i = 1;
-        for (VOBebedor bdor : lista)
+        for (VOServicio tb : lista)
         {
-        	resp += i++ + ". " + bdor.toString() + "\n";
+        	resp += i++ + ". " + tb.toString() + "\n";
         }
         return resp;
 	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de bares recibida: una línea por cada bar
-     * @param lista - La lista con los bares
-     * @return La cadena con una líea para cada bar recibido
-     */
-    private String listarBares (List<VOBar> lista) 
-    {
-    	String resp = "Los bares existentes son:\n";
-    	int i = 1;
-        for (VOBar bar : lista)
-        {
-        	resp += i++ + ". " + bar.toString() + "\n";
-        }
-        return resp;
-	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de gustan recibida: una línea por cada gusta
-     * @param lista - La lista con los gustan
-     * @return La cadena con una líea para cada gustan recibido
-     */
-    private String listarGustan (List<VOGustan> lista) 
-    {
-    	String resp = "Los gustan existentes son:\n";
-    	int i = 1;
-        for (VOGustan serv : lista)
-        {
-        	resp += i++ + ". " + serv.toString() + "\n";
-        }
-        return resp;
-	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de sirven recibida: una línea por cada sirven
-     * @param lista - La lista con los sirven
-     * @return La cadena con una líea para cada sirven recibido
-     */
-    private String listarSirven (List<VOSirven> lista) 
-    {
-    	String resp = "Los sirven existentes son:\n";
-    	int i = 1;
-        for (VOSirven serv : lista)
-        {
-        	resp += i++ + ". " + serv.toString() + "\n";
-        }
-        return resp;
-	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de visitan recibida: una línea por cada visitan
-     * @param lista - La lista con los visitan
-     * @return La cadena con una líea para cada visitan recibido
-     */
-    private String listarVisitan (List<VOVisitan> lista) 
-    {
-    	String resp = "Los visitan existentes son:\n";
-    	int i = 1;
-        for (VOVisitan vis : lista)
-        {
-        	resp += i++ + ". " + vis.toString() + "\n";
-        }
-        return resp;
-	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de parejas de números recibida: una línea por cada pareja
-     * @param lista - La lista con las pareja
-     * @return La cadena con una líea para cada pareja recibido
-     */
-    private String listarBaresYBebidas (List<long[]> lista) 
-    {
-    	String resp = "Los bares y el número de bebidas que sirven son:\n";
-    	int i = 1;
-        for ( long [] tupla : lista)
-        {
-			long [] datos = tupla;
-	        String resp1 = i++ + ". " + "[";
-			resp1 += "idBar: " + datos [0] + ", ";
-			resp1 += "numBebidas: " + datos [1];
-	        resp1 += "]";
-	        resp += resp1 + "\n";
-        }
-        return resp;
-	}
-
-    /**
-     * Genera una cadena de caracteres con la lista de parejas de objetos recibida: una línea por cada pareja
-     * @param lista - La lista con las parejas (Bebedor, numero visitas)
-     * @return La cadena con una línea para cada pareja recibido
-     */
-    private String listarBebedorYNumVisitas (List<Object[]> lista) 
-    {
-    	String resp = "Los bebedores y el número visitas realizadas son:\n";
-    	int i = 1;
-        for (Object [] tupla : lista)
-        {
-			VOBebedor bdor = (VOBebedor) tupla [0];
-			int numVisitas = (int) tupla [1];
-	        String resp1 = i++ + ". " + "[";
-			resp1 += bdor + ", ";
-			resp1 += "numVisitas: " + numVisitas;
-	        resp1 += "]";
-	        resp += resp1 + "\n";
-        }
-        return resp;
-	}
-
     /**
      * Genera una cadena de caracteres con la descripción de la excepcion e, haciendo énfasis en las excepcionsde JDO
      * @param e - La excepción recibida
@@ -1746,7 +994,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	{
 		String resultado = "************ Error en la ejecución\n";
 		resultado += e.getLocalizedMessage() + ", " + darDetalleException(e);
-		resultado += "\n\nRevise datanucleus.log y parranderos.log para más detalles";
+		resultado += "\n\nRevise datanucleus.log y aloahandes.log para más detalles";
 		return resultado;
 	}
 

@@ -70,7 +70,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	 * @param pVenceSeguro
 	 * @param pDSeguro
 	 */
-	public Apartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, Operador pOperador)
+	public Apartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, Operador pOperador)
 	{
 		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		amueblado = pAmueblado;

@@ -47,6 +47,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
+import sun.rmi.server.InactiveGroupException;
 import uniandes.isis2304.alohandes.negocio.Alohandes;
 import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
@@ -261,9 +262,10 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "relacionU", JOptionPane.QUESTION_MESSAGE);
     		String medioPago = JOptionPane.showInputDialog (this, "Medio de pago?", "Adicionar medio de pago", JOptionPane.QUESTION_MESSAGE);
     		int reservas = Integer.parseInt(JOptionPane.showInputDialog (this, "Reservas?", "Adicionar reservas", JOptionPane.QUESTION_MESSAGE));
+    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		if (logIn != null && tipoId != null && relacionU != null && medioPago != null)
     		{
-        		VOCliente c = alohandes.adicionarCliente(logIn, tipoId, relacionU, medioPago, reservas);
+        		VOCliente c = alohandes.adicionarCliente(numeroId,logIn, tipoId, relacionU, medioPago, reservas);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear un cliente");
@@ -355,7 +357,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	{
     		String logIn = JOptionPane.showInputDialog (this, "LogIn?", "Adicionar LogIn", JOptionPane.QUESTION_MESSAGE);
     		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
-    		int numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE));
+    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE));
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
     		int numeroRNT = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero RNT?", "Adicionar numero RNT", JOptionPane.QUESTION_MESSAGE));
     		Date vencimientoRNT = Date.valueOf(JOptionPane.showInputDialog (this, "vencimiento RNT?", "Adicionar vencimiento RNT", JOptionPane.QUESTION_MESSAGE));
@@ -558,7 +560,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String logIn = JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE);
     		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
-    		int numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		if (logIn != null && tipoId != null && relacionU != null )
     		{
         		VOUsuario c = alohandes.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
@@ -650,7 +652,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		long pId = Long.parseLong(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
     		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
     		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
@@ -663,6 +665,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String pDMenaje = JOptionPane.showInputDialog (this, "Mensaje?", "Adicionar mensaje", JOptionPane.QUESTION_MESSAGE);
     		Date pVenceSeguro =Date.valueOf( JOptionPane.showInputDialog (this,"Vencimiento seguro?", " Adicionar vencimiento seguro",JOptionPane.QUESTION_MESSAGE));
     		String pDSeguro = JOptionPane.showInputDialog (this, "Descripción seguro?", "Adicionar descripcion seguro", JOptionPane.QUESTION_MESSAGE);
+    		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
     		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pVenceSeguro != null && pDSeguro != null)
     		{
         		VOApartamento c = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
@@ -855,7 +858,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		long pId = Long.parseLong(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
     		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
     		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
@@ -865,7 +868,8 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
     		boolean pIndiv = JOptionPane.showInputDialog(this,"Individual?","Adicionar individual", JOptionPane.YES_NO_OPTION) != null;
     		String pEsquema = JOptionPane.showInputDialog (this, "Esquema?", "Adicionar esquema", JOptionPane.QUESTION_MESSAGE);
-    		String pTipo = JOptionPane.showInputDialog (this, "Tipo de habitación?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
+    		int pTipo = Integer.parseInt(JOptionPane.showInputDialog (this, "Tipo de habitación?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE));
+    		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
     		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
     		{
         		VOHabitacion c = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);

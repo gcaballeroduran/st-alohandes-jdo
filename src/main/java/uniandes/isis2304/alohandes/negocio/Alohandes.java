@@ -89,7 +89,7 @@ public class Alohandes
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 * @return El objeto USUARIO adicionado. null si ocurre alguna Excepción
 	 */
-	public Usuario adicionarUsuario (String logIn,String tipoId, int numeroId, String relacionU)
+	public Usuario adicionarUsuario (String logIn,String tipoId, long numeroId, String relacionU)
 	{
         log.info ("Adicionando usuario: " + logIn);
         Usuario usuario = pp.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
@@ -172,10 +172,10 @@ public class Alohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente (String logIn,String tipoId, String relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente (long numeroId,String logIn,String tipoId, String relacionU, String medioPago, int reservas)
 	{
         log.info ("Adicionando Cliente: " + logIn);
-        Cliente cliente = pp.adicionarCliente(logIn, tipoId,  relacionU, medioPago, reservas);		
+        Cliente cliente = pp.adicionarCliente(numeroId,logIn, tipoId,  relacionU, medioPago, reservas);		
         log.info ("Adicionando cliente: " + cliente);
         return cliente;
 	}
@@ -259,11 +259,11 @@ public class Alohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,String tipoId, int numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public Operador adicionarOperador(String logIn,String tipoId, long numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
 	{
 		log.info ("Adicionando operador " + logIn);
-		Operador operador = pp.adicionarOperador(logIn, tipoId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
+		Operador operador = pp.adicionarOperador(numeroId,logIn, tipoId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
         log.info ("Adicionando operador: " + operador);
         return operador;
 	}

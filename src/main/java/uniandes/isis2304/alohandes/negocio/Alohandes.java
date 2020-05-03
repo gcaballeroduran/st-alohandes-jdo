@@ -394,7 +394,7 @@ public class Alohandes
 	public Propiedad adicionarApartamento(int pId, int pCapacidad, double pTamanio, 
 			double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, 
 			boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, 
-			String pDSeguro, Operador pOperador)
+			String pDSeguro, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
@@ -465,14 +465,14 @@ public class Alohandes
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, Operador pOperador)
+	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
 		adicionarPropiedad( pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		
         log.info ("Adicionando Habitacion: " + pID);
-        Habitacion habitacion = pp.adicionarHabitacion(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion, pID, pIndiv, pDireccion, pEsquema, pFecha, pID); 		
+        Habitacion habitacion = pp.adicionarHabitacion(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
         log.info ("Adicionando Habitacion: " + habitacion);
         return habitacion;
 	}
@@ -570,6 +570,16 @@ public class Alohandes
         List<Reserva> reservas = pp.darRerservas();	
         log.info ("Listando Reservas: " + reservas.size() + " Reservas existentes");
         return reservas;
+	}
+	
+	public List<Reserva> darReservasActivasApartamento(long apartamento)
+	{
+		log.info ("Listando Reservas Activas de apartamento: "+ apartamento);
+        List<Reserva> reservas = pp.darRerservasActivasApartamento(apartamento);	
+        log.info ("Listando Reservas Activas de apartamento: " + apartamento
+        		+" Hay "+ reservas.size() + " Reservas existentes");
+        return reservas;
+		
 	}
 
 	/**

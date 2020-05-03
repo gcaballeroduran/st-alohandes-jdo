@@ -65,10 +65,10 @@ class SQLApartamento
 	 * @param idSer - El identificador de la Habitacion
 	 * @return EL número de tuplas eliminadas
 	 */
-	public long eliminarApartamentoPorId (PersistenceManager pm, long idSer)
+	public long eliminarApartamentoPorId (PersistenceManager pm, long idApt)
 	{
         Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaApartamento () + " WHERE id = ?");
-        q.setParameters(idSer);
+        q.setParameters(idApt);
         return (long) q.executeUnique();
 	}
 

@@ -813,15 +813,15 @@ public class PersistenciaAlohandes
 	 * @param pVenceSeguro
 	 * @param pDSeguro
 	 */
-	public Apartamento adicionarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, Operador pOperador) 
+	public Apartamento adicionarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-			//adicionarPropiedad();
+			adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
 			tx.begin();
-			long tuplasInsertadas = sqlApartamento.adicionarApartamento(pm, pID, pAmueblado, pDMenaje, pDSeguro, pVenceSeguro, pOperador.getNumeroId());
+			long tuplasInsertadas = sqlApartamento.adicionarApartamento(pm, pID, pAmueblado, pDMenaje, pDSeguro, pVenceSeguro, pOperador);
 			tx.commit();
 
 			log.trace ("Inserción de apartamento: " + pID + ": " + tuplasInsertadas + " tuplas insertadas");
@@ -913,23 +913,22 @@ public class PersistenciaAlohandes
 	 * @param individual - Booleano si la habitacion es individual (t) o compartida (f)
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 */
-	public Habitacion adicionarHabitacion(long idProp, int capacidad, double precio, double tam, int diasR, int piso, Date fechaCrea, 
-			String direccion, long idApt, boolean am, String desMenaje, String descrSeguro, Date venceSeguro, long idOp) 
+	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-			adicionarPropiedad(idProp, capacidad, precio, tam, diasR, piso, fechaCrea, direccion);
+			adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
 			tx.begin();
-			//long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, idApt, am, desMenaje, descrSeguro, venceSeguro);
+			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, pID, pTipo, pIndiv, pEsquema, pOperador);
 			tx.commit();
 
-			//log.trace ("Inserción de apartamento: " + idProp + ": " + tuplasInsertadas + " tuplas insertadas");
+			log.trace ("Inserción de habitacion: " + pID + ": " + tuplasInsertadas + " tuplas insertadas");
 			
 			
 			
-			return null;//new Habitacion(pID, capacidad, tam, precio, fechaCrea, diasR, piso, direccion, am, pEsquema, pTipo, pOperador)
+			return new Habitacion(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
 					}
 		catch (Exception e)
 		{
@@ -1286,6 +1285,25 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservas(pmf.getPersistenceManager());
 	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
+	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
+	 */
+	public List<Reserva> darRerservasActivasApartamento (long apt)
+	{
+		return sqlReserva.darReservasActivasApartamento(pmf.getPersistenceManager(), apt);
+	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
+	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
+	 */
+	public List<Reserva> darRerservasActivasHabitacion (long hab)
+	{
+		return sqlReserva.darReservasActivasHabitacion(pmf.getPersistenceManager(), hab);
+	}
+	
 
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado

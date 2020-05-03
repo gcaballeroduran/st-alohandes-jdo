@@ -31,6 +31,9 @@ public class Propiedad implements VOPropiedad
 
 	/** Dirección donde está ubicada la propiedad */
 	private String direccion;
+	
+	/** Indica si la propiedad esta habilitada para ser reservada */
+	private boolean habilitada;
 
 	///////////////////////////////////////
 	/////////// Constructor ///////////////
@@ -46,6 +49,7 @@ public class Propiedad implements VOPropiedad
 		tamanio = 0;
 		precio = 0;
 		fechaCreacion = null;
+		habilitada = false;
 
 	}
 
@@ -70,6 +74,7 @@ public class Propiedad implements VOPropiedad
 		diasReservados = pDiasR;
 		piso = pPiso;
 		direccion = pDireccion;
+		habilitada = true;
 	}
 
 	///////////////////////////////////////
@@ -139,10 +144,21 @@ public class Propiedad implements VOPropiedad
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+	
+	public boolean isHabilitada() {
+		return habilitada;
+	}
 
+	public void setHabilitada(boolean habilitada) {
+		this.habilitada = habilitada;
+	}
+	
+	
 	///////////////////////////////////////
 	//////////// Otros M�todos ////////////
 	///////////////////////////////////////
+
+	
 
 	/**
 	 * @param prop - La propiedad a alquilar

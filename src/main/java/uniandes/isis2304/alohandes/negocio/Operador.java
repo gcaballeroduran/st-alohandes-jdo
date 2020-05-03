@@ -330,7 +330,13 @@ public class Operador extends Usuario implements VOOperador {
 	public void setHabitaciones(ArrayList habitaciones) {
 		this.habitaciones = habitaciones;
 	}
-
+	
+	public void agregarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	{
+		Habitacion nuevo = new Habitacion(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+		habitaciones.add(nuevo);
+	}
+	
 	/**
 	 * 
 	 * @return apartamentos del operador.
@@ -346,6 +352,14 @@ public class Operador extends Usuario implements VOOperador {
 	public void setApartamentos(ArrayList apartamentos) {
 		this.apartamentos = apartamentos;
 	}
+	
+	
+	public void agregarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro)
+	{
+		Apartamento nuevo = new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, this.getNumeroId());
+		apartamentos.add(nuevo);
+	}
+	
 	
 	@Override
 	/**

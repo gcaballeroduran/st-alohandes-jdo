@@ -32,8 +32,8 @@ public class Apartamento extends Propiedad implements VOApartamento
 	/** Conjunto de las reservas hechas en la habitación */
 	private ArrayList<Reserva> reservas;
 	
-	/** Operador encargado del apartamento */
-	private Operador operador;
+	/** id del Operador encargado del apartamento */
+	private long operador;
 
 	///////////////////////////////////////
 	///////////// CONSTRUCTOR /////////////
@@ -48,7 +48,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 		descripcionMenaje = "";
 		vencimientoSeguro = null;
 		descripcionSeguro = null;
-		operador = null;
+		operador = -1;
 		reservas = new ArrayList<Reserva>();
 		servicios = new ArrayList<Servicio>();
 
@@ -70,7 +70,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	 * @param pVenceSeguro
 	 * @param pDSeguro
 	 */
-	public Apartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, Operador pOperador)
+	public Apartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador)
 	{
 		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		amueblado = pAmueblado;
@@ -128,11 +128,11 @@ public class Apartamento extends Propiedad implements VOApartamento
 		this.descripcionSeguro = descripcionSeguro;
 	}
 	
-	public Operador getOperador() {
+	public long getOperador() {
 		return operador;
 	}
 
-	public void setOperador(Operador operador) {
+	public void setOperador(long operador) {
 		this.operador = operador;
 	}
 	
@@ -168,7 +168,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
 				", amueblado=" + amueblado + ", habitaciones="+ habitaciones + ", descripcionMenaje=" + descripcionMenaje +
 				" , vencimientoSeguro=" + vencimientoSeguro + ", descripcionSeguro="+ descripcionSeguro + 
-				", operador="+ operador.getNumeroId() + ", reservas=" + reservasToString() + ", servicios=" + serviciosToString() + "]";
+				", operador="+ operador + ", reservas=" + reservasToString() + ", servicios=" + serviciosToString() + "]";
 	}
 
 	public String reservasToString()

@@ -50,10 +50,10 @@ class SQLHabitacion
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 * @return El número de tuplas insertadas
 	 */
-	public long adicionarHabitacion (PersistenceManager pm, long idHab, int tipo, boolean individual, String esquema) 
+	public long adicionarHabitacion (PersistenceManager pm, long idHab, int tipo, boolean individual, String esquema, long idOp) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?, ?)");
-        q.setParameters(idHab, tipo, individual, esquema);
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?, ?, ?)");
+        q.setParameters(idHab, tipo, individual, esquema, idOp);
         return (long) q.executeUnique();
 	}
 

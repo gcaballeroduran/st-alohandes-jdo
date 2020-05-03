@@ -1,6 +1,7 @@
 package uniandes.isis2304.alohandes.negocio;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Habitacion extends Propiedad implements VOHabitacion
@@ -19,7 +20,7 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	private int tipo;
 	
 	/** Operador encargado de la habitación */
-	private Operador operador;
+	private long operador;
 	
 	/** Servicios que tiene la habitación */
 	private ArrayList<Servicio> servicios;
@@ -34,9 +35,9 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	/** Constantes para definir El tipo de habitación*/
 	public static final int ESTANDAR = 0;
 
-	public static final int SUIT = 0;
-
-	public static final int SEMISUIT = 0;
+	public static final int SEMISUIT = 1;
+	
+	public static final int SUIT = 2;
 
 	///////////////////////////////////////
 	////////////// CONSTRUCTOR ////////////
@@ -48,7 +49,8 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, Operador pOperador){
+	public Habitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	{
 		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		individual = pIndiv;
 		esquema = pEsquema;
@@ -94,11 +96,11 @@ public class Habitacion extends Propiedad implements VOHabitacion
 		this.tipo = tipo;
 	}
 	
-	public Operador getOperador() {
+	public long getOperador() {
 		return operador;
 	}
 
-	public void setOperador(Operador operador) {
+	public void setOperador(long operador) {
 		this.operador = operador;
 	}
 	
@@ -121,6 +123,28 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	///////////////////////////////////////
 	//////////// Otros Métodos ////////////
 	///////////////////////////////////////
+	
+	public void serHabilitada(boolean pHabilitada)
+	{
+		if(pHabilitada)
+			super.setHabilitada(pHabilitada);
+		else
+		{
+			
+		}
+		
+		
+	}
+	
+	public ArrayList<Reserva> getReservasActivas()
+	{
+		ArrayList<Reserva> activas = new ArrayList<Reserva>();
+		
+		
+		return activas;
+			
+	
+	}
 
 
 	@Override
@@ -132,7 +156,7 @@ public class Habitacion extends Propiedad implements VOHabitacion
 		return "Habitacion [id=" + super.getId() + ", capacidad="+ super.getCapacidad() +
 				", tamanio="+super.getTamanio() + ", precio="+ super.getPrecio() + ", fechaCreacion=" + super.getFechaCreacion()+
 				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
-				", individual=" + individual + ", esquema="+ esquema + ", tipo="+ tipo + ", operador="+ operador.getNumeroId() + 
+				", individual=" + individual + ", esquema="+ esquema + ", tipo="+ tipo + ", operador="+ operador + 
 				", reservas=" + reservasToString() + ", servicios=" + serviciosToString() +"]";
 	}
 

@@ -48,9 +48,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.negocio.Alohandes;
+import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
+import uniandes.isis2304.alohandes.negocio.VOHabitacion;
 import uniandes.isis2304.alohandes.negocio.VOOperador;
+import uniandes.isis2304.alohandes.negocio.VOPropiedad;
 import uniandes.isis2304.alohandes.negocio.VOReserva;
+import uniandes.isis2304.alohandes.negocio.VOReservaColectiva;
+import uniandes.isis2304.alohandes.negocio.VOServicio;
 import uniandes.isis2304.alohandes.negocio.VOUsuario;
 
 /**
@@ -165,7 +170,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 		{
 //			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Parranderos App", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "Alohandes App", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
     }
@@ -182,7 +187,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	if ( guiConfig == null )
     	{
     		log.info ( "Se aplica configuración por defecto" );			
-			titulo = "Parranderos APP Default";
+			titulo = "Alohandes APP Default";
 			alto = 300;
 			ancho = 500;
     	}
@@ -252,8 +257,8 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	try 
     	{
     		String logIn = JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE);
-    		TipoIdentificacion tipoId =TipoIdentificacion.valueOf( JOptionPane.showInputDialog (this,"Tipo de identificacion?", " Adicionar :CARNET_U,CEDULA, PASAPORTE",JOptionPane.QUESTION_MESSAGE));
-    		TipoCliente relacionU = TipoCliente.valueOf(JOptionPane.showInputDialog (this, "Tipo de cliente?", "Adicionar: ESTUDIANTE,EMPLEADO, PROFESOR,PROFESOR_VISITANTE ", JOptionPane.QUESTION_MESSAGE));
+    		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "tipoId", JOptionPane.QUESTION_MESSAGE);
+    		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "relacionU", JOptionPane.QUESTION_MESSAGE);
     		String medioPago = JOptionPane.showInputDialog (this, "Medio de pago?", "Adicionar medio de pago", JOptionPane.QUESTION_MESSAGE);
     		int reservas = Integer.parseInt(JOptionPane.showInputDialog (this, "Reservas?", "Adicionar reservas", JOptionPane.QUESTION_MESSAGE));
     		if (logIn != null && tipoId != null && relacionU != null && medioPago != null)
@@ -349,14 +354,14 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	try 
     	{
     		String logIn = JOptionPane.showInputDialog (this, "LogIn?", "Adicionar LogIn", JOptionPane.QUESTION_MESSAGE);
-    		TipoIdentificacion tipoId =TipoIdentificacion.valueOf( JOptionPane.showInputDialog (this,"Tipo de identificacion?", " Adicionar :CARNET_U,CEDULA, PASAPORTE",JOptionPane.QUESTION_MESSAGE));
+    		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
     		int numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE));
-    		TipoCliente relacionU = TipoCliente.valueOf(JOptionPane.showInputDialog (this, "Tipo de cliente?", "Adicionar: ESTUDIANTE,EMPLEADO, PROFESOR,PROFESOR_VISITANTE ", JOptionPane.QUESTION_MESSAGE));
+    		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
     		int numeroRNT = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero RNT?", "Adicionar numero RNT", JOptionPane.QUESTION_MESSAGE));
     		Date vencimientoRNT = Date.valueOf(JOptionPane.showInputDialog (this, "vencimiento RNT?", "Adicionar vencimiento RNT", JOptionPane.QUESTION_MESSAGE));
     		String registroSuperTurismo = JOptionPane.showInputDialog (this, "registro super turismo?", "Adicionar registro super turismo", JOptionPane.QUESTION_MESSAGE);
     		Date vencimientoRegistroSuperTurismo = Date.valueOf(JOptionPane.showInputDialog (this, "vencimiento super T?", "Adicionar vencimiento super T", JOptionPane.QUESTION_MESSAGE));
-    		Modalidad categoria = Modalidad.valueOf(JOptionPane.showInputDialog (this, "categoria?", "Adicionar categoria: HOTEL,HOSTAL,P_NATURAL,APARTAMENTO,VECINOS,VIVIENDA_U", JOptionPane.QUESTION_MESSAGE));
+    		String categoria = JOptionPane.showInputDialog (this, "Categoria?", "adicionar categoria", JOptionPane.QUESTION_MESSAGE);
     		String direccion = JOptionPane.showInputDialog (this, "direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);;
     		Date horaApertura = Date.valueOf(JOptionPane.showInputDialog (this, "hora de apertura?", "Adicionar hora de apertura", JOptionPane.QUESTION_MESSAGE));
     		Date horaCierre = Date.valueOf(JOptionPane.showInputDialog (this, "hora de cierre?", "Adicionar hora de cierre", JOptionPane.QUESTION_MESSAGE));
@@ -366,7 +371,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
         		VOOperador c = alohandes.adicionarOperador(logIn, tipoId, numeroId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, 0, 0, null, null);
         		if (c == null)
         		{
-        			throw new Exception ("No se pudo crear un operador con logIn: ");
+        			throw new Exception ("No se pudo crear un operador ");
         		}
         		String resultado = "En adicionarOperador\n\n";
         		resultado += "Cliente adicionado exitosamente: " + c;
@@ -423,7 +428,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     			long clEliminados = alohandes.eliminarOperadorPorId(id);
 
     			String resultado = "En eliminar Operador\n\n";
-    			resultado += clEliminados + " Operador eliminados\n";
+    			resultado += clEliminados + " Operadores eliminados\n";
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
     		}
@@ -454,16 +459,16 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	{
     		Date fechaInicio = Date.valueOf(JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE));
     		Date fechaFin =Date.valueOf( JOptionPane.showInputDialog (this,"Tipo de identificacion?", " Adicionar :CARNET_U,CEDULA, PASAPORTE",JOptionPane.QUESTION_MESSAGE));
-    		Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Tipo de cliente?", "Adicionar: ESTUDIANTE,EMPLEADO, PROFESOR,PROFESOR_VISITANTE ", JOptionPane.QUESTION_MESSAGE));
+    		Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE));
     		int personas = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
-    		double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "Porcentaje a pagar?", "Adicionar porcenaje a pagar", JOptionPane.QUESTION_MESSAGE));
     		double montoTotal = Double.parseDouble(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		if (fechaInicio != null && fechaFin != null && finCancelacionOportuna != null && personas != 0 )
     		{
         		VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
         		if (c == null)
         		{
-        			throw new Exception ("No se pudo crear un usuario con id: " );
+        			throw new Exception ("No se pudo crear un usuario " );
         		}
         		String resultado = "En adicionarReserva\n\n";
         		resultado += "Cliente adicionado exitosamente: " + c;
@@ -520,7 +525,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     			long clEliminados = alohandes.eliminarReservasPorId(id);
 
     			String resultado = "En eliminar Reservas\n\n";
-    			resultado += clEliminados + " Reservas eliminados\n";
+    			resultado += clEliminados + " Reservas eliminadas\n";
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
     		}
@@ -551,8 +556,8 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	try 
     	{
     		String logIn = JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE);
-    		TipoIdentificacion tipoId =TipoIdentificacion.valueOf( JOptionPane.showInputDialog (this,"Tipo de identificacion?", " Adicionar :CARNET_U,CEDULA, PASAPORTE",JOptionPane.QUESTION_MESSAGE));
-    		TipoCliente relacionU = TipoCliente.valueOf(JOptionPane.showInputDialog (this, "Tipo de cliente?", "Adicionar: ESTUDIANTE,EMPLEADO, PROFESOR,PROFESOR_VISITANTE ", JOptionPane.QUESTION_MESSAGE));
+    		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
+    		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
     		int numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		if (logIn != null && tipoId != null && relacionU != null )
     		{
@@ -633,7 +638,511 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 		}
     }
  
+    /* ****************************************************************
+	 * 			CRUD de Apartamento
+	 *****************************************************************/
 
+    /**
+     * Adiciona un apartamento con la información dada por el usuario
+     * Se crea una nueva tupla de reserva en la base de datos, si un apartamento con ese id no existía
+     */
+    public void adicionarApartamento( )
+    {
+    	try 
+    	{
+    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
+    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
+    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
+    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
+    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
+    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
+    		boolean pAmueblado = JOptionPane.showInputDialog(this,"Amuablado?","Adicionar amuablado", JOptionPane.YES_NO_OPTION) != null;
+    		int pHabitaciones = Integer.parseInt(JOptionPane.showInputDialog (this, "Habitaciones?", "Adicionar habitaciones", JOptionPane.QUESTION_MESSAGE));
+    		String pDMenaje = JOptionPane.showInputDialog (this, "Mensaje?", "Adicionar mensaje", JOptionPane.QUESTION_MESSAGE);
+    		Date pVenceSeguro =Date.valueOf( JOptionPane.showInputDialog (this,"Vencimiento seguro?", " Adicionar vencimiento seguro",JOptionPane.QUESTION_MESSAGE));
+    		String pDSeguro = JOptionPane.showInputDialog (this, "Descripción seguro?", "Adicionar descripcion seguro", JOptionPane.QUESTION_MESSAGE);
+    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pVenceSeguro != null && pDSeguro != null)
+    		{
+        		VOApartamento c = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
+        		if (c == null)
+        		{
+        			throw new Exception ("No se pudo crear un apartamento" );
+        		}
+        		String resultado = "En adicionarApartamento\n\n";
+        		resultado += "Apartamento adicionado exitosamente: " + c;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Consulta en la base de datos los apartamentos existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarApartamento( )
+    {
+    	try 
+    	{
+			List <VOApartamento> lista = alohandes.darVOApartamento();
+
+			String resultado = "En listarApartamento";
+			resultado +=  "\n" + listarApartamento(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Borra de la base de datos el apartamento con el identificador dado po el usuario
+     * Cuando dicho apartamento no existe, se indica que se borraron 0 registros de la base de datos
+     */
+    public void eliminarApartamentoId( )
+    {
+    	try 
+    	{
+    		String idApartamento = JOptionPane.showInputDialog (this, "Id del apartamento?", "Borrar apartamento por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idApartamento != null)
+    		{
+    			long id = Long.valueOf (idApartamento);
+    			long clEliminados = alohandes.eliminarApartamentoPorId(id);
+
+    			String resultado = "En eliminar Apartamento\n\n";
+    			resultado += clEliminados + " Aartamentos eliminados\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    
+    /* ****************************************************************
+	 * 			CRUD de Propiedad
+	 *****************************************************************/
+
+    /**
+     * Adiciona una propiedad con la información dada por el usuario
+     * Se crea una nueva tupla de propiedad en la base de datos, si una propiedad con ese id no existía
+     */
+    public void adicionarPropiedad( )
+    {
+    	try 
+    	{
+    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
+    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
+    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
+    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
+    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
+    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
+    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
+    		{
+        		VOPropiedad c = alohandes.adicionarPropiedad(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+        		if (c == null)
+        		{
+        			throw new Exception ("No se pudo crear una propiedad" );
+        		}
+        		String resultado = "En adicionarPropiedad\n\n";
+        		resultado += "Propiedad adicionado exitosamente: " + c;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Consulta en la base de datos las propiedades existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarPropiedad( )
+    {
+    	try 
+    	{
+			List <VOPropiedad> lista = alohandes.darVOPropiedad();
+
+			String resultado = "En listarPropiedad";
+			resultado +=  "\n" + listarPropiedad(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Borra de la base de datos la propiedad con el identificador dado po el usuario
+     * Cuando dicha propiedad no existe, se indica que se borraron 0 registros de la base de datos
+     */
+    public void eliminarPropiedadId( )
+    {
+    	try 
+    	{
+    		String idPropiedad = JOptionPane.showInputDialog (this, "Id de la propiedad?", "Borrar propiedad por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idPropiedad != null)
+    		{
+    			long id = Long.valueOf (idPropiedad);
+    			long clEliminados = alohandes.eliminarPropiedadPorId(id);
+
+    			String resultado = "En eliminar Propiedad\n\n";
+    			resultado += clEliminados + " Propiedades eliminadas\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    
+    /* ****************************************************************
+	 * 			CRUD de Habitacion
+	 *****************************************************************/
+
+    /**
+     * Adiciona una habitacion con la información dada por el usuario
+     * Se crea una nueva tupla de habitacion en la base de datos, si una habitacion con ese id no existía
+     */
+    public void adicionarHabitacion( )
+    {
+    	try 
+    	{
+    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
+    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
+    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
+    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
+    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
+    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
+    		boolean pIndiv = JOptionPane.showInputDialog(this,"Individual?","Adicionar individual", JOptionPane.YES_NO_OPTION) != null;
+    		String pEsquema = JOptionPane.showInputDialog (this, "Esquema?", "Adicionar esquema", JOptionPane.QUESTION_MESSAGE);
+    		String pTipo = JOptionPane.showInputDialog (this, "Tipo de habitación?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
+    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
+    		{
+        		VOHabitacion c = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+        		if (c == null)
+        		{
+        			throw new Exception ("No se pudo crear una habitación" );
+        		}
+        		String resultado = "En adicionarHabitacion\n\n";
+        		resultado += "Habitacion adicionado exitosamente: " + c;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Consulta en la base de datos las habitaciones existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarHabitacion( )
+    {
+    	try 
+    	{
+			List <VOHabitacion> lista = alohandes.darVOHabitacion();
+
+			String resultado = "En listarHabitacion";
+			resultado +=  "\n" + listarHabitacion(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Borra de la base de datos la habitacion con el identificador dado po el usuario
+     * Cuando dicha habitacion no existe, se indica que se borraron 0 registros de la base de datos
+     */
+    public void eliminarHabitacionId( )
+    {
+    	try 
+    	{
+    		String idHabitacion = JOptionPane.showInputDialog (this, "Id de la habitacion?", "Borrar habitacion por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idHabitacion != null)
+    		{
+    			long id = Long.valueOf (idHabitacion);
+    			long clEliminados = alohandes.eliminarHabitacionPorId(id);
+
+    			String resultado = "En eliminar Habitacion\n\n";
+    			resultado += clEliminados + " Habitaciones eliminadas\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    
+    /* ****************************************************************
+	 * 			CRUD de ReservaColectiva
+	 *****************************************************************/
+
+    /**
+     * Adiciona una reserva colectiva con la información dada por el usuario
+     * Se crea una nueva tupla de reserva colectiva en la base de datos, si una reserva colectiva con ese id no existía
+     */
+    public void adicionarReservaColectiva()
+    {
+    	try 
+    	{
+    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
+    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
+    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
+    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
+    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
+    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
+    		boolean pIndiv = JOptionPane.showInputDialog(this,"Individual?","Adicionar individual", JOptionPane.YES_NO_OPTION) != null;
+    		String pEsquema = JOptionPane.showInputDialog (this, "Esquema?", "Adicionar esquema", JOptionPane.QUESTION_MESSAGE);
+    		String pTipo = JOptionPane.showInputDialog (this, "Tipo de habitación?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
+    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
+    		{
+        		VOReservaColectiva c= "";
+        		if (c == null)
+        		{
+        			throw new Exception ("No se pudo crear una reservaColectiva" );
+        		}
+        		String resultado = "En adicionarReservaColectiva\n\n";
+        		resultado += "ReservaColectiva adicionada exitosamente: " + c;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Consulta en la base de datos las reservas colectivas existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarRerservaColectiva( )
+    {
+    	try 
+    	{
+			List <VOReservaColectiva> lista = alohandes.darVOReservaColectiva();
+
+			String resultado = "En listarRerservaColectiva";
+			resultado +=  "\n" + listarReservaColectiva(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Borra de la base de datos la habitacion con el identificador dado po el usuario
+     * Cuando dicha reserva colectiva no existe, se indica que se borraron 0 registros de la base de datos
+     */
+    public void eliminarRerservaColectivaId( )
+    {
+    	try 
+    	{
+    		String idReservaColectiva = JOptionPane.showInputDialog (this, "Id de la reserva colectiva?", "Borrar reserva colectiva por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idReservaColectiva != null)
+    		{
+    			long id = Long.valueOf (idReservaColectiva);
+    			long clEliminados = alohandes.eliminarReservaColectivaPorId(id);
+
+    			String resultado = "En eliminar ReservaColectiva\n\n";
+    			resultado += clEliminados + " ReservaColectiva eliminadas\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    /* ****************************************************************
+	 * 			CRUD de Servicio
+	 *****************************************************************/
+
+    /**
+     * Adiciona un servicio con la información dada por el usuario
+     * Se crea una nueva tupla de servicio en la base de datos, si un servicio con ese id no existía
+     */
+    public void adicionarServicio( )
+    {
+    	try 
+    	{
+    		long pId = Integer.parseInt(JOptionPane.showInputDialog (this, "Id?", "Adicionar Id", JOptionPane.QUESTION_MESSAGE));
+    		String pTipo = JOptionPane.showInputDialog (this, "Tipo?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
+    		double pPrecio = Double.parseDouble(JOptionPane.showInputDialog (this, "Precio?", "adicionar precio", JOptionPane.QUESTION_MESSAGE));
+    		int pIntervalo = Integer.parseInt(JOptionPane.showInputDialog (this, "Intervalo de pago?", "adicionar intervalo", JOptionPane.QUESTION_MESSAGE));
+    		
+    		if (pTipo != null )
+    		{
+        		VOServicio c = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
+        		if (c == null)
+        		{
+        			throw new Exception ("No se pudo crear un servicio con id: " + pId);
+        		}
+        		String resultado = "En adicionarServicio\n\n";
+        		resultado += "Usuario adicionado exitosamente: " + c;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Consulta en la base de datos los servicios existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarServicio( )
+    {
+    	try 
+    	{
+			List <VOServicio> lista = alohandes.darVOServicio();
+
+			String resultado = "En listarServicio";
+			resultado +=  "\n" + listarServicio(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+
+    /**
+     * Borra de la base de datos el servicio con el identificador dado po el usuario
+     * Cuando dicho servicio no existe, se indica que se borraron 0 registros de la base de datos
+     */
+    public void eliminarServicioId( )
+    {
+    	try 
+    	{
+    		String idServicio = JOptionPane.showInputDialog (this, "Id del servicio?", "Borrar servicio por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idServicio != null)
+    		{
+    			long id = Long.valueOf (idServicio);
+    			long clEliminados = alohandes.eliminarServicioPorId(id);
+
+    			String resultado = "En eliminar Servicio\n\n";
+    			resultado += clEliminados + " Servicios eliminados\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/
@@ -700,10 +1209,10 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 			
 			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
 			String resultado = "\n\n************ Limpiando la base de datos ************ \n";
-			resultado += eliminados [0] + " Gustan eliminados\n";
-			resultado += eliminados [1] + " Sirven eliminados\n";
-			resultado += eliminados [2] + " Visitan eliminados\n";
-			resultado += eliminados [3] + " Bebidas eliminadas\n";
+			resultado += eliminados [0] + " cliente eliminados\n";
+			resultado += eliminados [1] + " operador eliminados\n";
+			resultado += eliminados [2] + " reserva eliminados\n";
+			resultado += eliminados [3] + " usuario eliminadas\n";
 			resultado += eliminados [4] + " Tipos de bebida eliminados\n";
 			resultado += eliminados [5] + " Bebedores eliminados\n";
 			resultado += eliminados [6] + " Bares eliminados\n";
@@ -857,7 +1366,82 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
         return resp;
 	}
     
+    /**
+     * Genera una cadena de caracteres con la lista de los apartamentos recibidos: una línea por cada apartamento.
+     * @param lista - La lista con los apartamentos.
+     * @return La cadena con una líea para cada apartamento recibido
+     */
+    private String listarApartamento(List<VOApartamento> lista) 
+    {
+    	String resp = "Los apartamentos existentes son:\n";
+    	int i = 1;
+        for (VOApartamento tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    /**
+     * Genera una cadena de caracteres con la lista de las habitaciones recibidos: una línea por cada habitacion.
+     * @param lista - La lista con las habitaciones.
+     * @return La cadena con una líea para cada habitacion recibido
+     */
+    private String listarHabitacion(List<VOHabitacion> lista) 
+    {
+    	String resp = "Las habitaciones existentes son:\n";
+    	int i = 1;
+        for (VOHabitacion tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    /**
+     * Genera una cadena de caracteres con la lista de las propiedades recibidos: una línea por cada propiedad.
+     * @param lista - La lista con las propiedades.
+     * @return La cadena con una líea para cada propiedad recibido
+     */
+    private String listarPropiedad(List<VOPropiedad> lista) 
+    {
+    	String resp = "Las propiedades existentes son:\n";
+    	int i = 1;
+        for (VOPropiedad tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
 
+    /**
+     * Genera una cadena de caracteres con la lista de las reservas colectivas recibidos: una línea por cada reserva colectivas.
+     * @param lista - La lista con las reservas colectivas.
+     * @return La cadena con una líea para cada reserva colectivas recibido
+     */
+    private String listarReservaColectiva(List<VOReservaColectiva> lista) 
+    {
+    	String resp = "Las reservas colectivas existentes son:\n";
+    	int i = 1;
+        for (VOReservaColectiva tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    /**
+     * Genera una cadena de caracteres con la lista de los servicios recibidos: una línea por cada servicio.
+     * @param lista - La lista con los servicios.
+     * @return La cadena con una líea para cada servicio recibido
+     */
+    private String listarServicio(List<VOServicio> lista) 
+    {
+    	String resp = "Los servicios existentes son:\n";
+    	int i = 1;
+        for (VOServicio tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
     /**
      * Genera una cadena de caracteres con la descripción de la excepcion e, haciendo énfasis en las excepcionsde JDO
      * @param e - La excepción recibida

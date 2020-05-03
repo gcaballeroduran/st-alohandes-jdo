@@ -45,7 +45,7 @@ public class SQLUsuario {
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarUsuario(PersistenceManager pm,String logIn, String tipoId, int numeroId, String relacionU){
+	public long adicionarUsuario(PersistenceManager pm,String logIn, String tipoId, long numeroId, String relacionU){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCliente() + "(logIn,tipoId,numeroId,relacionU) values (?, ?, ?, ?)");
         q.setParameters( logIn,tipoId,numeroId,relacionU);

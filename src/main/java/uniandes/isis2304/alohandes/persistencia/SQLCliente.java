@@ -92,6 +92,29 @@ public class SQLCliente {
 		return (List<Cliente>) q.executeList();
 	}
 	
+	/* *****************************************************
+	 *                REQUERIMIENTO: RFC8
+	******************************************************* */
+	/**
+	 * Mostrar clientes frecuentes.
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de objetos, de tamaño 2. Los elementos del arreglo corresponden a los datos del cliente:
+	 * 		(id, medio de pago, reservas) 
+	 */
+	public List<Object> darDineroAnioActual(PersistenceManager pm)
+	{
+		String sql = "with tiempo as(";
+		sql += " count( cli.reservas )as num, (res.fecha_fin - res.fecha_inicio ) as noches";
+		sql += " FROM " + pp.darCliente()+"cl";
+		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(cl.reservas = res.id)";
+		sql += "group by (res.fecha_fin - res.fecha_inicio) ";
+		sql += ")";
+		sql +="SELECT cl.*";
+		sql += "FROM tiempo t, "+ pp.darCliente()+"cl";
+		sql += "WHERE t.num >= 3 OR t.noches >= 15";
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
 
 	
 }

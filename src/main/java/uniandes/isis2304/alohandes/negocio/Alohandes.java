@@ -89,7 +89,7 @@ public class Alohandes
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 * @return El objeto USUARIO adicionado. null si ocurre alguna Excepción
 	 */
-	public Usuario adicionarUsuario (String logIn,String tipoId, int numeroId, String relacionU)
+	public Usuario adicionarUsuario (String logIn,String tipoId, long numeroId, String relacionU)
 	{
         log.info ("Adicionando usuario: " + logIn);
         Usuario usuario = pp.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
@@ -117,10 +117,10 @@ public class Alohandes
 	 * @return Un objeto Usuario que corresponde con el id buscado y lleno con su información básica
 	 * 			null, si un usuario con dicho id no existe.
 	 */
-	public Usuario darUsuarioPorLogin (long login)
+	public Usuario darUsuarioPorId (long id)
 	{
-        log.info ("Dar información de un usuario por logIn: " + login);
-        Usuario usuario = pp.darUsuarioPorId(login);
+        log.info ("Dar información de un usuario por id: " + id);
+        Usuario usuario = pp.darUsuarioPorId(id);
         log.info ("Buscando usuario por logIn: " + usuario != null ? usuario : "NO EXISTE");
         return usuario;
 	}
@@ -172,10 +172,10 @@ public class Alohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente (String logIn,String tipoId, String relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente (long numeroId,String logIn,String tipoId, String relacionU, String medioPago, int reservas)
 	{
         log.info ("Adicionando Cliente: " + logIn);
-        Cliente cliente = pp.adicionarCliente(logIn, tipoId,  relacionU, medioPago, reservas);		
+        Cliente cliente = pp.adicionarCliente(numeroId,logIn, tipoId,  relacionU, medioPago, reservas);		
         log.info ("Adicionando cliente: " + cliente);
         return cliente;
 	}
@@ -192,6 +192,19 @@ public class Alohandes
         long resp = pp.eliminarClientePorId(idCliente);		
         log.info ("Eliminando Tipo de bebida por id: " + resp + " tuplas eliminadas");
         return resp;
+	}
+	/**
+	 * Encuentra un cliente y su información básica, según su identificador
+	 * @param id - El id del cliente buscado
+	 * @return Un objeto cliente que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si un cliente con dicho id no existe.
+	 */
+	public Cliente darClientePorId (long id)
+	{
+        log.info ("Dar información de un cliente por id: " + id);
+        Cliente cliente = pp.darClientePorId(id);
+        log.info ("Buscando cliente por id: " + cliente != null ? cliente : "NO EXISTE");
+        return cliente;
 	}
 	
 	/**
@@ -246,11 +259,11 @@ public class Alohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,String tipoId, int numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public Operador adicionarOperador(String logIn,String tipoId, long numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
 	{
 		log.info ("Adicionando operador " + logIn);
-		Operador operador = pp.adicionarOperador(logIn, tipoId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
+		Operador operador = pp.adicionarOperador(numeroId,logIn, tipoId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
         log.info ("Adicionando operador: " + operador);
         return operador;
 	}
@@ -267,6 +280,19 @@ public class Alohandes
         long resp = pp.eliminarOperadorPorId(idOperador);
         log.info ("Eliminando operador por id: " + resp + " tuplas eliminadas");
         return resp;
+	}
+	/**
+	 * Encuentra un operador y su información básica, según su identificador
+	 * @param id - El id del operador buscado
+	 * @return Un objeto operador que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si un operador con dicho id no existe.
+	 */
+	public Operador darOperadorPorId (long id)
+	{
+        log.info ("Dar información de un operador por id: " + id);
+        Operador operador = pp.darOperadorPorId(id);
+        log.info ("Buscando operador por id: " + operador != null ? operador : "NO EXISTE");
+        return operador;
 	}
 	
 	/**
@@ -349,6 +375,19 @@ public class Alohandes
         List<Propiedad> propiedades = pp.darPropiedades();	
         log.info ("Consultando Propiedades: " + propiedades.size() + " existentes");
         return propiedades;
+	}
+	/**
+	 * Encuentra una propiedad y su información básica, según su identificador
+	 * @param id - El id de la propiedad buscada
+	 * @return Un objeto cliente que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si una propiedad con dicho id no existe.
+	 */
+	public Propiedad darPropiedadPorId (long id)
+	{
+        log.info ("Dar información de una propiedad por id: " + id);
+        Propiedad propiedad = pp.darPropiedadesPorId(id);
+        log.info ("Buscando propiedad por id: " + propiedad != null ? propiedad : "NO EXISTE");
+        return propiedad;
 	}
 
 	/**
@@ -436,6 +475,19 @@ public class Alohandes
 	}
 
 	/**
+	 * Encuentra un apartamento y su información básica, según su identificador
+	 * @param id - El id del apartamento buscado
+	 * @return Un objeto apartamento que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si un apartamento con dicho id no existe.
+	 */
+	public Apartamento darApartamentoPorId (long id)
+	{
+        log.info ("Dar información de un apartamento por id: " + id);
+        Apartamento apartamento = pp.darApartamentosPorId(id);
+        log.info ("Buscando apartamento por id: " + apartamento != null ? apartamento : "NO EXISTE");
+        return apartamento;
+	}
+	/**
 	 * Encuentra todos las propiedades en Alohandes y los devuelve como una lista de VOApartamento
 	 * Adiciona entradas al log de la aplicación
 	 * @return Una lista de objetos VOPropiedad con todas las propiedades que conoce la aplicación, llenos con su información básica
@@ -489,6 +541,19 @@ public class Alohandes
         long resp = pp.eliminarHabitacionPorId(idHabitacion);		
         log.info ("Eliminando Habitacion por id: " + resp + " tuplas eliminadas");
         return resp;
+	}
+	/**
+	 * Encuentra una habitacion y su información básica, según su identificador
+	 * @param id - El id de la habitacion buscado
+	 * @return Un objeto habitacion que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si una habitacion con dicho id no existe.
+	 */
+	public Habitacion darHabitacionPorId (long id)
+	{
+        log.info ("Dar información de un habitacion por id: " + id);
+        Habitacion habitacion = pp.darHabitacionesPorId(id);
+        log.info ("Buscando habitacion por id: " + habitacion != null ? habitacion : "NO EXISTE");
+        return habitacion;
 	}
 	
 	/**
@@ -571,6 +636,7 @@ public class Alohandes
         log.info ("Listando Reservas: " + reservas.size() + " Reservas existentes");
         return reservas;
 	}
+<<<<<<< HEAD
 	
 	public List<Reserva> darReservasActivasApartamento(long apartamento)
 	{
@@ -580,6 +646,20 @@ public class Alohandes
         		+" Hay "+ reservas.size() + " Reservas existentes");
         return reservas;
 		
+=======
+	/**
+	 * Encuentra una reserva y su información básica, según su identificador
+	 * @param id - El id de la reserva buscado
+	 * @return Un objeto reserva que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si una reserva con dicho id no existe.
+	 */
+	public Reserva darReservasPorId (long id)
+	{
+        log.info ("Dar información de un reserva por id: " + id);
+        Reserva reserva = pp.darReservaPorId(id);
+        log.info ("Buscando reserva por id: " + reserva != null ? reserva : "NO EXISTE");
+        return reserva;
+>>>>>>> 2793bde761c924575aeb6c4b1381bf0264bbedb0
 	}
 
 	/**
@@ -709,6 +789,19 @@ public class Alohandes
 		log.info ("Consultando Servicio");
         List<Servicio> servicio = pp.darServicio();	
         log.info ("Consultando servicios: " + servicio.size() + " existentes");
+        return servicio;
+	}
+	/**
+	 * Encuentra un servicio y su información básica, según su identificador
+	 * @param id - El id del servicio buscado
+	 * @return Un objeto servicio que corresponde con el id buscado y lleno con su información básica
+	 * 			null, si un servicio con dicho id no existe.
+	 */
+	public Servicio darServicioPorId (long id)
+	{
+        log.info ("Dar información de un servicio por id: " + id);
+        Servicio servicio = pp.darServicioPorId(id);
+        log.info ("Buscando servicio por id: " + servicio != null ? servicio : "NO EXISTE");
         return servicio;
 	}
 

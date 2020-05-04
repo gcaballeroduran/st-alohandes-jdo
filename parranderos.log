@@ -4,3 +4,35 @@
 17:49:19,884 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se encontró un archivo de configuración válido: Interfaz
 17:49:19,884 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se aplica configuración indicada en el archivo de configuración
 17:49:19,896 (main) INFO  [uniandes.isis2304.parranderos.interfazApp.InterfazParranderosApp] - Se encontró un archivo de configuración válido: Tablas BD
+20:59:04,422 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre del Clinete
+20:59:04,803 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+20:59:14,044 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+20:59:14,044 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: ORA-01017: invalid username/password; logon denied
+
+NestedThrowables:
+java.sql.SQLException: ORA-01017: invalid username/password; logon denied
+
+20:59:14,157 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Cliente
+20:59:14,159 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+20:59:15,912 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+20:59:15,912 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: ORA-01017: invalid username/password; logon denied
+
+NestedThrowables:
+java.sql.SQLException: ORA-01017: invalid username/password; logon denied
+
+21:00:48,210 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la Servicio
+21:00:48,389 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+21:00:53,927 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+21:00:53,928 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: ORA-01017: invalid username/password; logon denied
+
+NestedThrowables:
+java.sql.SQLException: ORA-01017: invalid username/password; logon denied
+
+21:00:54,813 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Servicio
+21:00:54,814 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+21:00:56,302 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+21:00:56,302 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: ORA-01017: invalid username/password; logon denied
+
+NestedThrowables:
+java.sql.SQLException: ORA-01017: invalid username/password; logon denied
+

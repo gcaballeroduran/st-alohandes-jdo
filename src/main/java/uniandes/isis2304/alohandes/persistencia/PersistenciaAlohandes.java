@@ -813,11 +813,8 @@ public class PersistenciaAlohandes
 	 * @param pVenceSeguro
 	 * @param pDSeguro
 	 */
-<<<<<<< HEAD
-	public Apartamento adicionarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
-=======
-	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, Operador pOperador) 
->>>>>>> 2793bde761c924575aeb6c4b1381bf0264bbedb0
+
+	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -917,22 +914,22 @@ public class PersistenciaAlohandes
 	 * @param individual - Booleano si la habitacion es individual (t) o compartida (f)
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 */
-	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador) 
+	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-			adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
+			adicionarPropiedad(pId, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
 			tx.begin();
-			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, pID, pTipo, pIndiv, pEsquema, pOperador);
+			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, pId, pTipo, pIndiv, pEsquema, pOperador);
 			tx.commit();
 
-			log.trace ("Inserción de habitacion: " + pID + ": " + tuplasInsertadas + " tuplas insertadas");
+			log.trace ("Inserción de habitacion: " + pId + ": " + tuplasInsertadas + " tuplas insertadas");
 			
 			
 			
-			return new Habitacion(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+			return new Habitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
 					}
 		catch (Exception e)
 		{

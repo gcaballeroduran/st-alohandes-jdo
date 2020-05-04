@@ -487,7 +487,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
       			boolean error = false;
       			int reservas = 0;
       			VOPropiedad propiedad = alohandes.adicionarPropiedad(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);;
-      			VOApartamento apartamento = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);;
+      			VOPropiedad apartamento = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);;
       			{
       				propiedad = alohandes.darPropiedadPorId(pId);
       				apartamento = alohandes.darApartamentoPorId(pId);
@@ -599,20 +599,21 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
             	{
             		// Ejecución de la demo y recolección de los resultados
         			// ATENCIÓN: En una aplicación real, los datos JAMÁS están en el código
-        			int pDuracion = 5;
-        			int pCantidad = 4;
-        			int pId = 001;
-        			Date pInicio = new Date(2025, 04, 12);
-        			String pTipo ="";
+        			int personas = 5;
+        			double porcentajeAPagar = 60;
+        			double montoTotal = 60000;
+        			Date fechaInicio = new Date(2020, 05, 12);
+        			Date fechaFin = new Date(2020, 05, 20);
+        			Date finCancelacionOportuna = new Date(2020, 05, 10);
         			
         			boolean error = false;
-        			VOReserva reserva = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        			VOReserva reserva = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
         			{
-        				reserva = alohandes.darReservasPorId(pId);
+        				reserva = alohandes.darReservasPorId(reserva.getId());
         				error = true;
         			}
         			List <VOReserva> lista = alohandes.darVOReservas();
-        			long eliminados = alohandes.eliminarReservasPorId(pId);
+        			long eliminados = alohandes.eliminarReservasPorId(reserva.getId());
         			
         			// Generación de la cadena de caracteres con la traza de la ejecución de la demo
         			String resultado = "Demo de creación y listado de Reservas\n\n";
@@ -623,7 +624,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
         				resultado += "*** Es probable que esa reserva ya existiera\n";
         				resultado += "*** Revise el log de Alohandes para más detalles\n";
         			}
-        			resultado += "Adicionado la reserva con id: " + pId + "\n";
+        			resultado += "Adicionado la reserva con id: " + reserva.getId() + "\n";
         			resultado += "\n\n************ Ejecutando la demo ************ \n";
         			resultado +=  "\n" + listarReserva(lista);
         			resultado += "\n\n************ Limpiando la base de datos ************ \n";

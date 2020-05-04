@@ -49,9 +49,9 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	public Habitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
 	{
-		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		super(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		individual = pIndiv;
 		esquema = pEsquema;
 		tipo = pTipo;

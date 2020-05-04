@@ -668,7 +668,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
     		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pVenceSeguro != null && pDSeguro != null)
     		{
-        		VOApartamento c = alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
+        		VOPropiedad c =  alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear un apartamento" );
@@ -963,19 +963,13 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	try 
     	{
     		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
-    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
-    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
-    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
-    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
-    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
-    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
-    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
-    		boolean pIndiv = JOptionPane.showInputDialog(this,"Individual?","Adicionar individual", JOptionPane.YES_NO_OPTION) != null;
-    		String pEsquema = JOptionPane.showInputDialog (this, "Esquema?", "Adicionar esquema", JOptionPane.QUESTION_MESSAGE);
-    		String pTipo = JOptionPane.showInputDialog (this, "Tipo de habitación?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
-    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
+    		int pCantidad = Integer.parseInt(JOptionPane.showInputDialog (this, "cantidad?", "Adicionar cantidad", JOptionPane.QUESTION_MESSAGE));
+    		String pTipo = JOptionPane.showInputDialog (this, "Tipo?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
+    		Date pInicio = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		int pDuracion = Integer.parseInt(JOptionPane.showInputDialog (this, "Duracion?", "Adicionar duracion", JOptionPane.QUESTION_MESSAGE));
+    		if ( pDuracion > 0 )
     		{
-        		VOReservaColectiva c= "";
+        		VOReservaColectiva c=alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear una reservaColectiva" );

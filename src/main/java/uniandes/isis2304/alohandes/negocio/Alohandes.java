@@ -430,7 +430,7 @@ public class Alohandes
 	 * @param pVenceSeguro
 	 * @param pDSeguro
 	 */
-	public Propiedad adicionarApartamento(int pId, int pCapacidad, double pTamanio, 
+	public Propiedad adicionarApartamento(long pId, int pCapacidad, double pTamanio, 
 			double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, 
 			boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, 
 			String pDSeguro, long pOperador)
@@ -517,14 +517,14 @@ public class Alohandes
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion adicionarHabitacion(int pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
-		adicionarPropiedad( pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
 		
-        log.info ("Adicionando Habitacion: " + pID);
-        Habitacion habitacion = pp.adicionarHabitacion(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+        log.info ("Adicionando Habitacion: " + pId);
+        Habitacion habitacion = pp.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
         log.info ("Adicionando Habitacion: " + habitacion);
         return habitacion;
 	}
@@ -636,7 +636,7 @@ public class Alohandes
         log.info ("Listando Reservas: " + reservas.size() + " Reservas existentes");
         return reservas;
 	}
-<<<<<<< HEAD
+
 	
 	public List<Reserva> darReservasActivasApartamento(long apartamento)
 	{
@@ -645,8 +645,8 @@ public class Alohandes
         log.info ("Listando Reservas Activas de apartamento: " + apartamento
         		+" Hay "+ reservas.size() + " Reservas existentes");
         return reservas;
-		
-=======
+	}	
+
 	/**
 	 * Encuentra una reserva y su información básica, según su identificador
 	 * @param id - El id de la reserva buscado
@@ -659,7 +659,7 @@ public class Alohandes
         Reserva reserva = pp.darReservaPorId(id);
         log.info ("Buscando reserva por id: " + reserva != null ? reserva : "NO EXISTE");
         return reserva;
->>>>>>> 2793bde761c924575aeb6c4b1381bf0264bbedb0
+
 	}
 
 	/**
@@ -693,10 +693,10 @@ public class Alohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
 	 */
-	public Reserva adicionarReserva (long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
+	public ReservaColectiva adicionarReserva (long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
 	{
         log.info ("Adicionando reserva colectiva: " );
-        Reserva reserva = null; //pp.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        ReservaColectiva reserva = null; //pp.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
         log.info ("Adicionando reserva colectiva: " + reserva);
         return reserva;
 	}

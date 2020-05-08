@@ -94,7 +94,8 @@ public class ReservaTest {
 			Date fechaInicio = new Date(2020, 05, 12);
 			Date fechaFin = new Date(2020, 05, 20);
 			Date finCancelacionOportuna = new Date(2020, 05, 10);
-			VOReserva reserva = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);;
+			long idProp = 1234567890;
+			VOReserva reserva = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);;
 			lista = alohandes.darVOReservas();
 			assertEquals ("Debe haber un Reserva creado !!", 1, lista.size ());
 			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", reserva, lista.get (0));
@@ -106,7 +107,8 @@ public class ReservaTest {
 			Date fechaInicio2 = new Date(2020, 05, 01);
 			Date fechaFin2 = new Date(2020, 05, 10);
 			Date finCancelacionOportuna2 = new Date(2020, 05, 10);
-			VOReserva reserva2 = alohandes.adicionarReserva(fechaInicio2, fechaFin2, personas2, finCancelacionOportuna2, porcentajeAPagar2, montoTotal2);;
+			long idProp2 = 1234567891;
+			VOReserva reserva2 = alohandes.adicionarReserva(fechaInicio2, fechaFin2, personas2, finCancelacionOportuna2, porcentajeAPagar2, montoTotal2, idProp2);;
 			lista = alohandes.darVOReservas();
 			assertEquals ("Debe haber dos Reservas creados !!", 2, lista.size ());
 			assertTrue ("El primer Servicio adicionado debe estar en la tabla", reserva.equals (lista.get (0)) || reserva.equals (lista.get (1)));

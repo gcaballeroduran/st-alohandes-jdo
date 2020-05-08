@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.test;
+package uniandes.isis2304.alohandes.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

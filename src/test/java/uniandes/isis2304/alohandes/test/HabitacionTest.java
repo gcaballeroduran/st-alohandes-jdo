@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.test;
+package uniandes.isis2304.alohandes.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,9 +20,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.negocio.Alohandes;
-import uniandes.isis2304.alohandes.negocio.VOServicio;
+import uniandes.isis2304.alohandes.negocio.VOHabitacion;
 
-public class ServicioTest {
+public class HabitacionTest {
 
 	/* ****************************************************************
 	 * 			Constantes
@@ -51,30 +51,30 @@ public class ServicioTest {
     private Alohandes alohandes;
 	
     /* ****************************************************************
-	 * 			Métodos de prueba para la tabla Servicio - Creación y borrado
+	 * 			Métodos de prueba para la tabla Habitacion - Creación y borrado
 	 *****************************************************************/
 	/**
-	 * Método que prueba los apartamentos sobre la tabla Servicio
-	 * 1. Adicionar un Servicio
+	 * Método que prueba las operaciones sobre la tabla habitacion
+	 * 1. Adicionar una habitacion
 	 * 2. Listar el contenido de la tabla con 0, 1 y 2 registros insertados
 	 * 3. Borrar una habitacion por su identificador
 	 */
     @Test
-	public void CRDServicoTest() 
+	public void CRDHabitacionTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando las operaciones CRD sobre Servicio");
+			log.info ("Probando las operaciones CRD sobre habitacion");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			log.info ("Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
+			log.info ("Prueba de CRD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de CRD de habitacion incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -84,54 +84,68 @@ public class ServicioTest {
     	try
 		{
 			// Lectura de los tipos de bebida con la tabla vacía
-			List <VOServicio> lista = alohandes.darVOServicio();
-			assertEquals ("No debe haber Servicios creados!!", 0, lista.size ());
+			List <VOHabitacion> lista = alohandes.darVOHabitacion();
+			assertEquals ("No debe haber habitacion creados!!", 0, lista.size ());
 
 			// Lectura de los clientes con una habitacion adicionado
-			int pIntervalo = 30;
-			double pPrecio = 150000;
-			int pId = 001;
-			String pDireccion = ""; 
-			String pTipo ="";
-			VOServicio servicio = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
-			lista = alohandes.darVOServicio();
-			assertEquals ("Debe haber un Servicio creado !!", 1, lista.size ());
-			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", servicio, lista.get (0));
+			int pPiso = 5;
+   			int pCapacidad = 4;
+   			double pTamanio = 130.5;
+   			double pPrecio = 150000;
+   			int pId = 001;
+   			int pDiasR = 2;
+   			Date pFecha = new Date(2025, 04, 12);
+   			String pDireccion = ""; 
+   			boolean pIndiv = true;
+   			String pEsquema = "";
+   			int pTipo =2;
+   			long pOperador = 002;
+			VOHabitacion habitacion = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+			lista = alohandes.darVOHabitacion();
+			assertEquals ("Debe haber un habitacion creado !!", 1, lista.size ());
+			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", habitacion, lista.get (0));
 
 			// Lectura de los clientes con dos clientes adicionados
-			int pIntervalo2 = 30;
-			double pPrecio2 = 150000;
-			int pId2 = 001;
-			String pDireccion2 = ""; 
-			String pTipo2 ="";
-			VOServicio servicio2 = alohandes.adicionarServicio(pId, pTipo2, pPrecio2, pIntervalo2);
-			lista = alohandes.darVOServicio();
-			assertEquals ("Debe haber dos Servicios creados !!", 2, lista.size ());
-			assertTrue ("El primer Servicio adicionado debe estar en la tabla", servicio.equals (lista.get (0)) || servicio.equals (lista.get (1)));
-			assertTrue ("El segundo Servicio adicionado debe estar en la tabla", servicio2.equals (lista.get (0)) || servicio2.equals (lista.get (1)));
+			int pPiso2 = 5;
+   			int pCapacidad2 = 4;
+   			double pTamanio2 = 130.5;
+   			double pPrecio2 = 150000;
+   			int pId2 = 002;
+   			int pDiasR2 = 2;
+   			Date pFecha2 = new Date(2025, 04, 12);
+   			String pDireccion2 = ""; 
+   			boolean pIndiv2 = true;
+   			String pEsquema2 = "";
+   			int pTipo2 =2;
+   			long pOperador2 = 002;
+			VOHabitacion habitacion2 = alohandes.adicionarHabitacion(pId2, pCapacidad2, pTamanio2, pPrecio2, pFecha2, pDiasR2, pPiso2, pDireccion2, pIndiv2, pEsquema2, pTipo2, pOperador2);
+			lista = alohandes.darVOHabitacion();
+			assertEquals ("Debe haber dos operadores creados !!", 2, lista.size ());
+			assertTrue ("El primer operador adicionado debe estar en la tabla", habitacion.equals (lista.get (0)) || habitacion.equals (lista.get (1)));
+			assertTrue ("El segundo operador adicionado debe estar en la tabla", habitacion2.equals (lista.get (0)) || habitacion2.equals (lista.get (1)));
 
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
 			long tbEliminados = alohandes.eliminarHabitacionPorId(pId);
-			assertEquals ("Debe haberse eliminado una Servicio !!", 1, tbEliminados);
-			lista = alohandes.darVOServicio();
-			assertEquals ("Debe haber un solo Servicio !!", 1, lista.size ());
-			assertFalse ("El primer Servicio adicionado NO debe estar en la tabla", servicio.equals (lista.get (0)));
-			assertTrue ("El segundo Servicio adicionado debe estar en la tabla", servicio2.equals (lista.get (0)));
+			assertEquals ("Debe haberse eliminado una habitacion !!", 1, tbEliminados);
+			lista = alohandes.darVOHabitacion();
+			assertEquals ("Debe haber un solo habitacion !!", 1, lista.size ());
+			assertFalse ("El primer habitacion adicionado NO debe estar en la tabla", habitacion.equals (lista.get (0)));
+			assertTrue ("El segundo habitacion adicionado debe estar en la tabla", habitacion2.equals (lista.get (0)));
 			
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
 			tbEliminados = alohandes.eliminarClientePorId(pId2);
-			assertEquals ("Debe haberse eliminado un Servicio!!", 1, tbEliminados);
-			lista = alohandes.darVOServicio();
+			assertEquals ("Debe haberse eliminado un habitacion!!", 1, tbEliminados);
+			lista = alohandes.darVOHabitacion();
 			assertEquals ("La tabla debió quedar vacía !!", 0, lista.size ());
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de Servicio sobre la tabla habitacion.\n";
+			String msg = "Error en la ejecución de las pruebas de operaciones sobre la tabla habitacion.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 
-    		fail ("Error en las pruebas sobre la tabla Servicio");
+    		fail ("Error en las pruebas sobre la tabla habitacion");
 		}
 		finally
 		{
@@ -144,21 +158,21 @@ public class ServicioTest {
      * Método de prueba de la restricción de unicidad sobre el nombre de Cliente
      */
 	@Test
-	public void unicidadServicioTest() 
+	public void unicidadHabitacionTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando la restricción de UNICIDAD del nombre de la Servicio");
+			log.info ("Probando la restricción de UNICIDAD del nombre de la habitacion");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			log.info ("Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
+			log.info ("Prueba de UNICIDAD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de UNICIDAD de habitacion incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -167,31 +181,38 @@ public class ServicioTest {
 		// Ahora si se pueden probar las operaciones
 		try
 		{
-			// Lectura de los apartamento con la tabla vacía
-			List <VOServicio> lista = alohandes.darVOServicio();
-			assertEquals ("No debe haber Servicios creados!!", 0, lista.size ());
+			// Lectura de los clienets con la tabla vacía
+			List <VOHabitacion> lista = alohandes.darVOHabitacion();
+			assertEquals ("No debe haber Habitacion creados!!", 0, lista.size ());
 
-			// Lectura de los apartamento con un cliente adicionado
-			int pIntervalo = 30;
-			double pPrecio = 150000;
-			int pId = 001;
-			String pDireccion = ""; 
-			String pTipo ="";
-			VOServicio servicio = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
-			lista = alohandes.darVOServicio();
-			assertEquals ("Debe haber un Servicio creado !!", 1, lista.size ());
+			// Lectura de los clientes con un cliente adicionado
+			int pPiso = 5;
+   			int pCapacidad = 4;
+   			double pTamanio = 130.5;
+   			double pPrecio = 150000;
+   			int pId = 001;
+   			int pDiasR = 2;
+   			Date pFecha = new Date(2025, 04, 12);
+   			String pDireccion = ""; 
+   			boolean pIndiv = true;
+   			String pEsquema = "";
+   			int pTipo =2;
+   			long pOperador = 002;
+			VOHabitacion habitacion = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+			lista = alohandes.darVOHabitacion();
+			assertEquals ("Debe haber un cliente creado !!", 1, lista.size ());
 
-			VOServicio servicio2 = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
-			assertNull ("No puede adicionar dos Servicios con el mismo id !!", servicio2);
+			VOHabitacion habitacion2 = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+			assertNull ("No puede adicionar dos habitaciones con el mismo id !!", habitacion2);
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla Servicio.\n";
+			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla habitacion.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 
-    		fail ("Error en las pruebas de UNICIDAD sobre la tabla Servicio");
+    		fail ("Error en las pruebas de UNICIDAD sobre la tabla habitacion");
 		}    				
 		finally
 		{
@@ -225,9 +246,9 @@ public class ServicioTest {
 		{
 //			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "ServicioTest", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "HabitacionTest", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
-    }
+    }	
 	
 }

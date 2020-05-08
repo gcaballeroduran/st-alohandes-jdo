@@ -1,44 +1,29 @@
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Universidad	de	los	Andes	(Bogotá	- Colombia)
- * Departamento	de	Ingeniería	de	Sistemas	y	Computación
- * Licenciado	bajo	el	esquema	Academic Free License versión 2.1
- * 		
- * Curso: isis2304 - Sistemas Transaccionales
- * Proyecto: Parranderos Uniandes
- * @version 1.0
- * @author Germán Bravo
- * Julio de 2018
- * 
- * Revisado por: Claudia Jiménez, Christian Ariza
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- */
-
-package uniandes.isis2304.parranderos.test;
+package uniandes.isis2304.alohandes.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import java.io.FileReader;
+import java.sql.Date;
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.negocio.Alohandes;
-import uniandes.isis2304.alohandes.negocio.VOCliente;
+import uniandes.isis2304.alohandes.negocio.VOOperador;
 
-/**
- * Clase con los métdos de prueba de funcionalidad sobre TIPOBEBIDA
- * @author Germán Bravo
- *
- */
-public class ClienteTest
-{
+public class OperadorTest {
+
 	/* ****************************************************************
 	 * 			Constantes
 	 *****************************************************************/
@@ -66,31 +51,30 @@ public class ClienteTest
     private Alohandes alohandes;
 	
     /* ****************************************************************
-	 * 			Métodos de prueba para la tabla Cliente - Creación y borrado
+	 * 			Métodos de prueba para la tabla Operador - Creación y borrado
 	 *****************************************************************/
 	/**
 	 * Método que prueba las operaciones sobre la tabla cliente
-	 * 1. Adicionar un tipo de bebida
+	 * 1. Adicionar un operador
 	 * 2. Listar el contenido de la tabla con 0, 1 y 2 registros insertados
-	 * 3. Borrar un tipo de bebida por su identificador
-	 * 4. Borrar un tipo de bebida por su nombre
+	 * 3. Borrar un operador por su identificador
 	 */
     @Test
-	public void CRDClinteTest() 
+	public void CRDOperadorTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando las operaciones CRD sobre Cliente");
+			log.info ("Probando las operaciones CRD sobre Operador");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			log.info ("Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
+			log.info ("Prueba de CRD de Operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de CRD de Operador incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -100,48 +84,64 @@ public class ClienteTest
     	try
 		{
 			// Lectura de los tipos de bebida con la tabla vacía
-			List <VOCliente> lista = alohandes.darVOTCliente();
-			assertEquals ("No debe haber clientes creados!!", 0, lista.size ());
+			List <VOOperador> lista = alohandes.darVOOperadores();
+			assertEquals ("No debe haber Operadores creados!!", 0, lista.size ());
 
 			// Lectura de los clientes con un cliente adicionado
-			String logIn = "am.vargasg";
+			String logIn = "Vino tinto";
 			String tipoId = "Cedula";
 			String relacionU = "Estudiante";
 			String medioPago = "Tarjeta de credito";
 			int numeroId = 001;
-			boolean error = false;
+			int numeroRNT = 002;
+			Date vencimientoRNT = new Date(2025, 04, 12);
+			String registroSuperTurismo = "";
+			Date vencimientoRegistroSuperTurismo = new Date(2025, 04, 12);
+			String categoria = "";
+			String direccion = "";
+			Date horaApertura = new Date(2020, 12, 01);
+			Date horaCierre = new Date(2021, 12, 01); 
 			int reservas = 0;
-			VOCliente cliente = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);;
-			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber un cliente creado !!", 1, lista.size ());
-			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", cliente, lista.get (0));
+			int tiempoMinimo = 3;
+			VOOperador operador = alohandes.adicionarOperador(logIn, tipoId, numeroId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, 0, 0, null, null);
+			lista = alohandes.darVOOperadores();
+			assertEquals ("Debe haber un operador creado !!", 1, lista.size ());
+			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", operador, lista.get (0));
 
 			// Lectura de los clientes con dos clientes adicionados
-			String logIn2 = "g.caballero";
+			String logIn2 = "Vino tinto";
 			String tipoId2 = "Cedula";
 			String relacionU2 = "Estudiante";
 			String medioPago2 = "Tarjeta de credito";
 			int numeroId2 = 002;
-			boolean error2 = false;
-			int reservas2 = 0;;
-			VOCliente cliente2 = alohandes.adicionarCliente(numeroId2, logIn2, tipoId2, relacionU2, medioPago2, reservas2);
-			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber dos clientes creados !!", 2, lista.size ());
-			assertTrue ("El primer cliente adicionado debe estar en la tabla", cliente.equals (lista.get (0)) || cliente.equals (lista.get (1)));
-			assertTrue ("El segundo cliente adicionado debe estar en la tabla", cliente2.equals (lista.get (0)) || cliente2.equals (lista.get (1)));
+			int numeroRNT2 = 002;
+			Date vencimientoRNT2 = new Date(2025, 04, 12);
+			String registroSuperTurismo2 = "";
+			Date vencimientoRegistroSuperTurismo2 = new Date(2025, 04, 12);
+			String categoria2 = "";
+			String direccion2 = "";
+			Date horaApertura2 = new Date(2020, 12, 01);
+			Date horaCierre2 = new Date(2021, 12, 01); 
+			int reservas2 = 0;
+			int tiempoMinimo2 = 3;
+			VOOperador operador2 = alohandes.adicionarOperador(logIn2, tipoId2, numeroId2, relacionU2, numeroRNT2, vencimientoRNT2, registroSuperTurismo2, vencimientoRegistroSuperTurismo2, categoria2, direccion2, horaApertura2, horaCierre2, tiempoMinimo2, 0, 0, null, null);
+			lista = alohandes.darVOOperadores();
+			assertEquals ("Debe haber dos operadores creados !!", 2, lista.size ());
+			assertTrue ("El primer operador adicionado debe estar en la tabla", operador.equals (lista.get (0)) || operador.equals (lista.get (1)));
+			assertTrue ("El segundo operador adicionado debe estar en la tabla", operador2.equals (lista.get (0)) || operador2.equals (lista.get (1)));
 
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
 			long tbEliminados = alohandes.eliminarClientePorId(numeroId);
-			assertEquals ("Debe haberse eliminado un cliente !!", 1, tbEliminados);
-			lista = alohandes.darVOTCliente();
+			assertEquals ("Debe haberse eliminado un operador !!", 1, tbEliminados);
+			lista = alohandes.darVOOperadores();
 			assertEquals ("Debe haber un solo cliente !!", 1, lista.size ());
-			assertFalse ("El primer cliente adicionado NO debe estar en la tabla", cliente.equals (lista.get (0)));
-			assertTrue ("El segundo cliente adicionado debe estar en la tabla", cliente2.equals (lista.get (0)));
+			assertFalse ("El primer operador adicionado NO debe estar en la tabla", operador.equals (lista.get (0)));
+			assertTrue ("El segundo operador adicionado debe estar en la tabla", operador2.equals (lista.get (0)));
 			
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
 			tbEliminados = alohandes.eliminarClientePorId(numeroId2);
-			assertEquals ("Debe haberse eliminado un cliente!!", 1, tbEliminados);
-			lista = alohandes.darVOTCliente();
+			assertEquals ("Debe haberse eliminado un operador!!", 1, tbEliminados);
+			lista = alohandes.darVOOperadores();
 			assertEquals ("La tabla debió quedar vacía !!", 0, lista.size ());
 		}
 		catch (Exception e)
@@ -164,21 +164,21 @@ public class ClienteTest
      * Método de prueba de la restricción de unicidad sobre el nombre de Cliente
      */
 	@Test
-	public void unicidadClienteTest() 
+	public void unicidadOperadorTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando la restricción de UNICIDAD del nombre del Clinete");
+			log.info ("Probando la restricción de UNICIDAD del nombre del operador");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			log.info ("Prueba de UNICIDAD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
+			log.info ("Prueba de UNICIDAD de operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de UNICIDAD de Cliente incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de UNICIDAD de operador incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -188,28 +188,36 @@ public class ClienteTest
 		try
 		{
 			// Lectura de los clienets con la tabla vacía
-			List <VOCliente> lista = alohandes.darVOTCliente();
-			assertEquals ("No debe haber cLIENTES creados!!", 0, lista.size ());
+			List <VOOperador> lista = alohandes.darVOOperadores();
+			assertEquals ("No debe haber operadores creados!!", 0, lista.size ());
 
 			// Lectura de los clientes con un cliente adicionado
-			String logIn = "am.vargasg";
-			String tipoId = "Cedula";
-			String relacionU = "Estudiante";
-			String medioPago = "Tarjeta de credito";
-			int numeroId = 001;
-			boolean error = false;
-			int reservas = 0;
-			VOCliente cliente = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);
-			lista = alohandes.darVOTCliente();
+			String logIn2 = "Vino tinto";
+			String tipoId2 = "Cedula";
+			String relacionU2 = "Estudiante";
+			String medioPago2 = "Tarjeta de credito";
+			int numeroId2 = 001;
+			int numeroRNT2 = 002;
+			Date vencimientoRNT2 = new Date(2025, 04, 12);
+			String registroSuperTurismo2 = "";
+			Date vencimientoRegistroSuperTurismo2 = new Date(2025, 04, 12);
+			String categoria2 = "";
+			String direccion2 = "";
+			Date horaApertura2 = new Date(2020, 12, 01);
+			Date horaCierre2 = new Date(2021, 12, 01); 
+			int reservas2 = 0;
+			int tiempoMinimo2 = 3;
+			VOOperador operador2 = alohandes.adicionarOperador(logIn2, tipoId2, numeroId2, relacionU2, numeroRNT2, vencimientoRNT2, registroSuperTurismo2, vencimientoRegistroSuperTurismo2, categoria2, direccion2, horaApertura2, horaCierre2, tiempoMinimo2, 0, 0, null, null);
+			lista = alohandes.darVOOperadores();
 			assertEquals ("Debe haber un cliente creado !!", 1, lista.size ());
 
-			VOCliente cliente2 = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);
-			assertNull ("No puede adicionar dos clientes con el mismo id !!", cliente2);
+			VOOperador operador = alohandes.adicionarOperador(logIn2, tipoId2, numeroId2, relacionU2, numeroRNT2, vencimientoRNT2, registroSuperTurismo2, vencimientoRegistroSuperTurismo2, categoria2, direccion2, horaApertura2, horaCierre2, tiempoMinimo2, reservas2, tiempoMinimo2, null, null);
+			assertNull ("No puede adicionar dos operadores con el mismo id !!", operador);
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla Cliente.\n";
+			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla Operador.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 
@@ -247,8 +255,9 @@ public class ClienteTest
 		{
 //			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "ClienteTest", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "OperadorTest", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
     }	
+	
 }

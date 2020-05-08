@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.test;
+package uniandes.isis2304.alohandes.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,9 +20,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import uniandes.isis2304.alohandes.negocio.Alohandes;
-import uniandes.isis2304.alohandes.negocio.VOReservaColectiva;
+import uniandes.isis2304.alohandes.negocio.VOServicio;
 
-public class ReservaColectivaTest {
+public class ServicioTest {
 
 	/* ****************************************************************
 	 * 			Constantes
@@ -51,30 +51,30 @@ public class ReservaColectivaTest {
     private Alohandes alohandes;
 	
     /* ****************************************************************
-	 * 			Métodos de prueba para la tabla ReservaColectiva - Creación y borrado
+	 * 			Métodos de prueba para la tabla Servicio - Creación y borrado
 	 *****************************************************************/
 	/**
-	 * Método que prueba los apartamentos sobre la tabla ReservaColectiva
-	 * 1. Adicionar un Reserva
+	 * Método que prueba los apartamentos sobre la tabla Servicio
+	 * 1. Adicionar un Servicio
 	 * 2. Listar el contenido de la tabla con 0, 1 y 2 registros insertados
-	 * 3. Borrar una Reserva por su identificador
+	 * 3. Borrar una habitacion por su identificador
 	 */
     @Test
-	public void CRDReservaColectivaTest() 
+	public void CRDServicoTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando las operaciones CRD sobre ReservaColectiva");
+			log.info ("Probando las operaciones CRD sobre Servicio");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			log.info ("Prueba de CRD de ReservaColectiva incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
+			log.info ("Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de CRD de ReservaColectiva incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -84,54 +84,54 @@ public class ReservaColectivaTest {
     	try
 		{
 			// Lectura de los tipos de bebida con la tabla vacía
-			List <VOReservaColectiva> lista = alohandes.darVOReservaColectiva();
-			assertEquals ("No debe haber ReservaColectiva creados!!", 0, lista.size ());
+			List <VOServicio> lista = alohandes.darVOServicio();
+			assertEquals ("No debe haber Servicios creados!!", 0, lista.size ());
 
 			// Lectura de los clientes con una habitacion adicionado
-			int pDuracion = 5;
-			int pCantidad = 4;
+			int pIntervalo = 30;
+			double pPrecio = 150000;
 			int pId = 001;
-			Date pInicio = new Date(2025, 04, 12);
+			String pDireccion = ""; 
 			String pTipo ="";
-			VOReservaColectiva reserva = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
-			lista = alohandes.darVOReservaColectiva();
-			assertEquals ("Debe haber un ReservaColectiva creado !!", 1, lista.size ());
-			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", reserva, lista.get (0));
+			VOServicio servicio = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
+			lista = alohandes.darVOServicio();
+			assertEquals ("Debe haber un Servicio creado !!", 1, lista.size ());
+			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", servicio, lista.get (0));
 
 			// Lectura de los clientes con dos clientes adicionados
-			int pDuracion2 = 3;
-			int pCantidad2= 2;
-			int pId2 = 002;
-			Date pInicio2 = new Date(2025, 04, 12);
+			int pIntervalo2 = 30;
+			double pPrecio2 = 150000;
+			int pId2 = 001;
+			String pDireccion2 = ""; 
 			String pTipo2 ="";
-			VOReservaColectiva reserva2 = alohandes.adicionarReserva(pId2, pCantidad2, pTipo2, pInicio2, pDuracion2);
-			lista = alohandes.darVOReservaColectiva();
-			assertEquals ("Debe haber dos ReservaColectiva creados !!", 2, lista.size ());
-			assertTrue ("El primer ReservaColectiva adicionado debe estar en la tabla", reserva.equals (lista.get (0)) || reserva.equals (lista.get (1)));
-			assertTrue ("El segundo ReservaColectiva adicionado debe estar en la tabla", reserva2.equals (lista.get (0)) || reserva2.equals (lista.get (1)));
+			VOServicio servicio2 = alohandes.adicionarServicio(pId, pTipo2, pPrecio2, pIntervalo2);
+			lista = alohandes.darVOServicio();
+			assertEquals ("Debe haber dos Servicios creados !!", 2, lista.size ());
+			assertTrue ("El primer Servicio adicionado debe estar en la tabla", servicio.equals (lista.get (0)) || servicio.equals (lista.get (1)));
+			assertTrue ("El segundo Servicio adicionado debe estar en la tabla", servicio2.equals (lista.get (0)) || servicio2.equals (lista.get (1)));
 
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
-			long tbEliminados = alohandes.eliminarHabitacionPorId(reserva.getId());
-			assertEquals ("Debe haberse eliminado una ReservaColectiva !!", 1, tbEliminados);
-			lista = alohandes.darVOReservaColectiva();
-			assertEquals ("Debe haber un solo ReservaColectiva !!", 1, lista.size ());
-			assertFalse ("El primer ReservaColectiva adicionado NO debe estar en la tabla", reserva.equals (lista.get (0)));
-			assertTrue ("El segundo ReservaColectiva adicionado debe estar en la tabla", reserva2.equals (lista.get (0)));
+			long tbEliminados = alohandes.eliminarHabitacionPorId(pId);
+			assertEquals ("Debe haberse eliminado una Servicio !!", 1, tbEliminados);
+			lista = alohandes.darVOServicio();
+			assertEquals ("Debe haber un solo Servicio !!", 1, lista.size ());
+			assertFalse ("El primer Servicio adicionado NO debe estar en la tabla", servicio.equals (lista.get (0)));
+			assertTrue ("El segundo Servicio adicionado debe estar en la tabla", servicio2.equals (lista.get (0)));
 			
 			// Prueba de eliminación de un tipo de bebida, dado su identificador
-			tbEliminados = alohandes.eliminarClientePorId(reserva2.getId());
-			assertEquals ("Debe haberse eliminado un ReservaColectiva!!", 1, tbEliminados);
-			lista = alohandes.darVOReservaColectiva();
+			tbEliminados = alohandes.eliminarClientePorId(pId2);
+			assertEquals ("Debe haberse eliminado un Servicio!!", 1, tbEliminados);
+			lista = alohandes.darVOServicio();
 			assertEquals ("La tabla debió quedar vacía !!", 0, lista.size ());
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de Reserva sobre la tabla habitacion.\n";
+			String msg = "Error en la ejecución de las pruebas de Servicio sobre la tabla habitacion.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 
-    		fail ("Error en las pruebas sobre la tabla Reserva");
+    		fail ("Error en las pruebas sobre la tabla Servicio");
 		}
 		finally
 		{
@@ -144,12 +144,12 @@ public class ReservaColectivaTest {
      * Método de prueba de la restricción de unicidad sobre el nombre de Cliente
      */
 	@Test
-	public void unicidadReservaColectivaTest() 
+	public void unicidadServicioTest() 
 	{
     	// Probar primero la conexión a la base de datos
 		try
 		{
-			log.info ("Probando la restricción de UNICIDAD del nombre de la ReservaColectiva");
+			log.info ("Probando la restricción de UNICIDAD del nombre de la Servicio");
 			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
 		}
 		catch (Exception e)
@@ -158,7 +158,7 @@ public class ReservaColectivaTest {
 			log.info ("Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
 			log.info ("La causa es: " + e.getCause ().toString ());
 
-			String msg = "Prueba de UNICIDAD de ReservaColectiva incompleta. No se pudo conectar a la base de datos !!.\n";
+			String msg = "Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 			fail (msg);
@@ -168,26 +168,26 @@ public class ReservaColectivaTest {
 		try
 		{
 			// Lectura de los apartamento con la tabla vacía
-			List <VOReservaColectiva> lista = alohandes.darVOReservaColectiva();
-			assertEquals ("No debe haber ReservasColectivas creados!!", 0, lista.size ());
+			List <VOServicio> lista = alohandes.darVOServicio();
+			assertEquals ("No debe haber Servicios creados!!", 0, lista.size ());
 
 			// Lectura de los apartamento con un cliente adicionado
-			int pDuracion = 5;
-			int pCantidad = 4;
+			int pIntervalo = 30;
+			double pPrecio = 150000;
 			int pId = 001;
-			Date pInicio = new Date(2025, 04, 12);
+			String pDireccion = ""; 
 			String pTipo ="";
-			VOReservaColectiva reserva = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
-			lista = alohandes.darVOReservaColectiva();
+			VOServicio servicio = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
+			lista = alohandes.darVOServicio();
 			assertEquals ("Debe haber un Servicio creado !!", 1, lista.size ());
 
-			VOReservaColectiva reserva2 = alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
-			assertNull ("No puede adicionar dos ReservaColectiva con el mismo id !!", reserva2);
+			VOServicio servicio2 = alohandes.adicionarServicio(pId, pTipo, pPrecio, pIntervalo);
+			assertNull ("No puede adicionar dos Servicios con el mismo id !!", servicio2);
 		}
 		catch (Exception e)
 		{
 //			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla ReservaColectiva.\n";
+			String msg = "Error en la ejecución de las pruebas de UNICIDAD sobre la tabla Servicio.\n";
 			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
 			System.out.println (msg);
 
@@ -225,10 +225,9 @@ public class ReservaColectivaTest {
 		{
 //			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
-			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "ReservaColectivaTest", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de tablas válido: ", "ServicioTest", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
     }
-
 	
 }

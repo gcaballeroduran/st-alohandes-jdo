@@ -769,7 +769,14 @@ public class Alohandes
         log.info ("Eliminando reserva colectiva: " + resp);
         return resp;
 	}
-	
+	public ReservaColectiva darReservaColectivaPorId (long id)
+	{
+        log.info ("Dar información de un reserva por id: " + id);
+        ReservaColectiva reserva = pp.darReservaColectivaPorId(id);
+        log.info ("Buscando reserva por id: " + reserva != null ? reserva : "NO EXISTE");
+        return reserva;
+
+	}
 	/**
 	 * Encuentra todas las reservas colectivas en Alohandes
 	 * Adiciona entradas al log de la aplicación

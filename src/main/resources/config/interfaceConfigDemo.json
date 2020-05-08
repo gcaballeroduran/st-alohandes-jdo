@@ -5,134 +5,69 @@
 	"bannerPath": "./src/main/resources/config/logo.png",
 	"menuBar":
 	[
-		{ "menuTitle": "TipoBebida",
+		{ "menuTitle": "Cliente",
 		  "options":
 			[
 				{
-					"label": "CRD de TipoBebida",
-					"event": "demoTipoBebida"
+					"label": "CRD de Cliente",
+					"event": "demoCliente"
 				}
 			]
 		},		
-		{ "menuTitle": "Bebida",
+		{ "menuTitle": "Operador",
 		  "options":
 			[
 				{
-					"label": "CRD Bebida",
-					"event": "demoBebida"
-				},
-				{
-					"label": "Eliminar Bebidas no servidas 1",
-					"event": "demoElimNoServidas1"
-				},
-				{
-					"label": "Eliminar Bebidas no servidas 2",
-					"event": "demoElimNoServidas2"
+					"label": "CRD Operador",
+					"event": "demoOperador"
 				}
 			]
-		},
-		{ "menuTitle": "Bar",
+		},	
+		{ "menuTitle": "Habitacion",
 		  "options":
 			[
 				{
-					"label": "CRD Bar",
-					"event": "demoBar"
-				},
-				{
-					"label": "Bares y Bebidas",
-					"event": "demoBaresBebidas"
-				},
-				{
-					"label": "Aumentar sedes en una ciudad",
-					"event": "demoAumentarSedesBaresEnCiudad"
+					"label": "CRD Habitacion",
+					"event": "demoHabitacion"
 				}
 			]
-		},
-		{ "menuTitle": "Bebedor",
+		},	
+		{ "menuTitle": "Apartameto",
 		  "options":
 			[
 				{
-					"label": "CRD Bebedor",
-					"event": "demoBebedor"
-				},
-				{
-					"label": "Cambiar ciudad",
-					"event": "demoCambiarCiudadBebedor"
-				},
-				{
-					"label": "Bebedor y cuántas visita realiza",
-					"event": "demoBebedoresYNumVisitasRealizadas"
-				},
-				{
-					"label": "Bebedores de una ciudad",
-					"event": "demoBebedoresDeCiudad"
-				},
-				{
-					"label": "Dar Bebedor Completo",
-					"event": "demoDarBebedorCompleto"
-				},
-				{
-					"label": "* Eliminar Bebedor y sus visitas 1",
-					"event": "demoEliminarBebedorYVisitas_v1"
-				},
-				{
-					"label": "* Eliminar Bebedor y sus visitas 2",
-					"event": "demoEliminarBebedorYVisitas_v2"
+					"label": "CRD Apartamento",
+					"event": "demoApartamento"
 				}
 			]
-		},
-		{ "menuTitle": "Gustan",
+		},	
+		{ "menuTitle": "Servicio",
 		  "options":
 			[
 				{
-					"label": "CRD Gustan",
-					"event": "demoGustan"
+					"label": "CRD Servicio",
+					"event": "demoServicio"
 				}
 			]
-		},
-		{ "menuTitle": "Sirven",
+		},	
+		{ "menuTitle": "Reserva",
 		  "options":
 			[
 				{
-					"label": "CRD Sirven",
-					"event": "demoSirven"
+					"label": "CRD Reserva",
+					"event": "demoReserva"
 				}
 			]
-		},
-		{ "menuTitle": "Visitan",
+		},	
+		{ "menuTitle": "ReservaColectiva",
 		  "options":
 			[
 				{
-					"label": "CRD Visitan",
-					"event": "demoVisitan"
-				}			
-			]
-		},
-		{ "menuTitle": "Mantenimiento",
-		  "options":
-			[
-				{
-					"label": "Mostrar log Parranderos",
-					"event": "mostrarLogParranderos"
-				},
-				{
-					"label": "Mostrar log datanucleus",
-					"event": "mostrarLogDatanuecleus"
-				},
-				{
-					"label": "Limpiar log de parranderos",
-					"event": "limpiarLogParranderos"
-				},
-				{
-					"label": "Limpiar log de datanucleus",
-					"event": "limpiarLogDatanucleus"
-				},
-				{
-					"label": "Limpiar Base de Datos",
-					"event": "limpiarBD"
+					"label": "CRD ReservaColectiva",
+					"event": "demoReservaColectiva"
 				}
 			]
-		},		
+		},	
 		{ "menuTitle": "Documentación",
 		  "options":
 			[
@@ -157,7 +92,7 @@
 					"event": "mostrarArqRef"
 				},
 				{
-					"label": "Javadoc Parranderos",
+					"label": "Javadoc Alohandes",
 					"event": "mostrarJavadoc"
 				}
 			]

@@ -1,28 +1,160 @@
 {
-	"title": "Aplicación transaccional de Parranderos Uniandes",
+	"title": "Aplicación transaccional de Alohandes",
 	"frameH": 600,
 	"frameW": 800,
 	"bannerPath": "./src/main/resources/config/logo.png",
 	"menuBar":
 	[
-		{ "menuTitle": "TipoBebida",
+		{ "menuTitle": "Cliente",
 		  "options":
 			[
 				{
 					"label": "Adicionar",
-					"event": "adicionarTipoBebida"
+					"event": "adicionarCliente"
 				},
 				{
 					"label": "Listar",
-					"event": "listarTipoBebida"
+					"event": "listarCliente"
 				},
 				{
 					"label": "Borrar por Id",
-					"event": "eliminarTipoBebidaPorId"
+					"event": "eliminarClienteId"
+				}
+			]
+		},
+		{ "menuTitle": "Operador",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarOperador"
 				},
 				{
-					"label": "Buscar por Nombre",
-					"event": "buscarTipoBebidaPorNombre"
+					"label": "Listar",
+					"event": "listarOperador"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarOperadorId"
+				}
+			]
+		},
+		{ "menuTitle": "Reserva",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarReserva"
+				},
+				{
+					"label": "Listar",
+					"event": "listarReserva"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarReservaId"
+				}
+			]
+		},
+		{ "menuTitle": "Usuario",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarUsuario"
+				},
+				{
+					"label": "Listar",
+					"event": "listarUsuario"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarUsuarioId"
+				}
+			]
+		},
+		{ "menuTitle": "Apartamento",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarApartamento"
+				},
+				{
+					"label": "Listar",
+					"event": "listarApartamento"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarApartamentoId"
+				}
+			]
+		},
+		{ "menuTitle": "Propiedad",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarPripiedad"
+				},
+				{
+					"label": "Listar",
+					"event": "listarPropiedad"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarPropiedadId"
+				}
+			]
+		},
+		{ "menuTitle": "Habitacion",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarHabitacion"
+				},
+				{
+					"label": "Listar",
+					"event": "listarHabitacion"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarHabitacionId"
+				}
+			]
+		},
+		{ "menuTitle": "ReservaColectiva",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarReservaColectiva"
+				},
+				{
+					"label": "Listar",
+					"event": "listarReservaColectiva"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarReservaColectivaId"
+				}
+			]
+		},
+		{ "menuTitle": "Servicio",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarServicio"
+				},
+				{
+					"label": "Listar",
+					"event": "listarServicio"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarServicioId"
 				}
 			]
 		},
@@ -30,16 +162,16 @@
 		  "options":
 			[
 				{
-					"label": "Mostrar log Parranderos",
-					"event": "mostrarLogParranderos"
+					"label": "Mostrar log Alohandes",
+					"event": "mostrarLogAlohandes"
 				},
 				{
 					"label": "Mostrar log datanucleus",
 					"event": "mostrarLogDatanuecleus"
 				},
 				{
-					"label": "Limpiar log de parranderos",
-					"event": "limpiarLogParranderos"
+					"label": "Limpiar log de Alohandes",
+					"event": "limpiarLogAlohandes"
 				},
 				{
 					"label": "Limpiar log de datanucleus",
@@ -75,7 +207,7 @@
 					"event": "mostrarArqRef"
 				},
 				{
-					"label": "Javadoc Parranderos",
+					"label": "Javadoc Alohandes",
 					"event": "mostrarJavadoc"
 				}
 			]

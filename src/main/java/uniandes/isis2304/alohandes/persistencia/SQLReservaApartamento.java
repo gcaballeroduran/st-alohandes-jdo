@@ -59,10 +59,10 @@ public class SQLReservaApartamento {
 	 * @param idReserva - El identificador de la reserva
 	 * @return EL número de tuplas eliminadas
 	 */
-	public long eliminarReservaApartamento(PersistenceManager pm, long idApartamento, long idReserva)
+	public long eliminarReservaApartamento(PersistenceManager pm, long idReserva)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Apartamento = ? AND id_Reserva = ?");
-        q.setParameters(idApartamento, idReserva);
+        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Reserva = ?");
+        q.setParameters(idReserva);
         return (long) q.executeUnique();
 	}
 
@@ -70,14 +70,42 @@ public class SQLReservaApartamento {
 	public void cambiarReservaApartamento(PersistenceManager pm, long idR, long idP)
 	{
 		
-		
 		String sql = "UPDATE " + pp.darTablaReservaApartamento();
 		sql += "SET idApartamento = "+idP;
 		sql += "WHERE idReserva= "+ idR;
 		Query q = pm.newQuery(SQL, sql);
 		
-		
 		q.setResultClass(Habitacion.class);
 	}
 
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public long darIdReservaPorIdApartamento (PersistenceManager pm, long idApartamento) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT idReserva FROM " + pp.darTablaReservaApartamento() + " WHERE idApartamento = ?");
+		q.setResultClass(Long.class);
+		q.setParameters(idApartamento);
+		return (long) q.executeUnique();
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public long darIdApartamentoPorIdReserva (PersistenceManager pm, long idReserva) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT idApartamento FROM " + pp.darTablaReservaApartamento() + " WHERE idReserva = ?");
+		q.setResultClass(Long.class);
+		q.setParameters(idReserva);
+		return (long) q.executeUnique();
+	}
 }

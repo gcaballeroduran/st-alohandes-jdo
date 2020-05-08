@@ -86,6 +86,21 @@ public class SQLReserva {
 		q.setParameters(idReserva);
 		return (Reserva) q.executeUnique();
 	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public List<Reserva> darReservaPorIdColectiva (PersistenceManager pm, long idReservaColectiva) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE Colectiva = ?");
+		q.setResultClass(Reserva.class);
+		q.setParameters(idReservaColectiva);
+		return (List<Reserva>) q.executeUnique();
+	}
 
 	/**
 	 * Crea y ejecuta la sentencia SQL para encontrar la información de LAS RESERVA de la 

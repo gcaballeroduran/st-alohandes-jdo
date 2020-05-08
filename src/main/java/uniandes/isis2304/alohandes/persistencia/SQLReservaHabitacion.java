@@ -4,6 +4,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import uniandes.isis2304.alohandes.negocio.Habitacion;
+import uniandes.isis2304.alohandes.negocio.Reserva;
 
 public class SQLReservaHabitacion {
 	
@@ -58,10 +59,10 @@ public class SQLReservaHabitacion {
 	 * @param idReserva - El identificador de la reserva
 	 * @return EL número de tuplas eliminadas
 	 */
-	public long eliminarReservaHabitacion(PersistenceManager pm, long idHabitacion, long idReserva)
+	public long eliminarReservaHabitacion(PersistenceManager pm, long idReserva)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Habitacion = ? AND id_Reserva = ?");
-        q.setParameters(idHabitacion, idReserva);
+        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Reserva = ?");
+        q.setParameters( idReserva);
         return (long) q.executeUnique();
 	}
 
@@ -73,6 +74,36 @@ public class SQLReservaHabitacion {
 		Query q = pm.newQuery(SQL, sql);
 		
 		q.setResultClass(Habitacion.class);
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public long darIdReservaPorIdHabitacion (PersistenceManager pm, long idHabitacion) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT idReserva FROM " + pp.darTablaReservaHabitacion() + " WHERE idApartamento = ?");
+		q.setResultClass(Long.class);
+		q.setParameters(idHabitacion);
+		return (long) q.executeUnique();
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public long darIdHabitacionPorIdReserva (PersistenceManager pm, long idReserva) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT idApartamento FROM " + pp.darTablaReservaHabitacion() + " WHERE idReserva = ?");
+		q.setResultClass(Long.class);
+		q.setParameters(idReserva);
+		return (long) q.executeUnique();
 	}
 
 }

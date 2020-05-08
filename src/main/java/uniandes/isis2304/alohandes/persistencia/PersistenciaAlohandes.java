@@ -1212,6 +1212,7 @@ public class PersistenciaAlohandes
 				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
 				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, a.getId());
 				r.setIdRColectiva(idColectiva);
+				adicionarReservaApartamento(a.getId(), r.getId());
 				reservas.add(r);
 			}
 			return reservas;
@@ -1235,6 +1236,7 @@ public class PersistenciaAlohandes
 				Date fechaFin = new Date(pInicio.getTime()+pDuracion);
 				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
 				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, h.getId());
+				adicionarReservaHabitacion(h.getId(), r.getId());
 				r.setIdRColectiva(idColectiva);
 				reservas.add(r);
 			}
@@ -1243,21 +1245,24 @@ public class PersistenciaAlohandes
 	}
 
 
-
-
 	/**
 	 * Método que elimina, de manera transaccional, una tupla en la tabla RESERVA, dado el identificador del bar
 	 * Adiciona entradas al log de la aplicación
 	 * @param idReserva - El identificador de la reserva
 	 * @return El número de tuplas eliminadas. -1 si ocurre alguna Excepción
 	 */
-	public long eliminarRservaColectivaPorId (long idReserva) 
+	public long eliminarReservaColectivaPorId (long idReserva) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
+
 			tx.begin();
+		
+			
+			
+			
 			long resp = sqlReservaColectiva.eliminarReservaColectivaPorId(pm, idReserva);
 			tx.commit();
 
@@ -1278,6 +1283,68 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
+	
+	/**
+	 * Retorna reserva colectiva de apartamentos
+	 * @param pId
+	 * @param pCantidad
+	 * @param pInicio
+	 * @param pDuracion
+	 * @return
+	 */
+	public List<Long> eliminarReservaColectivaApartamento( long idColectiva) 
+	{
+
+		// Se tienen que eliminar las reservas individuales 
+		List<Reserva> reservasC = (List<Reserva>) darReservaPorIdColectiva(idColectiva);
+		List<Long> tuplasEliminadas = new ArrayList<Long>(); 
+		if(reservasC.size() <= 0)
+			return null;
+		else 
+		{
+			for(int i=1; i<=reservasC.size(); i++)
+			{
+				// Eliminar la reserva de reserva y de reserva apartamento
+				long r = reservasC.get(i).getId();
+				eliminarReservaPorId(r);
+				eliminarReservaApartamentoPorId(r);
+				tuplasEliminadas.add(r);
+			}
+			return tuplasEliminadas;
+		}
+	}
+	
+	/**
+	 * Retorna reserva colectiva de apartamentos
+	 * @param pId
+	 * @param pCantidad
+	 * @param pInicio
+	 * @param pDuracion
+	 * @return
+	 */
+	public List<Long> eliminarReservaColectivaHabitacion( long idColectiva) 
+	{
+
+		// Se tienen que eliminar las reservas individuales 
+		List<Reserva> reservasC = (List<Reserva>) darReservaPorIdColectiva(idColectiva);
+		List<Long> tuplasEliminadas = new ArrayList<Long>(); 
+		if(reservasC.size() <= 0)
+			return null;
+		else 
+		{
+			for(int i=1; i<=reservasC.size(); i++)
+			{
+				// Eliminar la reserva de reserva y de reserva apartamento
+				long r = reservasC.get(i).getId();
+				eliminarReservaPorId(r);
+				eliminarReservaHabitacionPorId(r);
+				tuplasEliminadas.add(r);
+			}
+			return tuplasEliminadas;
+		}
+	}
+	
+	
 
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA
@@ -1300,6 +1367,8 @@ public class PersistenciaAlohandes
 
 
 
+	
+	
 	/* ****************************************************************
 	 * 			Métodos para manejar los RESERVA
 	 *****************************************************************/
@@ -1355,7 +1424,7 @@ public class PersistenciaAlohandes
 	 * @param idReserva - El identificador de la reserva
 	 * @return El número de tuplas eliminadas. -1 si ocurre alguna Excepción
 	 */
-	public long eliminarRservaPorId (long idReserva) 
+	public long eliminarReservaPorId (long idReserva) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -1387,7 +1456,7 @@ public class PersistenciaAlohandes
 	 * Método que consulta todas las tuplas en la tabla RESERVA
 	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
 	 */
-	public List<Reserva> darRerservas ()
+	public List<Reserva> darReservas ()
 	{
 		return sqlReserva.darReservas(pmf.getPersistenceManager());
 	}
@@ -1405,7 +1474,7 @@ public class PersistenciaAlohandes
 	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
 	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
 	 */
-	public List<Reserva> darRerservasActivasHabitacion (long hab)
+	public List<Reserva> darReservasActivasHabitacion (long hab)
 	{
 		return sqlReserva.darReservasActivasHabitacion(pmf.getPersistenceManager(), hab);
 	}
@@ -1420,6 +1489,225 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservaPorId(pmf.getPersistenceManager(), idReserva);
 	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
+	 * @param idReserva - El identificador del bar
+	 * @return El objeto RESERVA, construido con base en la tuplas de la tabla RESERVA, que tiene el identificador dado
+	 */
+	public List<Reserva> darReservaPorIdColectiva (long idReservaColectiva)
+	{
+		return sqlReserva.darReservaPorIdColectiva(pmf.getPersistenceManager(), idReservaColectiva);
+	}
+	
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar los RESERVA HABITACION
+	 *****************************************************************/
+
+	/**
+	 * Método que inserta, de manera transaccional, una tupla en la tabla RESERVA
+	 * Adiciona entradas al log de la aplicación
+	 * @param fechaInicio - fecha de inicio de la reserva.
+	 * @param fechaFin - fecha final de la reserva.
+	 * @param personas - numero de personas que reservaron.(Mayoe o igual a 1)
+	 * @param finCancelacionOportuna - fecha final para cancelar la reserva.
+	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
+	 * @param montoTotal - monto total de la reserva.
+	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
+	 */
+	public void adicionarReservaHabitacion( long idHabitacion, long idReserva) 
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long id = nextval ();
+			long tuplasInsertadas = sqlReservaHabitacion.adicionarReservaHabitacion(pm, idHabitacion, idReserva);
+			tx.commit();
+
+			log.trace ("Inserción de ReservaHabitacion: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+
+
+	/**
+	 * Método que elimina, de manera transaccional, una tupla en la tabla RESERVA, dado el identificador del bar
+	 * Adiciona entradas al log de la aplicación
+	 * @param idReserva - El identificador de la reserva
+	 * @return El número de tuplas eliminadas. -1 si ocurre alguna Excepción
+	 */
+	public long eliminarReservaHabitacionPorId (long idReserva) 
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlReservaHabitacion.eliminarReservaHabitacion(pm, idReserva);
+			tx.commit();
+
+			return resp;
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return -1;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
+	 * @param idReserva - El identificador del bar
+	 * @return El objeto RESERVA, construido con base en la tuplas de la tabla RESERVA, que tiene el identificador dado
+	 */
+	public long darIdHabitacionPorIdReserva (long idReserva)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlReservaHabitacion.darIdHabitacionPorIdReserva(pm, idReserva);
+	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
+	 * @param idReserva - El identificador del bar
+	 * @return El objeto RESERVA, construido con base en la tuplas de la tabla RESERVA, que tiene el identificador dado
+	 */
+	public long darIdReservaPorIdHabitacion (long idHabitacion)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlReservaHabitacion.darIdReservaPorIdHabitacion(pm, idHabitacion);
+	}
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar los RESERVA APARTAMENTO
+	 *****************************************************************/
+
+	/**
+	 * Método que inserta, de manera transaccional, una tupla en la tabla RESERVA
+	 * Adiciona entradas al log de la aplicación
+	 * @param fechaInicio - fecha de inicio de la reserva.
+	 * @param fechaFin - fecha final de la reserva.
+	 * @param personas - numero de personas que reservaron.(Mayoe o igual a 1)
+	 * @param finCancelacionOportuna - fecha final para cancelar la reserva.
+	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
+	 * @param montoTotal - monto total de la reserva.
+	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
+	 */
+	public void adicionarReservaApartamento( long idApartamento, long idReserva) 
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long id = nextval ();
+			long tuplasInsertadas = sqlReservaApartamento.adicionarReservaApartamento(pm, idApartamento, idReserva);
+			tx.commit();
+
+			log.trace ("Inserción de ReservaApartamento: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
+
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+
+
+	/**
+	 * Método que elimina, de manera transaccional, una tupla en la tabla RESERVA, dado el identificador del bar
+	 * Adiciona entradas al log de la aplicación
+	 * @param idReserva - El identificador de la reserva
+	 * @return El número de tuplas eliminadas. -1 si ocurre alguna Excepción
+	 */
+	public long eliminarReservaApartamentoPorId (long idReserva) 
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlReservaApartamento.eliminarReservaApartamento(pm, idReserva);
+			tx.commit();
+
+			return resp;
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return -1;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+	
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
+	 * @param idReserva - El identificador del bar
+	 * @return El objeto RESERVA, construido con base en la tuplas de la tabla RESERVA, que tiene el identificador dado
+	 */
+	public long darIdApartamentoPorIdReserva (long idReserva)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlReservaApartamento.darIdApartamentoPorIdReserva(pm, idReserva);
+	}
+	
+	/**
+	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
+	 * @param idReserva - El identificador del bar
+	 * @return El objeto RESERVA, construido con base en la tuplas de la tabla RESERVA, que tiene el identificador dado
+	 */
+	public long darIdReservaPorIdApartamento (long idApartamento)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		return sqlReservaApartamento.darIdReservaPorIdApartamento(pm, idApartamento);
+	}
+
+	
+	////////////////////////////////////////////////
 
 
 

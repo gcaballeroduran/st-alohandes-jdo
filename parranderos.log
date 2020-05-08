@@ -36,3 +36,207 @@ java.sql.SQLException: ORA-01017: invalid username/password; logon denied
 NestedThrowables:
 java.sql.SQLException: ORA-01017: invalid username/password; logon denied
 
+16:24:45,994 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre del Clinete
+16:24:46,491 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:51,699 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:51,699 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:51,741 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Cliente
+16:24:51,741 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:51,815 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:51,815 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:51,819 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Operador
+16:24:51,820 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:51,914 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:51,915 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:51,915 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre del operador
+16:24:51,915 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:51,997 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:51,997 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:51,998 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Apartamento
+16:24:51,999 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:52,068 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de apartamento incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:52,068 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:52,069 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la apartamento
+16:24:52,069 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:52,138 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de apartamento incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:52,138 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:52,139 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la Servicio
+16:24:52,139 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:52,209 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:52,209 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:52,210 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Servicio
+16:24:52,210 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:52,279 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:52,279 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:52,280 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos de usuario correctos, pero sin crear el esquema
+16:24:53,361 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,456 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba de tabla inexistente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,456 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,456 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con una base de datos que no existe
+16:24:53,466 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,532 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba realizada exitosamente. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,532 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,533 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos de usuario incorrectos
+16:24:53,581 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,651 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba realizada exitosamente. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,651 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,651 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos válidos (BD, credenciales, esquema
+16:24:53,651 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,755 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba de acceso normal FALLÓ !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,756 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,757 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la habitacion
+16:24:53,757 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,830 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,830 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,830 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre habitacion
+16:24:53,831 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:53,908 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:53,908 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:53,910 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la ReservaColectiva
+16:24:53,910 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:54,014 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:54,014 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:54,015 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre ReservaColectiva
+16:24:54,015 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:54,084 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de ReservaColectiva incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:54,084 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+16:24:54,085 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Reserva
+16:24:54,085 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+16:24:54,143 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Reserva incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+16:24:54,144 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:00,851 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre del Clinete
+17:12:01,008 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:03,627 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:03,628 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:03,646 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Cliente
+17:12:03,647 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:03,724 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:03,724 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:03,725 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Operador
+17:12:03,725 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:03,792 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:03,792 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:03,793 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre del operador
+17:12:03,793 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:03,863 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de operador incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:03,863 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:03,863 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Apartamento
+17:12:03,864 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:03,931 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de apartamento incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:03,931 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:03,932 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la apartamento
+17:12:03,932 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,004 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de apartamento incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,004 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,004 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la Servicio
+17:12:04,005 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,068 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,068 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,069 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Servicio
+17:12:04,069 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,135 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,135 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,136 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos de usuario correctos, pero sin crear el esquema
+17:12:04,136 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,223 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba de tabla inexistente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,223 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,224 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con una base de datos que no existe
+17:12:04,224 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,287 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba realizada exitosamente. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,287 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,288 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos de usuario incorrectos
+17:12:04,288 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,366 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba realizada exitosamente. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,366 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,367 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Probando el acceso a la base de datos con datos válidos (BD, credenciales, esquema
+17:12:04,367 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,452 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - Prueba de acceso normal FALLÓ !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,452 (main) INFO  [uniandes.isis2304.parranderos.test.ConexionTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,453 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la habitacion
+17:12:04,453 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,522 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,522 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,522 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre habitacion
+17:12:04,523 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,598 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de habitacion incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,598 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,599 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando la restricción de UNICIDAD del nombre de la ReservaColectiva
+17:12:04,600 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,667 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de UNICIDAD de Servicio incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,667 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,667 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre ReservaColectiva
+17:12:04,668 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,734 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de ReservaColectiva incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,734 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error
+17:12:04,735 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Probando las operaciones CRD sobre Reserva
+17:12:04,735 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Se encontró un archivo de configuración de tablas válido
+17:12:04,794 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - Prueba de CRD de Reserva incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: javax.jdo.JDOFatalUserException
+17:12:04,794 (main) INFO  [uniandes.isis2304.parranderos.test.ClienteTest] - La causa es: javax.jdo.JDOFatalDataStoreException: Error de E/S: Undefined Error
+NestedThrowables:
+java.sql.SQLRecoverableException: Error de E/S: Undefined Error

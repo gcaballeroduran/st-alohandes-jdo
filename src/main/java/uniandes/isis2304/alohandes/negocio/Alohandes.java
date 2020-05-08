@@ -651,10 +651,10 @@ public class Alohandes
 			double porcentajeAPagar, double montoTotal, long idProp)
 	{
         log.info ("Adicionando reserva: " );
-        Reserva reserva = pp.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);
+        Reserva reserva = pp.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);        
         log.info ("Adicionando reserva: " + reserva);
         return reserva;
-	}
+	}	
 	
 	/**
 	 * Elimina una reserva por su identificador
@@ -665,7 +665,7 @@ public class Alohandes
 	public long eliminarReservasPorId (long idReserva)
 	{
         log.info ("Eliminando reserva por id: " + idReserva);
-        long resp = pp.eliminarRservaPorId(idReserva);
+        long resp = pp.eliminarReservaPorId(idReserva);
         log.info ("Eliminando reserva: " + resp);
         return resp;
 	}
@@ -678,7 +678,7 @@ public class Alohandes
 	public List<Reserva> darReservas ()
 	{
         log.info ("Listando Reservas");
-        List<Reserva> reservas = pp.darRerservas();	
+        List<Reserva> reservas = pp.darReservas();	
         log.info ("Listando Reservas: " + reservas.size() + " Reservas existentes");
         return reservas;
 	}
@@ -687,7 +687,7 @@ public class Alohandes
 	public List<Reserva> darReservasActivasHabitacion(long habitacion)
 	{
 		log.info ("Listando Reservas Activas de Habitacion: "+ habitacion);
-        List<Reserva> reservas = pp.darRerservasActivasHabitacion(habitacion);	
+        List<Reserva> reservas = pp.darReservasActivasHabitacion(habitacion);	
         log.info ("Listando Reservas Activas de Habitacion: " + habitacion
         		+" Hay "+ reservas.size() + " Reservas existentes");
         return reservas;
@@ -726,7 +726,7 @@ public class Alohandes
 	{
 		log.info ("Generando los VO de Reservas");
 		List<VOReserva> voReservas = new LinkedList<VOReserva> ();
-		for (Reserva bar: pp.darRerservas())
+		for (Reserva bar: pp.darReservas())
 		{
 			voReservas.add (bar);
 		}
@@ -765,7 +765,7 @@ public class Alohandes
 	public long eliminarReservaColectivaPorId (long idReserva)
 	{
         log.info ("Eliminando reserva colectiva por id: " + idReserva);
-        long resp = pp.eliminarRservaColectivaPorId(idReserva);
+        long resp = pp.eliminarReservaColectivaPorId(idReserva);
         log.info ("Eliminando reserva colectiva: " + resp);
         return resp;
 	}

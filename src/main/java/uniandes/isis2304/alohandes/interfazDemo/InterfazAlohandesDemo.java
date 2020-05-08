@@ -721,7 +721,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	public void limpiarLogAlohandes ()
 	{
 		// Ejecución de la operación y recolección de los resultados
-		boolean resp = limpiarArchivo ("alohandes.log");
+		boolean resp = limpiarArchivo ("Alohandes.log");
 
 		// Generación de la cadena de caracteres con la traza de la ejecución de la demo
 		String resultado = "\n\n************ Limpiando el log de alohandes ************ \n";

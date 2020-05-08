@@ -168,11 +168,20 @@ public class Apartamento extends Propiedad implements VOApartamento
 		return "Apartamento [id=" + super.getId() + ", capacidad="+ super.getCapacidad() +
 				", tamanio="+super.getTamanio() + ", precio="+ super.getPrecio() + ", fechaCreacion=" + super.getFechaCreacion()+
 				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
-				", amueblado=" + amueblado + ", habitaciones="+ habitaciones + ", descripcionMenaje=" + descripcionMenaje +
+				", habilitada=" + boolToInt(super.isHabilitada()) +", amueblado=" + boolToInt(amueblado) + ", habitaciones="+ habitaciones + ", descripcionMenaje=" + descripcionMenaje +
 				" , vencimientoSeguro=" + vencimientoSeguro + ", descripcionSeguro="+ descripcionSeguro + 
 				", operador="+ operador + ", reservas=" + reservasToString() + ", servicios=" + serviciosToString() + "]";
 	}
 
+	
+	public int boolToInt(boolean p)
+	{
+		if(p)
+			return 1;
+		else 
+			return 0;
+	}
+	
 	public String reservasToString()
 	{
 		String s = "";

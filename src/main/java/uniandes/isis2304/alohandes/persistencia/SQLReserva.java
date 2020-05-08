@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import uniandes.isis2304.alohandes.negocio.Habitacion;
 import uniandes.isis2304.alohandes.negocio.Reserva;
 
 public class SQLReserva {
@@ -106,12 +107,30 @@ public class SQLReserva {
 	 * @param idReserva - id de la reserva
 	 * @return El objeto RESERVA que tiene el identificador dado
 	 */
-	public List<Reserva> darReservasActivasApartamento(PersistenceManager pm, long apt) 
+	public List<Reserva> darReservasApartamento(PersistenceManager pm, long apt) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE id = ?");
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE propiedad = ?");
 		q.setResultClass(Reserva.class);
 		q.setParameters(apt);
-		return null;//(Reserva) q.executeUnique();
+		return (List<Reserva>) q.executeList();
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public List<Reserva> darReservasActivasApartamento(PersistenceManager pm, long apt) 
+	{
+		String sql = "SELECT * FROM "+ pp.darTablaReserva() + "r";
+		sql += "INNER JOIN "+ pp.darTablaReservaApartamento() + "ap ON (idapartamento = " + apt +")";
+		sql += "WHERE fechaInicio>=getDate() OR fechaFin<getDate()";
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Reserva.class);
+		q.setParameters(apt);
+		return (List<Reserva>) q.executeList();
 	}
 
 	/**
@@ -121,14 +140,33 @@ public class SQLReserva {
 	 * @param idReserva - id de la reserva
 	 * @return El objeto RESERVA que tiene el identificador dado
 	 */
-	public List<Reserva> darReservasActivasHabitacion(PersistenceManager pm, long hab) 
+	public List<Reserva> darReservasHabitacion(PersistenceManager pm, long hab) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE id = ?");
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE propiedad = ?");
 		q.setResultClass(Reserva.class);
 		q.setParameters(hab);
-		return null;//(Reserva) q.executeUnique();
+		return null;
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de UN RESERVA de la 
+	 * base de datos de Alohandes, por su identificador
+	 * @param pm - El manejador de persistencia
+	 * @param idReserva - id de la reserva
+	 * @return El objeto RESERVA que tiene el identificador dado
+	 */
+	public List<Reserva> darReservasActivasHabitacion(PersistenceManager pm, long apt) 
+	{
+		String sql = "SELECT * FROM "+ pp.darTablaReserva() + "r";
+		sql += "INNER JOIN "+ pp.darTablaReservaHabitacion() + "ap ON (idhabitacion = " + apt +")";
+		sql += "WHERE fechaInicio>=getDate() OR fechaFin<getDate()";
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Reserva.class);
+		q.setParameters(apt);
+		return (List<Reserva>) q.executeList();
 	}
 
+	
 	
 
 }

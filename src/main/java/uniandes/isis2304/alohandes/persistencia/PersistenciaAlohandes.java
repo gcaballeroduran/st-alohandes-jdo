@@ -327,7 +327,7 @@ public class PersistenciaAlohandes
 
 		return tablas.get(7);
 	}
-	
+
 	/**
 	 * @return La cadena de caracteres con el nombre de la tabla de ReservaColectiva de Alohandes
 	 */
@@ -389,7 +389,7 @@ public class PersistenciaAlohandes
 		}
 		return resp;
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los USUARIOS
 	 *****************************************************************/
@@ -695,7 +695,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlCliente.darClientePorId(pmf.getPersistenceManager(), idCliente);
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los PROPIEDAD
 	 *****************************************************************/
@@ -780,7 +780,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlPropiedad.darPropiedades(pmf.getPersistenceManager());
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla PROPIEDAD que tienen el id dado
 	 * @param id - El id de la pripiedad
@@ -791,7 +791,7 @@ public class PersistenciaAlohandes
 		return (Propiedad) sqlPropiedad.darPropiedadPorId(pmf.getPersistenceManager(), id);
 	}
 
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los APARTAMENTO
 	 *****************************************************************/
@@ -826,9 +826,9 @@ public class PersistenciaAlohandes
 			tx.commit();
 
 			log.trace ("Inserción de apartamento: " + pID + ": " + tuplasInsertadas + " tuplas insertadas");
-			
-			
-			
+
+
+
 			return new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
 		}
 		catch (Exception e)
@@ -888,7 +888,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlApartamento.darApartamentos(pmf.getPersistenceManager());
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla APARTAMENTO que tienen el id dado
 	 * @param id - El id de la pripiedad
@@ -899,7 +899,15 @@ public class PersistenciaAlohandes
 		return (Apartamento) sqlApartamento.darApartamentoPorId(pmf.getPersistenceManager(), id);
 	}
 
-	
+
+	/**
+	 * Método que consulta todas las tuplas en la tabla APARTAMENTO  que estan disponibles
+	 * @return La lista de objetos APARTAMENTO
+	 */
+	public List<Apartamento> darApartamentosDisponibles() 
+	{
+		return sqlApartamento.darApartamentosDisponibles(pmf.getPersistenceManager());
+	}
 
 	/* ****************************************************************
 	 * 			Métodos para manejar las HABITACION
@@ -926,11 +934,11 @@ public class PersistenciaAlohandes
 			tx.commit();
 
 			log.trace ("Inserción de habitacion: " + pId + ": " + tuplasInsertadas + " tuplas insertadas");
-			
-			
-			
+
+
+
 			return new Habitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
-					}
+		}
 		catch (Exception e)
 		{
 			//        	e.printStackTrace();
@@ -988,7 +996,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlHabitacion.darHabitaciones(pmf.getPersistenceManager());
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla APARTAMENTO que tienen el id dado
 	 * @param id - El id de la pripiedad
@@ -998,7 +1006,25 @@ public class PersistenciaAlohandes
 	{
 		return (Habitacion) sqlHabitacion.darHabitacionPorId(pmf.getPersistenceManager(), id);
 	}
-	
+
+	/**
+	 * Método que consulta todas las tuplas en la tabla APARTAMENTO 
+	 * @return La lista de objetos APARTAMENTO
+	 */
+	public List<Habitacion> darHabitacionesDisponibles() 
+	{
+		return sqlHabitacion.darHabitacionesDisponibles(pmf.getPersistenceManager());
+	}
+
+	/**
+	 * Habilita una habitacion
+	 * @param id identificador de la habitacion que se quiere habilitar
+	 */
+	public void habilitarHabitacion(long id)
+	{
+		sqlHabitacion.habilitarHabitacion(pmf.getPersistenceManager(), id);
+	}
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los SERVICIO	
 	 *****************************************************************/
@@ -1022,9 +1048,9 @@ public class PersistenciaAlohandes
 			tx.commit();
 
 			log.trace ("Inserción de servicio: " + idServ + ": " + tuplasInsertadas + " tuplas insertadas");
-			
-			
-			
+
+
+
 			return new Servicio(idServ, pTipo, pPrecio, pIntervalo);
 		}
 		catch (Exception e)
@@ -1084,7 +1110,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlServicio.darServicios(pmf.getPersistenceManager());
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla APARTAMENTO que tienen el id dado
 	 * @param id - El id de la pripiedad
@@ -1094,7 +1120,7 @@ public class PersistenciaAlohandes
 	{
 		return (Servicio) sqlServicio.darServicioPorId(pmf.getPersistenceManager(), id);
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los RESERVA COLECTIVA
 	 *****************************************************************/
@@ -1110,21 +1136,39 @@ public class PersistenciaAlohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
-	public ReservaColectiva adicionarReservaColectiva( Date fechaInicio, int duracion, int cantidad, Date finCancelacionOportuna,
-			double porcentajeAPagar, double montoTotal) 
+	public ReservaColectiva adicionarReservaColectiva(int pCantidad, String pTipo, Date pInicio, int pDuracion) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
+
 		try
 		{
 			tx.begin();
 			long id = nextval ();
-			long tuplasInsertadas = sqlReservaColectiva.adicionarReserva(pm, id, fechaInicio, duracion, cantidad);
+			
+			// Primero se verifica si se cuenta con la capacidad y se crean las reservas individuales
+			List<Reserva> r = new ArrayList<Reserva>();
+			if(pTipo.equalsIgnoreCase("apartamento"))
+			{
+				r = adicionarReservaColectivaApartamento(id, pCantidad, pInicio, pDuracion);
+			}
+			else
+			{
+				r = adicionarReservaColectivaApartamento(id, pCantidad, pInicio, pDuracion);
+			}
+			
+			if(r.size()==0)
+			{
+				// No se cuenta con la capacidad para hacer la reserva colectiva
+				return null;
+			}
+			
+			long tuplasInsertadas = sqlReservaColectiva.adicionarReservaColectiva(pm, id, pInicio, pDuracion, pCantidad, pTipo);
 			tx.commit();
 
 			log.trace ("Inserción de Reserva: " + id + ": " + tuplasInsertadas + " tuplas insertadas");
 
-			return null;//new ReservaColectiva(id, fechaInicio, duracion);
+			return new ReservaColectiva(id, pCantidad, pTipo, pInicio, pDuracion);
 		}
 		catch (Exception e)
 		{
@@ -1141,6 +1185,65 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
+
+	/**
+	 * Retorna reserva colectiva de apartamentos
+	 * @param pId
+	 * @param pCantidad
+	 * @param pInicio
+	 * @param pDuracion
+	 * @return
+	 */
+	public List<Reserva> adicionarReservaColectivaApartamento( long idColectiva, int pCantidad, Date pInicio, int pDuracion) 
+	{
+
+		// Primero se verifica que se tiene la capacidad suficiente
+		List<Apartamento> apartamentosD = darApartamentosDisponibles();
+		if(apartamentosD.size() < pCantidad)
+			return null;
+		else 
+		{
+			List<Reserva> reservas = new ArrayList<Reserva>();
+			for(int i=1; i<=pCantidad; i++)
+			{
+				Apartamento a = apartamentosD.get(i);
+				double montoTotal = a.getPrecio()*pDuracion;
+				Date fechaFin = new Date(pInicio.getTime()+pDuracion);
+				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
+				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, a.getId());
+				r.setIdRColectiva(idColectiva);
+				reservas.add(r);
+			}
+			return reservas;
+		}
+	}
+	
+	public List<Reserva> adicionarReservaColectivaHabitacion( long idColectiva, int pCantidad, Date pInicio, int pDuracion) 
+	{
+
+		// Primero se verifica que se tiene la capacidad suficiente
+		List<Habitacion> habitacionesD = darHabitacionesDisponibles();
+		if(habitacionesD.size() < pCantidad)
+			return null;
+		else 
+		{
+			List<Reserva> reservas = new ArrayList<Reserva>();
+			for(int i=1; i<=pCantidad; i++)
+			{
+				Habitacion h = habitacionesD.get(i);
+				double montoTotal = h.getPrecio()*pDuracion;
+				Date fechaFin = new Date(pInicio.getTime()+pDuracion);
+				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
+				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, h.getId());
+				r.setIdRColectiva(idColectiva);
+				reservas.add(r);
+			}
+			return reservas;
+		}
+	}
+
+
+
 
 	/**
 	 * Método que elimina, de manera transaccional, una tupla en la tabla RESERVA, dado el identificador del bar
@@ -1192,7 +1295,7 @@ public class PersistenciaAlohandes
 	 */
 	public ReservaColectiva darReservaColectivaPorId (long idReserva)
 	{
-		return sqlReservaColectiva.darReservaPorId(pmf.getPersistenceManager(), idReserva);
+		return sqlReservaColectiva.darReservaColectivaPorId(pmf.getPersistenceManager(), idReserva);
 	}
 
 
@@ -1213,7 +1316,7 @@ public class PersistenciaAlohandes
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
 	public Reserva adicionarReserva( Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
-			double porcentajeAPagar, double montoTotal) 
+			double porcentajeAPagar, double montoTotal, long idProp) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -1243,6 +1346,8 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
+
+
 
 	/**
 	 * Método que elimina, de manera transaccional, una tupla en la tabla RESERVA, dado el identificador del bar
@@ -1286,7 +1391,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservas(pmf.getPersistenceManager());
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
 	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
@@ -1295,7 +1400,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservasActivasApartamento(pmf.getPersistenceManager(), apt);
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
 	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
@@ -1304,7 +1409,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservasActivasHabitacion(pmf.getPersistenceManager(), hab);
 	}
-	
+
 
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado

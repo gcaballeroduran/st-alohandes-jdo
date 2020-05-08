@@ -3,6 +3,9 @@ package uniandes.isis2304.alohandes.persistencia;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import uniandes.isis2304.alohandes.negocio.Habitacion;
+import uniandes.isis2304.alohandes.negocio.Reserva;
+
 public class SQLReservaApartamento {
 	
 
@@ -63,5 +66,18 @@ public class SQLReservaApartamento {
         return (long) q.executeUnique();
 	}
 
+	
+	public void cambiarReservaApartamento(PersistenceManager pm, long idR, long idP)
+	{
+		
+		
+		String sql = "UPDATE " + pp.darTablaReservaApartamento();
+		sql += "SET idApartamento = "+idP;
+		sql += "WHERE idReserva= "+ idR;
+		Query q = pm.newQuery(SQL, sql);
+		
+		
+		q.setResultClass(Habitacion.class);
+	}
 
 }

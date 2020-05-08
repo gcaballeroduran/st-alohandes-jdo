@@ -43,6 +43,11 @@ public class Reserva implements VOReserva {
 	 */
 	private double montoTotal;
 	
+	/**
+	 * id de la reserva colectiva asociada si hay
+	 */
+	private long idRColectiva;
+	
 	/* ****************************************************************
 	 * 			Métodos
 	 *****************************************************************/
@@ -194,8 +199,17 @@ public class Reserva implements VOReserva {
      */
 	public void setMontoTotal(double montoTotal) {
 		this.montoTotal = montoTotal;
-	}
+	}	
 	
+	
+	public long getIdRColectiva() {
+		return idRColectiva;
+	}
+
+	public void setIdRColectiva(long idRColectiva) {
+		this.idRColectiva = idRColectiva;
+	}
+
 	@Override
 	/**
 	 * @return Una cadena de caracteres con todos los atributos de la reserva.

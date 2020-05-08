@@ -57,7 +57,6 @@ import uniandes.isis2304.alohandes.negocio.VOHabitacion;
 import uniandes.isis2304.alohandes.negocio.VOOperador;
 import uniandes.isis2304.alohandes.negocio.VOPropiedad;
 import uniandes.isis2304.alohandes.negocio.VOReserva;
-import uniandes.isis2304.alohandes.negocio.VOReservaApartamento;
 import uniandes.isis2304.alohandes.negocio.VOReservaColectiva;
 import uniandes.isis2304.alohandes.negocio.VOServicio;
 import uniandes.isis2304.alohandes.negocio.VOUsuario;
@@ -605,9 +604,10 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
         			Date fechaInicio = new Date(2020, 05, 12);
         			Date fechaFin = new Date(2020, 05, 20);
         			Date finCancelacionOportuna = new Date(2020, 05, 10);
+        			long idPropiedad = 1234567890;
         			
         			boolean error = false;
-        			VOReserva reserva = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
+        			VOReserva reserva = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idPropiedad);
         			{
         				reserva = alohandes.darReservasPorId(reserva.getId());
         				error = true;

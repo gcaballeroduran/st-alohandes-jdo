@@ -407,6 +407,40 @@ public class Alohandes
         return voPropiedad;
 	}
 	
+	
+	public void deshabilitarHabitacion(long idHab)
+	{
+		ArrayList<Reserva> activas = (ArrayList<Reserva>) darReservasActivasHabitacion(idHab);
+		
+		Habitacion h = darHabitacionPorId(idHab);
+		if(activas.size()==0)
+			h.setHabilitada(false);
+		// Si esta condicion no se cumple se deben re organizar las reservas
+		else
+		{
+			
+		}
+		
+	}
+	
+	public void habilitarHabitacion(long idHab)
+	{
+		Habitacion h = darHabitacionPorId(idHab);
+		h.setHabilitada(true);
+		pp.habilitarHabitacion(idHab);
+	}
+	
+	/**
+	 * Encuentra un apartamento y su información básica, si esta habilitado y no está ocupado
+	 * 
+	 * @return Una lista de apartamentos disponibles para ser reservados
+	 */
+	public ArrayList<Habitacion> darHabitacionesDisponibles()
+	{
+        log.info ("Dar información de apartamentos disponibles: ");
+        ArrayList<Habitacion> hab = (ArrayList<Habitacion>) pp.darHabitacionesDisponibles();
+       return hab;
+	}
 		
 	/* ****************************************************************
 	 * 			Métodos para manejar las APARTAMENTO
@@ -502,6 +536,18 @@ public class Alohandes
         }
         log.info ("Generando los VO de Apartamento: " + voApartamento.size() + " existentes");
         return voApartamento;
+	}
+	
+	/**
+	 * Encuentra un apartamento y su información básica, si esta habilitado y no está ocupado
+	 * 
+	 * @return Una lista de apartamentos disponibles para ser reservados
+	 */
+	public ArrayList<Apartamento> darApartamentosDisponibles()
+	{
+        log.info ("Dar información de apartamentos disponibles: ");
+        ArrayList<Apartamento> apartamentos = (ArrayList<Apartamento>) pp.darApartamentosDisponibles();
+       return apartamentos;
 	}
 	
 	/* ****************************************************************
@@ -602,10 +648,10 @@ public class Alohandes
 	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
 	 */
 	public Reserva adicionarReserva (Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
-			double porcentajeAPagar, double montoTotal)
+			double porcentajeAPagar, double montoTotal, long idProp)
 	{
         log.info ("Adicionando reserva: " );
-        Reserva reserva = pp.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal);
+        Reserva reserva = pp.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);
         log.info ("Adicionando reserva: " + reserva);
         return reserva;
 	}
@@ -637,6 +683,15 @@ public class Alohandes
         return reservas;
 	}
 
+	
+	public List<Reserva> darReservasActivasHabitacion(long habitacion)
+	{
+		log.info ("Listando Reservas Activas de Habitacion: "+ habitacion);
+        List<Reserva> reservas = pp.darRerservasActivasHabitacion(habitacion);	
+        log.info ("Listando Reservas Activas de Habitacion: " + habitacion
+        		+" Hay "+ reservas.size() + " Reservas existentes");
+        return reservas;
+	}	
 	
 	public List<Reserva> darReservasActivasApartamento(long apartamento)
 	{

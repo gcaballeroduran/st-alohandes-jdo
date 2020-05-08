@@ -1,12 +1,14 @@
 package uniandes.isis2304.alohandes.persistencia;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import uniandes.isis2304.alohandes.negocio.Apartamento;
+import uniandes.isis2304.alohandes.negocio.Habitacion;
 import uniandes.isis2304.alohandes.persistencia.PersistenciaAlohandes;
 
 class SQLApartamento 
@@ -101,5 +103,43 @@ class SQLApartamento
 		return (List<Apartamento>) q.executeList();
 	}
 
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS Servicios de la 
+	 * base de datos de Alohandes
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de objetos Servicio
+	 */
+	public ArrayList<Apartamento> darApartamentosDisponibles(PersistenceManager pm)
+	{
+		String sql = "SELECT * FROM " + pa.darTablaApartamento () + "AS ap"; 
+		sql+="INNER JOIN "+ pa.darTablaPropiedad() +"AS prop ON (habilitada=1)";
+		sql+= "INNER JOIN "+ pa.darTablaReservaApartamento()+ "AS ra ON (ap.idApartamento=ra.id)";
+		sql+= "INNER JOIN "+ pa.darTablaReserva()+ "AS re ON (ra.re = re.id)";
+		sql += "WHERE (fechaInicio > currentDate() ) AND (fechaFin < currentDate() )";
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+		return (ArrayList<Apartamento>) q.executeList();
+	}
+	
+	public void habilitarApartamento(PersistenceManager pm, long hab)
+	{
+		String sql = "UPDATE " + pa.darTablaPropiedad();
+		sql += "SET habilitada = 1 ";
+		sql += "WHERE id= "+hab;
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+	}
+	
+	public void deshabilitarHabitacion(PersistenceManager pm, long hab)
+	{
+		String sql = "UPDATE " + pa.darTablaPropiedad();
+		sql += "SET habilitada = 0 ";
+		sql += "WHERE id= "+hab;
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+	}
+	
+	
+	
 
 }

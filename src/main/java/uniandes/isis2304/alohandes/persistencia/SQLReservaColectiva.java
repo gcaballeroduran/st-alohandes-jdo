@@ -43,13 +43,14 @@ public class SQLReservaColectiva {
 	 * @param fechaInicio - fecha de inicio de la reserva colectiva.
 	 * @param duracion - duracion en dias de la rerserva colectiva.
 	 * @param cantidad - numero de propiedades que desean reservar.(Mayor o igual a 1)
+	 * @param tipo -  el tipo de alojamiento que se desea reservar
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarReserva(PersistenceManager pm,long id, Date fechaInicio, int duracion, int cantidad ){
+	public long adicionarReservaColectiva(PersistenceManager pm,long id, Date fechaInicio, int duracion, int cantidad, String tipo ){
 		
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReservaColectiva() + "(id, fechaInicio, duracion, cantidad)"
-				+ " values (?, ?, ?, ?)");
-        q.setParameters(id, fechaInicio, duracion, cantidad);
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReservaColectiva() + "(id, fechaInicio, duracion, cantidad, tipoAlojamiento)"
+				+ " values (?, ?, ?, ?, ?)");
+        q.setParameters(id, fechaInicio, duracion, cantidad, tipo);
         return (long) q.executeUnique();
 		
 	}
@@ -74,7 +75,7 @@ public class SQLReservaColectiva {
 	 * @param idReserva - id de la reserva
 	 * @return El objeto RESERVA COLECTIVA que tiene el identificador dado
 	 */
-	public ReservaColectiva darReservaPorId (PersistenceManager pm, long idReserva) 
+	public ReservaColectiva darReservaColectivaPorId (PersistenceManager pm, long idReserva) 
 	{
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReservaColectiva() + " WHERE id = ?");
 		q.setResultClass(ReservaColectiva.class);

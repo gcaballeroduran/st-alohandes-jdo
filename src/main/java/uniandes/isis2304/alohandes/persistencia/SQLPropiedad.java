@@ -117,7 +117,7 @@ class SQLPropiedad
 		sql+= "INNER JOIN" + pa.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
 		sql+= "INNER JOIN" + pa.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
 		sql+= "INNER JOIN" + pa.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
-		sql += "WHERE tiempo >= res.fecha_Inicio AND tiempo <= res.fecha_ AND tipo = hab.tipo";
+		sql += "WHERE "+ tiempo + ">= res.fecha_Inicio AND tiempo <= res.fecha_ AND "+ tipo +" = hab.tipo";
 		sql += ")";
 		sql +="Where max(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
@@ -144,7 +144,7 @@ class SQLPropiedad
 		sql+= "INNER JOIN" + pa.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
 		sql+= "INNER JOIN" + pa.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
 		sql+= "INNER JOIN" + pa.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
-		sql += "WHERE tiempo >= res.fecha_Inicio AND tiempo <= res.fecha_ AND tipo = hab.tipo";
+		sql += "WHERE "+ tiempo + ">= res.fecha_Inicio AND tiempo <= res.fecha_ AND "+ tipo +" = hab.tipo";
 		sql += ")";
 		sql +="Where min(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
@@ -171,7 +171,7 @@ class SQLPropiedad
 		sql+= "INNER JOIN" + pa.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
 		sql+= "INNER JOIN" + pa.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
 		sql+= "INNER JOIN" + pa.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
-		sql += "WHERE tiempo >= res.fecha_Inicio AND tiempo <= res.fecha_ AND tipo = hab.tipo";
+		sql += "WHERE "+tiempo+" >= res.fecha_Inicio AND tiempo <= res.fecha_ AND "+tipo+" = hab.tipo";
 		sql += ")";
 		sql +="Where max(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";

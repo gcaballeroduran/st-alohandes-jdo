@@ -1,10 +1,12 @@
 package uniandes.isis2304.alohandes.persistencia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import uniandes.isis2304.alohandes.negocio.Apartamento;
 import uniandes.isis2304.alohandes.negocio.Habitacion;
 import uniandes.isis2304.alohandes.persistencia.PersistenciaAlohandes;
 
@@ -40,7 +42,7 @@ class SQLHabitacion
 	{
 		this.pa = pp;
 	}
-	
+
 	/**
 	 * Crea y ejecuta la sentencia SQL para adicionar un Habitacion a la base de datos de Alohandes
 	 * @param pm - El manejador de persistencia
@@ -52,9 +54,9 @@ class SQLHabitacion
 	 */
 	public long adicionarHabitacion (PersistenceManager pm, long idHab, int tipo, boolean individual, String esquema, long idOp) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?, ?, ?)");
-        q.setParameters(idHab, tipo, individual, esquema, idOp);
-        return (long) q.executeUnique();
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?, ?, ?)");
+		q.setParameters(idHab, tipo, individual, esquema, idOp);
+		return (long) q.executeUnique();
 	}
 
 	/**
@@ -65,9 +67,9 @@ class SQLHabitacion
 	 */
 	public long eliminarHabitacionPorTipo (PersistenceManager pm, String tipoS)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?");
-        q.setParameters(tipoS);
-        return (long) q.executeUnique();
+		Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?");
+		q.setParameters(tipoS);
+		return (long) q.executeUnique();
 	}
 
 	/**
@@ -78,9 +80,9 @@ class SQLHabitacion
 	 */
 	public long eliminarHabitacionPorId (PersistenceManager pm, long idSer)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE id = ?");
-        q.setParameters(idSer);
-        return (long) q.executeUnique();
+		Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE id = ?");
+		q.setParameters(idSer);
+		return (long) q.executeUnique();
 	}
 
 	/**
@@ -126,6 +128,42 @@ class SQLHabitacion
 		return (List<Habitacion>) q.executeList();
 	}
 
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS Servicios de la 
+	 * base de datos de Alohandes
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de objetos Servicio
+	 */
+	public ArrayList<Habitacion> darHabitacionesDisponibles(PersistenceManager pm)
+	{
+		
+		String sql = "SELECT * FROM " + pa.darTablaHabitacion () + "AS hab"; 
+		sql+="INNER JOIN "+ pa.darTablaPropiedad() +"AS prop ON (habilitada=1)";
+		sql+= "INNER JOIN "+ pa.darTablaReservaHabitacion()+ "AS ra ON (ap.idHabitacion=ra.id)";
+		sql+= "INNER JOIN "+ pa.darTablaReserva()+ "AS re ON (ra.re = re.id)";
+		sql += "WHERE (fechaInicio > currentDate() ) AND (fechaFin < currentDate() )";
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+		return (ArrayList<Habitacion>) q.executeList();
+	}
 
+	public void habilitarHabitacion(PersistenceManager pm, long hab)
+	{
+		String sql = "UPDATE " + pa.darTablaPropiedad();
+		sql += "SET habilitada = 1 ";
+		sql += "WHERE id= "+hab;
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+	}
 	
+	public void deshabilitarHabitacion(PersistenceManager pm, long hab)
+	{
+		String sql = "UPDATE " + pa.darTablaPropiedad();
+		sql += "SET habilitada = 0 ";
+		sql += "WHERE id= "+hab;
+		Query q = pm.newQuery(SQL, sql);
+		q.setResultClass(Habitacion.class);
+	}
+
+
 }

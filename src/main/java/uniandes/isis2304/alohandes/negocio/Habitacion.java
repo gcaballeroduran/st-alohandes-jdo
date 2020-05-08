@@ -124,26 +124,11 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	//////////// Otros Métodos ////////////
 	///////////////////////////////////////
 	
-	public void serHabilitada(boolean pHabilitada)
-	{
-		if(pHabilitada)
-			super.setHabilitada(pHabilitada);
-		else
-		{
-			
-		}
-		
-		
-	}
 	
-	public ArrayList<Reserva> getReservasActivas()
+	public void setHabilitada(boolean pHabilitada)
 	{
-		ArrayList<Reserva> activas = new ArrayList<Reserva>();
+			super.setHabilitada(pHabilitada);	
 		
-		
-		return activas;
-			
-	
 	}
 
 
@@ -156,8 +141,16 @@ public class Habitacion extends Propiedad implements VOHabitacion
 		return "Habitacion [id=" + super.getId() + ", capacidad="+ super.getCapacidad() +
 				", tamanio="+super.getTamanio() + ", precio="+ super.getPrecio() + ", fechaCreacion=" + super.getFechaCreacion()+
 				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
-				", individual=" + individual + ", esquema="+ esquema + ", tipo="+ tipo + ", operador="+ operador + 
+				", habilitada= "+ boolToInt(super.isHabilitada())+", individual=" + boolToInt(individual) + ", esquema="+ esquema + ", tipo="+ tipo + ", operador="+ operador + 
 				", reservas=" + reservasToString() + ", servicios=" + serviciosToString() +"]";
+	}
+	
+	public int boolToInt(boolean p)
+	{
+		if(p)
+			return 1;
+		else 
+			return 0;
 	}
 
 	

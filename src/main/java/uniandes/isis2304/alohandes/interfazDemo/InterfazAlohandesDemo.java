@@ -789,7 +789,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	 */
 	public void mostrarPresentacionGeneral ()
 	{
-		mostrarArchivo ("data/00-ST-ParranderosJDO.pdf");
+		mostrarArchivo ("data/00-ST-AlohandesJDO.pdf");
 	}
 	
 	/**
@@ -797,7 +797,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	 */
 	public void mostrarModeloConceptual ()
 	{
-		mostrarArchivo ("data/Modelo Conceptual Parranderos.pdf");
+		mostrarArchivo ("data/Modelo Conceptual Alohandes.pdf");
 	}
 	
 	/**
@@ -805,7 +805,7 @@ public class InterfazAlohandesDemo extends JFrame implements ActionListener
 	 */
 	public void mostrarEsquemaBD ()
 	{
-		mostrarArchivo ("data/Esquema BD Parranderos.pdf");
+		mostrarArchivo ("data/Esquema BD Alohandes.pdf");
 	}
 	
 	/**

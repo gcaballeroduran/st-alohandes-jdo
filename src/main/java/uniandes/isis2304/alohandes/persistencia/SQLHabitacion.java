@@ -67,7 +67,11 @@ class SQLHabitacion
 	 */
 	public long eliminarHabitacionPorTipo (PersistenceManager pm, String tipoS)
 	{
-		Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL,sql);
 		q.setParameters(tipoS);
 		return (long) q.executeUnique();
 	}
@@ -80,7 +84,11 @@ class SQLHabitacion
 	 */
 	public long eliminarHabitacionPorId (PersistenceManager pm, long idSer)
 	{
-		Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaHabitacion () + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pa.darTablaHabitacion () + " WHERE id = ?";
+		Query q = pm.newQuery(SQL, sql);
+		sql += "COMMIT TRAN";
 		q.setParameters(idSer);
 		return (long) q.executeUnique();
 	}
@@ -94,7 +102,11 @@ class SQLHabitacion
 	 */
 	public Habitacion darHabitacionPorId (PersistenceManager pm, long idSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaHabitacion () + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaHabitacion () + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Habitacion.class);
 		q.setParameters(idSer);
 		return (Habitacion) q.executeUnique();
@@ -109,7 +121,11 @@ class SQLHabitacion
 	 */
 	public List<Habitacion> darHabitacionPorTipo(PersistenceManager pm, String tipoSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaHabitacion () + " WHERE tipo = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL,sql);
 		q.setResultClass(Habitacion.class);
 		q.setParameters(tipoSer);
 		return (List<Habitacion>) q.executeList();

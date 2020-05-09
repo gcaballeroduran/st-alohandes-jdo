@@ -69,7 +69,11 @@ class SQLApartamento
 	 */
 	public long eliminarApartamentoPorId (PersistenceManager pm, long idApt)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaApartamento () + " WHERE id = ?");
+		String a = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+		a +="BEGIN TRAIN";
+        a = "DELETE FROM " + pa.darTablaApartamento () + " WHERE id = ?";
+        a +="COMMIT TRAN";
+        Query q = pm.newQuery(SQL,a);
         q.setParameters(idApt);
         return (long) q.executeUnique();
 	}
@@ -83,7 +87,11 @@ class SQLApartamento
 	 */
 	public Apartamento darApartamentoPorId (PersistenceManager pm, long idSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaApartamento() + " WHERE id = ?");
+		String a = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+		a +="BEGIN TRAIN";
+		a = "SELECT * FROM " + pa.darTablaApartamento() + " WHERE id = ?";
+		a +="COMMIT TRAN";
+		Query q = pm.newQuery(SQL, a);
 		q.setResultClass(Apartamento.class);
 		q.setParameters(idSer);
 		return (Apartamento) q.executeUnique();

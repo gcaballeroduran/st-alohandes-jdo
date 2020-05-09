@@ -59,7 +59,11 @@ public class SQLCliente {
 	 */
 	public long eliminarClientePorId (PersistenceManager pm, long idCliente)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaCliente() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+        sql += "DELETE FROM " + pp.darTablaCliente() + " WHERE id = ?";
+        sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL,sql);
         q.setParameters(idCliente);
         return (long) q.executeUnique();            
 	}
@@ -73,7 +77,11 @@ public class SQLCliente {
 	 */
 	public Cliente darClientePorId (PersistenceManager pm, long idCliente) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaCliente() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql ="SELECT * FROM " + pp.darTablaCliente() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+	    Query q = pm.newQuery(SQL,sql);
 		q.setResultClass(Cliente.class);
 		q.setParameters(idCliente);
 		return (Cliente) q.executeUnique();

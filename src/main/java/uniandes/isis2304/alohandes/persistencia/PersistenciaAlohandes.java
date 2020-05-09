@@ -630,6 +630,7 @@ public class PersistenciaAlohandes
 		{
 			//        	e.printStackTrace();
 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            System.out.print("Exception : " + e.getMessage());
 			return null;
 		}
 		finally

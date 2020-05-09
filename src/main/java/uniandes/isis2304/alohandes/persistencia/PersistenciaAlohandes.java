@@ -909,6 +909,55 @@ public class PersistenciaAlohandes
 		return sqlApartamento.darApartamentosDisponibles(pmf.getPersistenceManager());
 	}
 
+	/**
+	 * Habilita una habitacion
+	 * @param id identificador de la habitacion que se quiere habilitar
+	 */
+	public void habilitarApartamento(long id)
+	{
+		sqlApartamento.habilitarApartamento(pmf.getPersistenceManager(), id);
+	}
+
+	/**
+	 * Deshabilita un apartamento
+	 * @param id identificador de la habitacion que se quiere habilitar
+	 */
+	public void deshabilitarApartamento(long id)
+	{
+		List<Reserva> activas = darRerservasActivasApartamento(id);
+		// Si la propiedad no tiene reservas activas simplemente la desactiva
+		if(activas.isEmpty())
+			sqlApartamento.deshabilitarApartamento(pmf.getPersistenceManager(), id);
+		//Si hay reservas activas hay que re agendarlas
+		else
+		{
+			List<Apartamento> aptD = darApartamentosDisponibles();
+			int limite = 0;
+			if(aptD.size()>=activas.size())
+			{
+				limite = activas.size();
+			}
+			else
+			{
+				limite = aptD.size();
+				for(int i=aptD.size()-1; i<=activas.size();i++)
+				{
+					
+					sqlReservaApartamento.eliminarReservaApartamento(pmf.getPersistenceManager(), activas.get(i).getId());
+				}
+			}
+			for(int i=0; i<=limite; i++)
+			{
+				long idApt = aptD.get(i).getId();
+				sqlReservaApartamento.cambiarReservaApartamento(pmf.getPersistenceManager(),
+						activas.get(i).getId(), idApt);
+			}
+
+
+			sqlApartamento.habilitarApartamento(pmf.getPersistenceManager(), id);
+		}
+	}
+
 	/* ****************************************************************
 	 * 			Métodos para manejar las HABITACION
 	 *****************************************************************/
@@ -1023,6 +1072,46 @@ public class PersistenciaAlohandes
 	public void habilitarHabitacion(long id)
 	{
 		sqlHabitacion.habilitarHabitacion(pmf.getPersistenceManager(), id);
+	}
+	
+	/**
+	 * Deshabilita una Habitacion
+	 * @param id identificador de la habitacion que se quiere habilitar
+	 */
+	public void deshabilitarHabitacion(long id)
+	{
+		List<Reserva> activas = darReservasActivasHabitacion(id);
+		// Si la propiedad no tiene reservas activas simplemente la desactiva
+		if(activas.isEmpty())
+			sqlHabitacion.deshabilitarHabitacion(pmf.getPersistenceManager(), id);
+		//Si hay reservas activas hay que re agendarlas
+		else
+		{
+			List<Habitacion> aptD = darHabitacionesDisponibles();
+			int limite = 0;
+			if(aptD.size()>=activas.size())
+			{
+				limite = activas.size();
+			}
+			else
+			{
+				limite = aptD.size();
+				for(int i=aptD.size()-1; i<=activas.size();i++)
+				{
+					
+					sqlReservaHabitacion.eliminarReservaHabitacion(pmf.getPersistenceManager(), activas.get(i).getId());
+				}
+			}
+			for(int i=0; i<=limite; i++)
+			{
+				long idApt = aptD.get(i).getId();
+				sqlReservaApartamento.cambiarReservaApartamento(pmf.getPersistenceManager(),
+						activas.get(i).getId(), idApt);
+			}
+
+
+			sqlApartamento.habilitarApartamento(pmf.getPersistenceManager(), id);
+		}
 	}
 
 	/* ****************************************************************
@@ -1145,7 +1234,7 @@ public class PersistenciaAlohandes
 		{
 			tx.begin();
 			long id = nextval ();
-			
+
 			// Primero se verifica si se cuenta con la capacidad y se crean las reservas individuales
 			List<Reserva> r = new ArrayList<Reserva>();
 			if(pTipo.equalsIgnoreCase("apartamento"))
@@ -1156,13 +1245,13 @@ public class PersistenciaAlohandes
 			{
 				r = adicionarReservaColectivaApartamento(id, pCantidad, pInicio, pDuracion);
 			}
-			
+
 			if(r.size()==0)
 			{
 				// No se cuenta con la capacidad para hacer la reserva colectiva
 				return null;
 			}
-			
+
 			long tuplasInsertadas = sqlReservaColectiva.adicionarReservaColectiva(pm, id, pInicio, pDuracion, pCantidad, pTipo);
 			tx.commit();
 
@@ -1218,7 +1307,7 @@ public class PersistenciaAlohandes
 			return reservas;
 		}
 	}
-	
+
 	public List<Reserva> adicionarReservaColectivaHabitacion( long idColectiva, int pCantidad, Date pInicio, int pDuracion) 
 	{
 
@@ -1257,12 +1346,13 @@ public class PersistenciaAlohandes
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-
+			String tipo = darTipoReserva(idReserva);
 			tx.begin();
-		
-			
-			
-			
+			if(tipo.equals("apartamento"))
+				eliminarReservaColectivaApartamento(idReserva);
+			else
+				eliminarReservaColectivaHabitacion(idReserva);
+
 			long resp = sqlReservaColectiva.eliminarReservaColectivaPorId(pm, idReserva);
 			tx.commit();
 
@@ -1283,7 +1373,7 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * Retorna reserva colectiva de apartamentos
 	 * @param pId
@@ -1313,7 +1403,7 @@ public class PersistenciaAlohandes
 			return tuplasEliminadas;
 		}
 	}
-	
+
 	/**
 	 * Retorna reserva colectiva de apartamentos
 	 * @param pId
@@ -1343,8 +1433,8 @@ public class PersistenciaAlohandes
 			return tuplasEliminadas;
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA
@@ -1367,8 +1457,8 @@ public class PersistenciaAlohandes
 
 
 
-	
-	
+
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los RESERVA
 	 *****************************************************************/
@@ -1461,6 +1551,19 @@ public class PersistenciaAlohandes
 		return sqlReserva.darReservas(pmf.getPersistenceManager());
 	}
 
+	public String darTipoReserva(long idReserva)
+	{
+		String tipo ="";
+		long apt = darIdApartamentoPorIdReserva(idReserva);
+		long hab = darIdHabitacionPorIdReserva(idReserva);
+		if(apt !=0)
+			tipo = "apartamento";
+		else if(hab != 0)
+			tipo = "habitacion";
+
+		return tipo;
+	}
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA cuya fecha de inicio es después de la fecha acutal
 	 * @return La lista de objetos RESERVA, construidos con base en las tuplas de la tabla RESERVA
@@ -1489,7 +1592,7 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservaPorId(pmf.getPersistenceManager(), idReserva);
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
 	 * @param idReserva - El identificador del bar
@@ -1499,8 +1602,8 @@ public class PersistenciaAlohandes
 	{
 		return sqlReserva.darReservaPorIdColectiva(pmf.getPersistenceManager(), idReservaColectiva);
 	}
-	
-	
+
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los RESERVA HABITACION
 	 *****************************************************************/
@@ -1580,7 +1683,7 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
 	 * @param idReserva - El identificador del bar
@@ -1591,7 +1694,7 @@ public class PersistenciaAlohandes
 		PersistenceManager pm = pmf.getPersistenceManager();
 		return sqlReservaHabitacion.darIdHabitacionPorIdReserva(pm, idReserva);
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
 	 * @param idReserva - El identificador del bar
@@ -1602,7 +1705,7 @@ public class PersistenciaAlohandes
 		PersistenceManager pm = pmf.getPersistenceManager();
 		return sqlReservaHabitacion.darIdReservaPorIdHabitacion(pm, idHabitacion);
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los RESERVA APARTAMENTO
 	 *****************************************************************/
@@ -1682,8 +1785,8 @@ public class PersistenciaAlohandes
 			pm.close();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
 	 * @param idReserva - El identificador del bar
@@ -1694,7 +1797,7 @@ public class PersistenciaAlohandes
 		PersistenceManager pm = pmf.getPersistenceManager();
 		return sqlReservaApartamento.darIdApartamentoPorIdReserva(pm, idReserva);
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla RESERVA que tienen el identificador dado
 	 * @param idReserva - El identificador del bar
@@ -1706,7 +1809,7 @@ public class PersistenciaAlohandes
 		return sqlReservaApartamento.darIdReservaPorIdApartamento(pm, idApartamento);
 	}
 
-	
+
 	////////////////////////////////////////////////
 
 

@@ -130,7 +130,7 @@ class SQLApartamento
 		q.setResultClass(Habitacion.class);
 	}
 	
-	public void deshabilitarHabitacion(PersistenceManager pm, long hab)
+	public void deshabilitarApartamento(PersistenceManager pm, long hab)
 	{
 		String sql = "UPDATE " + pa.darTablaPropiedad();
 		sql += "SET habilitada = 0 ";

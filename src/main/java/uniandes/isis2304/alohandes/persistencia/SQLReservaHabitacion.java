@@ -47,7 +47,11 @@ public class SQLReservaHabitacion {
 	 */
 	public long adicionarReservaHabitacion(PersistenceManager pm, long idHabitacion, long idReserva) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReservaHabitacion() + "(id_Habitacion, id_Reserva) values (?, ?)");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "INSERT INTO " + pp.darTablaReservaHabitacion() + "(id_Habitacion, id_Reserva) values (?, ?)";
+		sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL, sql);
         q.setParameters(idHabitacion, idReserva);
         return (long) q.executeUnique();
 	}
@@ -61,16 +65,23 @@ public class SQLReservaHabitacion {
 	 */
 	public long eliminarReservaHabitacion(PersistenceManager pm, long idReserva)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Reserva = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pp.darTablaReservaHabitacion()+ " WHERE id_Reserva = ?";
+		sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL, sql);
         q.setParameters( idReserva);
         return (long) q.executeUnique();
 	}
 
 	public void cambiarReservaHabitacion(PersistenceManager pm, long idR, long idP)
 	{
-		String sql = "UPDATE " + pp.darTablaReservaHabitacion();
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
+		sql += "BEGIN TRAN";
+		sql += "UPDATE " + pp.darTablaReservaHabitacion();
 		sql += "SET idHabitacion = "+idP;
 		sql += "WHERE idReserva= "+ idR;
+		sql += "COMMIT TRAN";
 		Query q = pm.newQuery(SQL, sql);
 		
 		q.setResultClass(Habitacion.class);
@@ -85,7 +96,11 @@ public class SQLReservaHabitacion {
 	 */
 	public long darIdReservaPorIdHabitacion (PersistenceManager pm, long idHabitacion) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT idReserva FROM " + pp.darTablaReservaHabitacion() + " WHERE idApartamento = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT idReserva FROM " + pp.darTablaReservaHabitacion() + " WHERE idApartamento = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Long.class);
 		q.setParameters(idHabitacion);
 		return (long) q.executeUnique();
@@ -100,7 +115,11 @@ public class SQLReservaHabitacion {
 	 */
 	public long darIdHabitacionPorIdReserva (PersistenceManager pm, long idReserva) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT idApartamento FROM " + pp.darTablaReservaHabitacion() + " WHERE idReserva = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT idApartamento FROM " + pp.darTablaReservaHabitacion() + " WHERE idReserva = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Long.class);
 		q.setParameters(idReserva);
 		return (long) q.executeUnique();

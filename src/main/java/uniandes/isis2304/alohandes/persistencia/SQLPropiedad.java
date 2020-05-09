@@ -66,7 +66,11 @@ class SQLPropiedad
 	 */
 	public long eliminarPropiedadPorId (PersistenceManager pm, long idSer)
 	{
-		Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaPropiedad () + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pa.darTablaPropiedad () + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setParameters(idSer);
 		return (long) q.executeUnique();
 	}
@@ -80,7 +84,11 @@ class SQLPropiedad
 	 */
 	public Propiedad darPropiedadPorId (PersistenceManager pm, long idSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaPropiedad() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaPropiedad() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Propiedad.class);
 		q.setParameters(idSer);
 		return (Propiedad) q.executeUnique();
@@ -95,7 +103,11 @@ class SQLPropiedad
 	 */
 	public List<Propiedad> darPropiedades (PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaPropiedad ());
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaPropiedad ();
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Propiedad.class);
 		return (List<Propiedad>) q.executeList();
 	}
@@ -109,7 +121,9 @@ class SQLPropiedad
 	 */
 	public List<Object> darMayorOcupacion(PersistenceManager pm, Date tiempo, String tipo)
 	{
-		String sql = "with tab as(";
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "with tab as(";
 		sql +="select count(p.dias_reservados) m";
 		sql += " FROM " + pa.darTablaPropiedad()+"p";
 		sql+= "INNER JOIN" + pa.darTablaHabitacion()+"hab ON(p.id = hab.id)";
@@ -122,7 +136,7 @@ class SQLPropiedad
 		sql +="Where max(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
 		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
-		
+		sql += sql += "COMMIT TRAN";
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}
@@ -136,7 +150,9 @@ class SQLPropiedad
 	 */
 	public List<Object> darMenorOcupacion(PersistenceManager pm, Date tiempo, String tipo)
 	{
-		String sql = "with tab as(";
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "with tab as(";
 		sql +="select  count(p.dias_reservados) m";
 		sql += " FROM " + pa.darTablaPropiedad()+"p";
 		sql+= "INNER JOIN" + pa.darTablaHabitacion()+"hab ON(p.id = hab.id)";
@@ -149,6 +165,7 @@ class SQLPropiedad
 		sql +="Where min(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
 		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		sql += sql += "COMMIT TRAN";
 		
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
@@ -163,7 +180,9 @@ class SQLPropiedad
 	 */
 	public List<Object> darMayorIngresos(PersistenceManager pm, Date tiempo, String tipo)
 	{
-		String sql = "with tab as(";
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "with tab as(";
 		sql +=" select count( res.monto_total )as m";
 		sql += " FROM " + pa.darTablaPropiedad()+"p";
 		sql+= "INNER JOIN" + pa.darTablaHabitacion()+"hab ON(p.id = hab.id)";
@@ -176,6 +195,7 @@ class SQLPropiedad
 		sql +="Where max(t.m), select  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
 		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
+		sql += sql += "COMMIT TRAN";
 		
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();

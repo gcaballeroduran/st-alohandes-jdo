@@ -63,7 +63,11 @@ public class SQLReservaColectiva {
 	 */
 	public long eliminarReservaColectivaPorId (PersistenceManager pm, long idReserva)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaColectiva() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pp.darTablaReservaColectiva() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL, sql);
         q.setParameters(idReserva);
         return (long) q.executeUnique();            
 	}
@@ -77,7 +81,11 @@ public class SQLReservaColectiva {
 	 */
 	public ReservaColectiva darReservaColectivaPorId (PersistenceManager pm, long idReserva) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReservaColectiva() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pp.darTablaReservaColectiva() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(ReservaColectiva.class);
 		q.setParameters(idReserva);
 		return (ReservaColectiva) q.executeUnique();
@@ -91,7 +99,11 @@ public class SQLReservaColectiva {
 	 */
 	public List<ReservaColectiva> darReservasColectivas(PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReservaColectiva());
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pp.darTablaReservaColectiva();
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(ReservaColectiva.class);
 		return (List<ReservaColectiva>) q.executeList();
 	}

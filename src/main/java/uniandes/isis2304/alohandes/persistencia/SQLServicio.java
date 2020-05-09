@@ -62,7 +62,11 @@ public class SQLServicio {
 	 */
 	public long eliminarServicioPorId (PersistenceManager pm, long idSer)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaServicio() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pa.darTablaServicio() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL, sql);
         q.setParameters(idSer);
         return (long) q.executeUnique();
 	}
@@ -75,7 +79,11 @@ public class SQLServicio {
 	 */
 	public long eliminarServicioPorTipo (PersistenceManager pm, long idSer)
 	{
-        Query q = pm.newQuery(SQL, "DELETE FROM " + pa.darTablaServicio() + " WHERE tipo = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pa.darTablaServicio() + " WHERE tipo = ?";
+		sql += "COMMIT TRAN";
+        Query q = pm.newQuery(SQL, sql);
         q.setParameters(idSer);
         return (long) q.executeUnique();
 	}
@@ -90,7 +98,11 @@ public class SQLServicio {
 	 */
 	public Servicio darServicioPorId (PersistenceManager pm, long idSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaServicio() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaServicio() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Servicio.class);
 		q.setParameters(idSer);
 		return (Servicio) q.executeUnique();
@@ -105,7 +117,11 @@ public class SQLServicio {
 	 */
 	public Servicio darServicioPorTipo (PersistenceManager pm, long idSer) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaServicio() + " WHERE tipo = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaServicio() + " WHERE tipo = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Servicio.class);
 		q.setParameters(idSer);
 		return (Servicio) q.executeUnique();
@@ -120,7 +136,11 @@ public class SQLServicio {
 	 */
 	public List<Servicio> darServicios(PersistenceManager pm)
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pa.darTablaApartamento ());
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pa.darTablaApartamento ();
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Servicio.class);
 		return (List<Servicio>) q.executeList();
 	}

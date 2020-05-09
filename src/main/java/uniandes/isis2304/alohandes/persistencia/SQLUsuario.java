@@ -61,7 +61,11 @@ public class SQLUsuario {
 	 */
 	public long eliminarUsuarioPorId(PersistenceManager pm, long id)
 	{
-		 Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReserva() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "DELETE FROM " + pp.darTablaReserva() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		 Query q = pm.newQuery(SQL, sql);
 	     q.setParameters(id);
 	     return (long) q.executeUnique();               
 	}
@@ -75,7 +79,11 @@ public class SQLUsuario {
 	 */
 	public Usuario darUsuarioPorId (PersistenceManager pm, long id) 
 	{
-		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaReserva() + " WHERE id = ?");
+		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += "BEGIN TRAN";
+		sql += "SELECT * FROM " + pp.darTablaReserva() + " WHERE id = ?";
+		sql += "COMMIT TRAN";
+		Query q = pm.newQuery(SQL, sql );
 		q.setResultClass(Reserva.class);
 		q.setParameters(id);
 		return (Usuario) q.executeUnique();

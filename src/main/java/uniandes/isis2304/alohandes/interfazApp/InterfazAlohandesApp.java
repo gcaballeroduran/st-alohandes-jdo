@@ -39,6 +39,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
@@ -1543,7 +1544,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     {
         try
         {
-        	
+        	BasicConfigurator.configure();
             // Unifica la interfaz para Mac y para Windows.
             UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName( ) );
             InterfazAlohandesApp interfaz = new InterfazAlohandesApp( );

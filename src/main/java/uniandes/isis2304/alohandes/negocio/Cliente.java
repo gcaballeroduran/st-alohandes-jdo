@@ -26,7 +26,7 @@ public class Cliente  extends Usuario implements VOCliente {
 	 */
 	public Cliente(){
 		
-		super("",null,0,null);
+		super(0,null, "", null);
 		this.medioPago = "";
 		this.reservas = 0;
 	}
@@ -43,7 +43,7 @@ public class Cliente  extends Usuario implements VOCliente {
 	 */
 	public Cliente (String logIn,String tipoId, long numeroId,String relacionU, String medioPago, int reservas){
 		
-		super(logIn, tipoId, numeroId, relacionU);
+		super(numeroId, tipoId, logIn, relacionU);
 		this.medioPago = medioPago;
 		this.reservas = reservas;
 	}

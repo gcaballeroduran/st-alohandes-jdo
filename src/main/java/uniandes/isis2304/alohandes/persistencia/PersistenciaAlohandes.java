@@ -415,7 +415,7 @@ public class PersistenciaAlohandes
 
 			log.trace ("Inserción de usuario: " + logIn + ": " + tuplasInsertadas + " tuplas insertadas");
 
-			return new Usuario(logIn, tipoId, numeroId, relacionU);
+			return new Usuario(numeroId, tipoId, logIn, relacionU);
 		}
 		catch (Exception e)
 		{
@@ -618,7 +618,7 @@ public class PersistenciaAlohandes
 		try
 		{
 			tx.begin();
-			adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+			sqlUsuario.adicionarUsuario(pm, logIn, tipoId, numeroId, relacionU);
 			long tuplasInsertadas = sqlCliente.adicionarCliente(pm, numeroId, medioPago, reservas);
 			tx.commit();
 

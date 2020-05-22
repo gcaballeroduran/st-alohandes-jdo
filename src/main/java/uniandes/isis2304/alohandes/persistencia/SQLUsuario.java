@@ -47,7 +47,7 @@ public class SQLUsuario {
 	 */
 	public long adicionarUsuario(PersistenceManager pm,String logIn, String tipoId, long numeroId, String relacionU){
 		
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCliente() + "(logIn,tipoId,numeroId,relacionU) values (?, ?, ?, ?)");
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaUsuario() + "(logIn,tipoId,Id,relacionU) values (?, ?, ?, ?)");
         q.setParameters( logIn,tipoId,numeroId,relacionU);
         return (long) q.executeUnique();
 		

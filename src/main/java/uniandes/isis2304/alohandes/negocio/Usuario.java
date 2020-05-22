@@ -48,7 +48,7 @@ public class Usuario implements VOUsuario {
 	 * @param numeroId - numero de id del ususario.
 	 * @param relacionU -  relacion de usuario con la universidad.
 	 */
-	public Usuario(String logIn, String tipoId, long numeroId, String relacionU){
+	public Usuario( long numeroId, String tipoId,String logIn ,String relacionU){
 		
 		this.logIn = logIn;
 		this.tipoId = tipoId;

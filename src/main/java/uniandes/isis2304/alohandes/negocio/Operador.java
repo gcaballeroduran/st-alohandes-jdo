@@ -85,7 +85,7 @@ public class Operador extends Usuario implements VOOperador {
 	 */
 	public Operador(){
 		
-		super("",null,0,null);
+		super(0,null, "", null);
 		numeroRNT = 0;
 		vencimientoRNT = null;
 		registroSuperTurismo = "";
@@ -121,7 +121,7 @@ public class Operador extends Usuario implements VOOperador {
 	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
-		super(logIn, tipoId, numeroId, relacionU);
+		super(numeroId, tipoId, logIn, relacionU);
 		this.numeroRNT = numeroRNT;
 		this.vencimientoRNT = vencimientoRNT;
 		this.registroSuperTurismo = registroSuperTurismo;

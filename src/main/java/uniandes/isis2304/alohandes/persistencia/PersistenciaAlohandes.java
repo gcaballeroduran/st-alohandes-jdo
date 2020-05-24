@@ -618,7 +618,7 @@ public class PersistenciaAlohandes
 		try
 		{
 			tx.begin();
-			sqlUsuario.adicionarUsuario(pm, logIn, tipoId, numeroId, relacionU);
+			adicionarUsuario(logIn, tipoId, numeroId, relacionU);
 			long tuplasInsertadas = sqlCliente.adicionarCliente(pm, numeroId, medioPago, reservas);
 			tx.commit();
 

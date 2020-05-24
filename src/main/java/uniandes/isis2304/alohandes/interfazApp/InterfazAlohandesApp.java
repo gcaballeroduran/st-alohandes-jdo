@@ -50,6 +50,7 @@ import com.google.gson.stream.JsonReader;
 
 import sun.rmi.server.InactiveGroupException;
 import uniandes.isis2304.alohandes.negocio.Alohandes;
+import uniandes.isis2304.alohandes.negocio.Cliente;
 import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
 import uniandes.isis2304.alohandes.negocio.VOHabitacion;
@@ -262,7 +263,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "tipoId", JOptionPane.QUESTION_MESSAGE);
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "relacionU", JOptionPane.QUESTION_MESSAGE);
     		String medioPago = JOptionPane.showInputDialog (this, "Medio de pago?", "Adicionar medio de pago", JOptionPane.QUESTION_MESSAGE);
-    		int reservas = Integer.parseInt(JOptionPane.showInputDialog (this, "Reservas?", "Adicionar reservas", JOptionPane.QUESTION_MESSAGE));
+    		int reservas = 0;
     		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		if (logIn != null && tipoId != null && relacionU != null && medioPago != null)
     		{
@@ -327,6 +328,37 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 
     			String resultado = "En eliminar Clientes\n\n";
     			resultado += clEliminados + " Clientes eliminados\n";
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    /**
+     * Busca en la base de datos el cliente con el identificador dado po el usuario
+     */
+    public void buscarClienteId( )
+    {
+    	try 
+    	{
+    		String idCliente = JOptionPane.showInputDialog (this, "Id del cliente?", "Buscar cliente por Id", JOptionPane.QUESTION_MESSAGE);
+    		if (idCliente != null)
+    		{
+    			long id = Long.valueOf (idCliente);
+    			Cliente cliente = alohandes.darClientePorId(id);
+
+    			String resultado = "En Buscar Cliente\n\n";
+    			resultado += cliente;
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
     		}
@@ -546,102 +578,6 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 		}
     }
  
-    
-	/* ****************************************************************
-	 * 			CRUD de Usuario
-	 *****************************************************************/
-
-    /**
-     * Adiciona un usuario con la información dada por el usuario
-     * Se crea una nueva tupla de usuario en la base de datos, si un usuario con ese id no existía
-     */
-    public void adicionarUsuario( )
-    {
-    	try 
-    	{
-    		String logIn = JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE);
-    		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
-    		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
-    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
-    		if (logIn != null && tipoId != null && relacionU != null )
-    		{
-        		VOUsuario c = alohandes.adicionarUsuario(logIn, tipoId, numeroId, relacionU);
-        		if (c == null)
-        		{
-        			throw new Exception ("No se pudo crear un usuario con id: " + numeroId);
-        		}
-        		String resultado = "En adicionarUsuario\n\n";
-        		resultado += "Cliente adicionado exitosamente: " + c;
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Consulta en la base de datos los usuarios existentes y los muestra en el panel de datos de la aplicación
-     */
-    public void listarUsuario( )
-    {
-    	try 
-    	{
-			List <VOUsuario> lista = alohandes.darVOUsuarios();
-
-			String resultado = "En listarUsuario";
-			resultado +=  "\n" + listarUsuario(lista);
-			panelDatos.actualizarInterfaz(resultado);
-			resultado += "\n Operación terminada";
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-
-    /**
-     * Borra de la base de datos el cliente con el identificador dado po el usuario
-     * Cuando dicho cliente no existe, se indica que se borraron 0 registros de la base de datos
-     */
-    public void eliminarUsuarioId( )
-    {
-    	try 
-    	{
-    		String idUsuario = JOptionPane.showInputDialog (this, "Id del usuario?", "Borrar usuario por Id", JOptionPane.QUESTION_MESSAGE);
-    		if (idUsuario != null)
-    		{
-    			long id = Long.valueOf (idUsuario);
-    			long clEliminados = alohandes.eliminarUsuarioPorId(id);
-
-    			String resultado = "En eliminar Usuarios\n\n";
-    			resultado += clEliminados + " Usuarios eliminados\n";
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
- 
     /* ****************************************************************
 	 * 			CRUD de Apartamento
 	 *****************************************************************/
@@ -752,46 +688,6 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 	 * 			CRUD de Propiedad
 	 *****************************************************************/
 
-    /**
-     * Adiciona una propiedad con la información dada por el usuario
-     * Se crea una nueva tupla de propiedad en la base de datos, si una propiedad con ese id no existía
-     */
-    public void adicionarPropiedad( )
-    {
-    	try 
-    	{
-    		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
-    		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
-    		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
-    		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
-    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
-    		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
-    		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
-    		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
-    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
-    		{
-        		VOPropiedad c = alohandes.adicionarPropiedad(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
-        		if (c == null)
-        		{
-        			throw new Exception ("No se pudo crear una propiedad" );
-        		}
-        		String resultado = "En adicionarPropiedad\n\n";
-        		resultado += "Propiedad adicionado exitosamente: " + c;
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
 
     /**
      * Consulta en la base de datos las propiedades existentes y los muestra en el panel de datos de la aplicación
@@ -815,38 +711,6 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 		}
     }
 
-    /**
-     * Borra de la base de datos la propiedad con el identificador dado po el usuario
-     * Cuando dicha propiedad no existe, se indica que se borraron 0 registros de la base de datos
-     */
-    public void eliminarPropiedadId( )
-    {
-    	try 
-    	{
-    		String idPropiedad = JOptionPane.showInputDialog (this, "Id de la propiedad?", "Borrar propiedad por Id", JOptionPane.QUESTION_MESSAGE);
-    		if (idPropiedad != null)
-    		{
-    			long id = Long.valueOf (idPropiedad);
-    			long clEliminados = alohandes.eliminarPropiedadPorId(id);
-
-    			String resultado = "En eliminar Propiedad\n\n";
-    			resultado += clEliminados + " Propiedades eliminadas\n";
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
-    
     
     /* ****************************************************************
 	 * 			CRUD de Habitacion

@@ -19,6 +19,10 @@
 				{
 					"label": "Borrar por Id",
 					"event": "eliminarClienteId"
+				},
+				{
+					"label": "Buscar por Id",
+					"event": "buscarClienteId"
 				}
 			]
 		},
@@ -56,23 +60,6 @@
 				}
 			]
 		},
-		{ "menuTitle": "Usuario",
-		  "options":
-			[
-				{
-					"label": "Adicionar",
-					"event": "adicionarUsuario"
-				},
-				{
-					"label": "Listar",
-					"event": "listarUsuario"
-				},
-				{
-					"label": "Borrar por Id",
-					"event": "eliminarUsuarioId"
-				}
-			]
-		},
 		{ "menuTitle": "Apartamento",
 		  "options":
 			[
@@ -94,16 +81,8 @@
 		  "options":
 			[
 				{
-					"label": "Adicionar",
-					"event": "adicionarPripiedad"
-				},
-				{
 					"label": "Listar",
 					"event": "listarPropiedad"
-				},
-				{
-					"label": "Borrar por Id",
-					"event": "eliminarPropiedadId"
 				}
 			]
 		},

@@ -74,10 +74,7 @@ public class SQLCliente {
 	 */
 	public Cliente darClientePorId (PersistenceManager pm, long idCliente) 
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql ="SELECT * FROM " + pp.darTablaCliente() + " WHERE id = "+ idCliente;
-		sql += "COMMIT TRAN";
+		String sql = "SELECT * FROM " + pp.darTablaCliente() + " WHERE id = "+ idCliente;
 	    Query q = pm.newQuery(SQL,sql);
 		q.setResultClass(Cliente.class);
 		q.setParameters(idCliente);

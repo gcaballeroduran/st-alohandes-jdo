@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.JDODataStoreException;
@@ -50,7 +51,9 @@ import com.google.gson.stream.JsonReader;
 
 import sun.rmi.server.InactiveGroupException;
 import uniandes.isis2304.alohandes.negocio.Alohandes;
+import uniandes.isis2304.alohandes.negocio.Apartamento;
 import uniandes.isis2304.alohandes.negocio.Cliente;
+import uniandes.isis2304.alohandes.negocio.Habitacion;
 import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
 import uniandes.isis2304.alohandes.negocio.VOHabitacion;
@@ -355,7 +358,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		if (idCliente != null)
     		{
     			long id = Long.valueOf (idCliente);
-    			Cliente cliente = alohandes.darClientePorId(id);
+    			VOCliente cliente = alohandes.darClientePorId(id);
 
     			String resultado = "En Buscar Cliente\n\n";
     			resultado += cliente;
@@ -401,9 +404,11 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		Date horaApertura = Date.valueOf(JOptionPane.showInputDialog (this, "hora de apertura?", "Adicionar hora de apertura", JOptionPane.QUESTION_MESSAGE));
     		Date horaCierre = Date.valueOf(JOptionPane.showInputDialog (this, "hora de cierre?", "Adicionar hora de cierre", JOptionPane.QUESTION_MESSAGE));
     		int tiempoMinimo = Integer.parseInt(JOptionPane.showInputDialog (this, "Tiempo minimo?", "Adicionar tiempo minimo", JOptionPane.QUESTION_MESSAGE));
+    		ArrayList<Habitacion> habitaciones = new ArrayList<>();
+    		ArrayList<Apartamento> apartamentos = new ArrayList<>();
     		if (logIn != null && tipoId != null && relacionU != null )
     		{
-        		VOOperador c = alohandes.adicionarOperador(logIn, tipoId, numeroId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, 0, 0, null, null);
+        		VOOperador c = alohandes.adicionarOperador(logIn, tipoId, numeroId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, 0, 0, habitaciones, apartamentos);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear un operador ");
@@ -492,10 +497,10 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		Date fechaInicio = Date.valueOf(JOptionPane.showInputDialog (this, "logIn?", "logIn", JOptionPane.QUESTION_MESSAGE));
-    		Date fechaFin =Date.valueOf( JOptionPane.showInputDialog (this,"Tipo de identificacion?", " Adicionar :CARNET_U,CEDULA, PASAPORTE",JOptionPane.QUESTION_MESSAGE));
+    		Date fechaInicio = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha de inicio?", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE));
+    		Date fechaFin =Date.valueOf( JOptionPane.showInputDialog (this,"Fecha de fin?", "Fecha de fin",JOptionPane.QUESTION_MESSAGE));
     		Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE));
-    		int personas = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		int personas = Integer.parseInt(JOptionPane.showInputDialog (this, "numero de personas?", "Adicionar numero de personas", JOptionPane.QUESTION_MESSAGE));
     		double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "Porcentaje a pagar?", "Adicionar porcenaje a pagar", JOptionPane.QUESTION_MESSAGE));
     		double montoTotal = Double.parseDouble(JOptionPane.showInputDialog (this, "monto total?", "Adicionar monto total a pagar ", JOptionPane.QUESTION_MESSAGE));
     		long idPropiedad = Long.parseLong(JOptionPane.showInputDialog (this, "ID propiedad?", "Adicionar id de la propiedad asociada a la reserva ", JOptionPane.QUESTION_MESSAGE));
@@ -504,7 +509,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
         		VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idPropiedad);
         		if (c == null)
         		{
-        			throw new Exception ("No se pudo crear un usuario " );
+        			throw new Exception ("No se pudo crear una reserva " );
         		}
         		String resultado = "En adicionarReserva\n\n";
         		resultado += "Cliente adicionado exitosamente: " + c;

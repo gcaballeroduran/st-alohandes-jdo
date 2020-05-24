@@ -16,25 +16,25 @@ public interface VOOperador {
 	 * 
 	 * @return numero de RNT.
 	 */
-	public int getNumeroRNT();
+	public int getNumero_RNT();
 
 	/**
 	 * 
 	 * @return vencimiento del RNT
 	 */
-	public Date getVencimientoRNT();
+	public Date getVencimiento_RNT();
 
 	/**
 	 * 
 	 * @return registro del super turismo del operador.
 	 */
-	public String getRegistroSuperTurismo();
+	public String getRegistro_Super_Turismo();
 
 	/**
 	 * 
 	 * @return fecha de vencimiento del super tutimo.
 	 */
-	public Date getVencimientoRegistroSuperTurismo();
+	public Date getVencimiento_Registro_ST();
 
 	/**
 	 * 
@@ -52,31 +52,31 @@ public interface VOOperador {
 	 * 
 	 * @return hora de apertura.
 	 */
-	public Date getHoraApertura();
+	public Date getHora_Apertura();
 
 	/**
 	 * 
 	 * @return hora de cierre.
 	 */
-	public Date getHoraCierre();
+	public Date getHora_Cierre();
 
 	/**
 	 * 
 	 * @return tiempo minmo de estadia.
 	 */
-	public int getTiempoMinimo();
+	public int getTiempo_Minimo();
 
 	/**
 	 * 
 	 * @return ganacias del anio actual.
 	 */
-	public double getGananciaAnioActual();
+	public double getGanancia_Anio_Actual();
 
 	/**
 	 * 
 	 * @return ganacias anio de corrido.
 	 */
-	public double getGananciAnioCorrido();
+	public double getGanancia_Anio_Corrido();
 
 	/**
 	 * 

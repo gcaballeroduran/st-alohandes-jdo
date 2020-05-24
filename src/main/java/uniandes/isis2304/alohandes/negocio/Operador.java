@@ -13,22 +13,22 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 *  numero de RNT del operador.
 	 */
-	private int numeroRNT;
+	private int numero_RNT;
 	
 	/**
 	 * fecha de vencimiento del RNT.
 	 */
-	private Date vencimientoRNT;
+	private Date vencimiento_RNT;
 	
 	/**
 	 *  regsitro del super turismo del operador.
 	 */
-	private String registroSuperTurismo;
+	private String registro_Super_Turismo;
 	
 	/**
 	 * fecha devencimiento del regsitro del super turismo del operador..
 	 */
-	private Date vencimientoRegistroSuperTurismo;
+	private Date vencimiento_Registro_ST;
 	
 	/**
 	 *  Categoria a la que pertenece el operador.
@@ -43,37 +43,39 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 *  Hora de apertura.
 	 */
-	private Date horaApertura;
+	private Date hora_Apertura;
 	
 	/**
 	 *  Hora de cierre.
 	 */
-	private Date horaCierre;
+	private Date hora_Cierre;
 	
 	/**
 	 * Tiempo minimo de estadia.
 	 */
-	private int tiempoMinimo;
+	private int tiempo_Minimo;
 	
 	/**
 	 *  Ganancias actuales.
 	 */
-	private double gananciaAnioActual;
+	private double ganancia_Anio_Actual;
 	
 	/**
 	 *  Ganancias del anio corrido.
 	 */
-	private double gananciAnioCorrido;
+	private double ganancia_Anio_Corrido;
 	
 	/**
 	 * Habitaciones del operador.
 	 */
-	private ArrayList habitaciones;
+	private ArrayList<Habitacion> habitaciones;
 	
 	/**
 	 *  Apartamentos del operador.
 	 */
-	private ArrayList apartamentos;
+	private ArrayList<Apartamento> apartamentos;
+	
+	private long id;
 	
 	
 	/* ****************************************************************
@@ -86,19 +88,20 @@ public class Operador extends Usuario implements VOOperador {
 	public Operador(){
 		
 		super(0,null, "", null);
-		numeroRNT = 0;
-		vencimientoRNT = null;
-		registroSuperTurismo = "";
-		vencimientoRegistroSuperTurismo = null;
+		numero_RNT = 0;
+		vencimiento_RNT = null;
+		registro_Super_Turismo = "";
+		vencimiento_Registro_ST = null;
 		categoria = null;
 		direccion = "";
-		horaApertura = null;
-		horaCierre = null;
-		tiempoMinimo = 1;
-		gananciaAnioActual = 0;
-		gananciAnioCorrido = 0;
+		hora_Apertura = null;
+		hora_Cierre = null;
+		tiempo_Minimo = 1;
+		ganancia_Anio_Actual = 0;
+		ganancia_Anio_Corrido = 0;
 		habitaciones = new ArrayList<>();
 		apartamentos = new ArrayList<>();
+		id = 0;
 	}
 	
 	/**
@@ -118,23 +121,24 @@ public class Operador extends Usuario implements VOOperador {
 	 * @param habitaciones - habitaciones del operador.
 	 * @param apartamentos - apartamentos del operador.
 	 */
-	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
-			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
+	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numero_RNT, Date vencimiento_RNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+			Date horaApertura, Date horaCierre, int tiempo_Minimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
 		super(numeroId, tipoId, logIn, relacionU);
-		this.numeroRNT = numeroRNT;
-		this.vencimientoRNT = vencimientoRNT;
-		this.registroSuperTurismo = registroSuperTurismo;
-		this.vencimientoRegistroSuperTurismo = vencimientoRegistroSuperTurismo;
+		this.numero_RNT = numero_RNT;
+		this.vencimiento_RNT = vencimiento_RNT;
+		this.registro_Super_Turismo = registroSuperTurismo;
+		this.vencimiento_Registro_ST = vencimientoRegistroSuperTurismo;
 		this.categoria = categoria;
 		this.direccion = direccion;
-		this.horaApertura = horaApertura;
-		this.horaCierre = horaCierre;
-		this.tiempoMinimo = tiempoMinimo;
-		this.gananciaAnioActual = gananciaAnioActual;
-		this.gananciAnioCorrido = gananciAnioCorrido;
+		this.hora_Apertura = horaApertura;
+		this.hora_Cierre = horaCierre;
+		this.tiempo_Minimo = tiempo_Minimo;
+		this.ganancia_Anio_Actual = gananciaAnioActual;
+		this.ganancia_Anio_Corrido = gananciAnioCorrido;
 		this.habitaciones = habitaciones;
 		this.apartamentos = apartamentos;
+		this.id = numeroId;
 		
 	}
 	
@@ -143,64 +147,64 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return numero de RNT.
 	 */
-	public int getNumeroRNT() {
-		return numeroRNT;
+	public int getNumero_RNT() {
+		return numero_RNT;
 	}
 
 	/**
 	 * 
 	 * @param numeroRNT - nuevo numeroRNT del operador.
 	 */
-	public void setNumeroRNT(int numeroRNT) {
-		this.numeroRNT = numeroRNT;
+	public void setNumero_RNT(int numero_RNT) {
+		this.numero_RNT = numero_RNT;
 	}
 
 	/**
 	 * 
 	 * @return vencimiento del RNT
 	 */
-	public Date getVencimientoRNT() {
-		return vencimientoRNT;
+	public Date getVencimiento_RNT() {
+		return vencimiento_RNT;
 	}
 
 	/**
 	 * 
 	 * @param vencimientoRNT - nueva fecha de vencimiento del RNT del operador.
 	 */
-	public void setVencimientoRNT(Date vencimientoRNT) {
-		this.vencimientoRNT = vencimientoRNT;
+	public void setVencimiento_RNT(Date vencimiento_RNT) {
+		this.vencimiento_RNT = vencimiento_RNT;
 	}
 
 	/**
 	 * 
 	 * @return registro del super turismo del operador.
 	 */
-	public String getRegistroSuperTurismo() {
-		return registroSuperTurismo;
+	public String getRegistro_Super_Turismo() {
+		return registro_Super_Turismo;
 	}
 
 	/**
 	 * 
 	 * @param registroSuperTurismo - nuevo registro del super turismo del operador.
 	 */
-	public void setRegistroSuperTurismo(String registroSuperTurismo) {
-		this.registroSuperTurismo = registroSuperTurismo;
+	public void setRegistro_Super_Turismo(String registroSuperTurismo) {
+		this.registro_Super_Turismo = registroSuperTurismo;
 	}
 
 	/**
 	 * 
 	 * @return fecha de vencimiento del super tutimo.
 	 */
-	public Date getVencimientoRegistroSuperTurismo() {
-		return vencimientoRegistroSuperTurismo;
+	public Date getVencimiento_Registro_ST() {
+		return vencimiento_Registro_ST;
 	}
 
 	/**
 	 * 
 	 * @param vencimientoRegistroSuperTurismo - nueva fecha de vencimiento del super turismo.
 	 */
-	public void setVencimientoRegistroSuperTurismo(Date vencimientoRegistroSuperTurismo) {
-		this.vencimientoRegistroSuperTurismo = vencimientoRegistroSuperTurismo;
+	public void setVencimiento_Registro_ST(Date vencimientoRegistroSuperTurismo) {
+		this.vencimiento_Registro_ST = vencimientoRegistroSuperTurismo;
 	}
 
 	/**
@@ -239,72 +243,74 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return hora de apertura.
 	 */
-	public Date getHoraApertura() {
-		return horaApertura;
+	public Date getHora_Apertura() {
+		return hora_Apertura;
 	}
 
 	/**
 	 * 
 	 * @param horaApertura - nueva hora de apertura.
 	 */
-	public void setHoraApertura(Date horaApertura) {
-		this.horaApertura = horaApertura;
+	public void setHora_Apertura(Date horaApertura) {
+		this.hora_Apertura = horaApertura;
 	}
 
 	/**
 	 * 
 	 * @return hora de cierre.
 	 */
-	public Date getHoraCierre() {
-		return horaCierre;
+	public Date getHora_Cierre() {
+		return hora_Cierre;
 	}
 
 	/**
 	 * 
 	 * @param horaCierre - nueva hora de cierre.
 	 */
-	public void setHoraCierre(Date horaCierre) {
-		this.horaCierre = horaCierre;
+	public void setHora_Cierre(Date horaCierre) {
+		this.hora_Cierre = horaCierre;
+	}
+	
+	/**
+	 * 
+	 * @param tiempo_Minimo -  nuevo tiempo_Minimo.
+	 */
+	public void setTiempo_Minimo(int tiempo_Minimo) {
+		this.tiempo_Minimo = tiempo_Minimo;
+		
 	}
 
 	/**
 	 * 
-	 * @return tiempo minmo de estadia.
+	 * @return tiempo_Minimo de estadia.
 	 */
-	public int getTiempoMinimo() {
-		return tiempoMinimo;
+	public int getTiempo_Minimo() {
+		return tiempo_Minimo;
 	}
 
-	/**
-	 * 
-	 * @param tiempoMinimo -  nuevo tiempo minimo.
-	 */
-	public void setTiempoMinimo(int tiempoMinimo) {
-		this.tiempoMinimo = tiempoMinimo;
-	}
-
+	
 	/**
 	 * 
 	 * @return ganacias del anio actual.
 	 */
-	public double getGananciaAnioActual() {
-		return gananciaAnioActual;
+	public double getGanancia_Anio_Actual() {
+		return ganancia_Anio_Actual;
 	}
 
 	/**
 	 * 
 	 * @param gananciaAnioActual - nuevas ganancias del anio actual.
 	 */
-	public void setGananciaAnioActual(double gananciaAnioActual) {
-		this.gananciaAnioActual = gananciaAnioActual;
+	public void setGanancia_Anio_Actual(double gananciaAnioActual) {
+		this.ganancia_Anio_Actual = gananciaAnioActual;
 	}
 
 	/**
 	 * 
 	 * @return ganacias anio de corrido.
 	 */
-	public double getGananciAnioCorrido() {
-		return gananciAnioCorrido;
+	public double getGanancia_Anio_Corrido() {
+		return ganancia_Anio_Corrido;
 	}
 
 	/**
@@ -312,7 +318,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * @param gananciAnioCorrido - nuevas ganancias anio de corrido.
 	 */
 	public void setGananciAnioCorrido(double gananciAnioCorrido) {
-		this.gananciAnioCorrido = gananciAnioCorrido;
+		this.ganancia_Anio_Corrido = gananciAnioCorrido;
 	}
 
 	/**
@@ -359,6 +365,13 @@ public class Operador extends Usuario implements VOOperador {
 		Apartamento nuevo = new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, this.getNumeroId());
 		apartamentos.add(nuevo);
 	}
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	
 	@Override
@@ -367,11 +380,11 @@ public class Operador extends Usuario implements VOOperador {
 	 */
 	public String toString() 
 	{
-		return "Operador [logIn="+super.getLogIn()+", tipo Id="+super.getTipoId()+", numero de Id="+super.getNumeroId()
-		        +", relacion U="+super.getRelacioU()+ ", numero de RNT=" + numeroRNT + ", vencimiento de RNT=" + vencimientoRNT +
-				", registro de super turismo="+ registroSuperTurismo+",vencimiento de super turismo="+ vencimientoRegistroSuperTurismo+
-				",categoria="+categoria+",direccion= "+direccion+ ", hora de apertura="+ horaApertura+", hora de cierre="+horaCierre+
-				",tiempo minimo="+tiempoMinimo+", ganacia del anio actual="+gananciaAnioActual+", ganancia de anio de corrido="+ gananciAnioCorrido+
+		return "Operador [logIn="+super.getLogIn()+", tipo Id="+super.getTipoId()+", numero de Id=" + getId()
+		        +", relacion U="+super.getRelacioU()+ ", numero de RNT=" + numero_RNT + ", vencimiento de RNT=" + vencimiento_RNT +
+				", registro de super turismo="+ registro_Super_Turismo+",vencimiento de super turismo="+ vencimiento_Registro_ST+
+				",categoria="+categoria+",direccion= "+direccion+ ", hora de apertura="+ hora_Apertura+", hora de cierre="+hora_Cierre+
+				",tiempo minimo="+tiempo_Minimo+", ganacia del anio actual="+ganancia_Anio_Actual+", ganancia de anio de corrido="+ ganancia_Anio_Corrido+
 				", habitaciones="+habitaciones+ ",apatamentos="+ apartamentos+"]";
 	}
 

@@ -13,7 +13,7 @@ public interface VOCliente {
 	 * 
 	 * @return medio de pago del cliente.
 	 */
-	public String getMedioPago();
+	public String getMedio_Pago();
 	
 	/**
 	 * 

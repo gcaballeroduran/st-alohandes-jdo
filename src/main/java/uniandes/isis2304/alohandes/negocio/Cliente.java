@@ -10,12 +10,14 @@ public class Cliente  extends Usuario implements VOCliente {
 	/**
 	 * Medio de pago del cliente.
 	 */
-	private String medioPago;
+	private String medio_Pago;
 	
 	/**
 	 * Numero de reservas que tiene un cliente.
 	 */
 	private int reservas;
+	
+	private long id ;
 	
 	/* ****************************************************************
 	 * 			Métodos
@@ -27,8 +29,9 @@ public class Cliente  extends Usuario implements VOCliente {
 	public Cliente(){
 		
 		super(0,null, "", null);
-		this.medioPago = "";
+		this.medio_Pago = "";
 		this.reservas = 0;
+		this.id = super.getNumeroId();
 	}
 	
 	/**
@@ -41,28 +44,37 @@ public class Cliente  extends Usuario implements VOCliente {
 	 * @param medioPago - medio de pago del cliente.
 	 * @param reservas - reservas del cliente.(Mayor o igual a 0)
 	 */
-	public Cliente (String logIn,String tipoId, long numeroId,String relacionU, String medioPago, int reservas){
+	public Cliente (String logIn,String tipoId, long numeroId,String relacionU, String medio_Pago, int reservas){
 		
 		super(numeroId, tipoId, logIn, relacionU);
-		this.medioPago = medioPago;
+		this.medio_Pago = medio_Pago;
 		this.reservas = reservas;
+		this.id = numeroId;
 	}
 	
 	/**
 	 * 
 	 * @return medio de pago del cliente.
 	 */
-	public String getMedioPago(){
-		return medioPago;
+	public String getMedio_Pago(){
+		return medio_Pago;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	/**
 	 * 
 	 * @param medioPago - nuevo medio de pago del cliente.
 	 */
-	public void setMedioPago(String medioPago){
+	public void setMedio_Pago(String medio_Pago){
 		
-		this.medioPago = medioPago;
+		this.medio_Pago = medio_Pago;
 		
 	}
 	/**
@@ -88,8 +100,8 @@ public class Cliente  extends Usuario implements VOCliente {
 	 */
 	public String toString() 
 	{
-		return "Cliente [logIn="+super.getLogIn()+", tipo Id="+super.getTipoId()+", numero de Id="+super.getNumeroId()
-		+", relacion U="+super.getRelacioU()+", medio de pago=" + medioPago + ", reservas=" + reservas +  "]";
+		return "Cliente [logIn="+super.getLogIn()+", tipo Id="+super.getTipoId()+", numero de Id="+getId()
+		+", relacion U="+super.getRelacioU()+", medio de pago=" + medio_Pago + ", reservas=" + reservas +  "]";
 	}
 	
 	

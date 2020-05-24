@@ -942,7 +942,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
         			throw new Exception ("No se pudo crear un servicio con id: " + pId);
         		}
         		String resultado = "En adicionarServicio\n\n";
-        		resultado += "Usuario adicionado exitosamente: " + c;
+        		resultado += "servicio adicionado exitosamente: " + c;
     			resultado += "\n Operación terminada";
     			panelDatos.actualizarInterfaz(resultado);
     		}

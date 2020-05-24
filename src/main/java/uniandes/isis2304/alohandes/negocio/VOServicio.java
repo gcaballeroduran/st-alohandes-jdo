@@ -31,7 +31,7 @@ public interface VOServicio
 	/**
 	 * @return El tintervalo de pago del servicio
 	 */
-	public int getIntervaloPago();
+	public int getIntervalo_Pago();
 	
 	@Override
 	/**

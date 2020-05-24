@@ -18,7 +18,7 @@ public class Servicio implements VOServicio
 	private double precio;
 
 	/** El intervalo en el que se paga este servicio, cada cuanto debe pagarse en días */
-	private int intervaloPago;
+	private int intervalo_Pago;
 
 	/** Lista de los apartamentos que tienen este servicio */
 	private ArrayList<Apartamento> apartamentos;
@@ -36,7 +36,7 @@ public class Servicio implements VOServicio
 		id = 0;
 		tipo = "";
 		precio = 0;
-		intervaloPago = 0;
+		intervalo_Pago = 0;
 		apartamentos = new ArrayList<Apartamento>();
 		habitaciones = new ArrayList<Habitacion>();
 	}
@@ -48,12 +48,12 @@ public class Servicio implements VOServicio
 	 * @param pPrecio precio del servicio
 	 * @param pIntervalo intervalo de pago del servicio
 	 */
-	public Servicio(long pID, String pTipo, double pPrecio, int pIntervalo)
+	public Servicio(long pID, String pTipo, double pPrecio, int intervalo_Pago)
 	{
 		id = pID;
 		tipo = pTipo;
 		precio = pPrecio;
-		intervaloPago = pIntervalo;
+		this.intervalo_Pago = intervalo_Pago;
 		apartamentos = new ArrayList<Apartamento>();
 		habitaciones = new ArrayList<Habitacion>();
 	}
@@ -104,12 +104,12 @@ public class Servicio implements VOServicio
 		this.habitaciones = habitaciones;
 	}
 
-	public int getIntervaloPago() {
-		return intervaloPago;
+	public int getIntervalo_Pago() {
+		return intervalo_Pago;
 	}
 
-	public void setIntervaloPago(int pIntervaloPago) {
-		this.intervaloPago = pIntervaloPago;
+	public void setIntervalo_Pago(int pIntervaloPago) {
+		this.intervalo_Pago = pIntervaloPago;
 	}
 
 	///////////////////////////////////////
@@ -133,7 +133,7 @@ public class Servicio implements VOServicio
 	public String toString() 
 	{
 		return "Servicio [id=" + id + ", tipo=" + tipo + ", precio=" + precio + 
-				", intervaloPago=" + intervaloPago +
+				", intervaloPago=" + intervalo_Pago +
 				", apartamentos:" +"]";
 	}
 	

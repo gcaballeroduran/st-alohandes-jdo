@@ -49,7 +49,7 @@ public class SQLServicio {
 	 */
 	public long adicionarServicio(PersistenceManager pm, long idServ, String pTipo, double pPrecio, int pIntervalo) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaServicio() + "(id, tipo, precio, intervaloPago) values (?, ?, ?, ?)");
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaServicio() + "(id, tipo, precio, intervalo_Pago) values (?, ?, ?, ?)");
         q.setParameters(idServ, pTipo, pPrecio, pIntervalo);
         return (long) q.executeUnique();
 	}
@@ -136,10 +136,7 @@ public class SQLServicio {
 	 */
 	public List<Servicio> darServicios(PersistenceManager pm)
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM " + pa.darTablaApartamento ();
-		sql += "COMMIT TRAN";
+		String sql =  "SELECT * FROM " + pa.darTablaServicio();
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Servicio.class);
 		return (List<Servicio>) q.executeList();

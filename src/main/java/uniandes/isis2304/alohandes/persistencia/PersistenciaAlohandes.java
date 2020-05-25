@@ -710,19 +710,19 @@ public class PersistenciaAlohandes
 	 * @param individual - Booleano si la habitacion es individual (t) o compartida (f)
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 */
-	public Propiedad adicionarPropiedad(long idProp, int capacidad, double precio, double tam, int diasR, int piso, Date fechaCrea, String direccion) 
+	public Propiedad adicionarPropiedad(long idProp, int capacidad, double precio, double tam, int diasR, int piso, String fechaCrea) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
 			tx.begin();
-			long tuplasInsertadas = sqlPropiedad.adicionarPropiedad(pm, idProp, capacidad, precio, tam, diasR, piso, fechaCrea, direccion);
+			long tuplasInsertadas = sqlPropiedad.adicionarPropiedad(pm, idProp, capacidad, precio, tam, diasR, fechaCrea , piso);
 			tx.commit();
 
 			log.trace ("Inserción de propiedad: " + idProp + ": " + tuplasInsertadas + " tuplas insertadas");
 
-			return new Propiedad(idProp, capacidad, tam, precio, fechaCrea, diasR, piso, direccion);
+			return new Propiedad(idProp, capacidad, tam, precio, fechaCrea, diasR, piso);
 		}
 		catch (Exception e)
 		{
@@ -815,13 +815,13 @@ public class PersistenciaAlohandes
 	 * @param pDSeguro
 	 */
 
-	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
+	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso,  boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-			adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
+			adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha);
 			tx.begin();
 			long tuplasInsertadas = sqlApartamento.adicionarApartamento(pm, pID, pAmueblado, pDMenaje, pDSeguro, pVenceSeguro, pOperador);
 			tx.commit();
@@ -830,7 +830,7 @@ public class PersistenciaAlohandes
 
 
 
-			return new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
+			return new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
 		}
 		catch (Exception e)
 		{
@@ -972,13 +972,13 @@ public class PersistenciaAlohandes
 	 * @param individual - Booleano si la habitacion es individual (t) o compartida (f)
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 */
-	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador) 
+	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pIndiv, String pEsquema, int pTipo, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
-			adicionarPropiedad(pId, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);
+			adicionarPropiedad(pId, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha);
 			tx.begin();
 			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, pId, pTipo, pIndiv, pEsquema, pOperador);
 			tx.commit();
@@ -987,7 +987,7 @@ public class PersistenciaAlohandes
 
 
 
-			return new Habitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+			return new Habitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pIndiv, pEsquema, pTipo, pOperador);
 		}
 		catch (Exception e)
 		{

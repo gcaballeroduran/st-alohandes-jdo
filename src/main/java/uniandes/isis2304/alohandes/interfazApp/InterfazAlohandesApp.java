@@ -599,7 +599,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
     		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
     		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
-    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		String pFecha = JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE);
     		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
     		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
     		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
@@ -611,7 +611,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
     		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pVenceSeguro != null && pDSeguro != null)
     		{
-        		VOPropiedad c =  alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
+        		VOPropiedad c =  alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear un apartamento" );
@@ -733,7 +733,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		int pCapacidad = Integer.parseInt(JOptionPane.showInputDialog (this, "Capacidad?", "Adicionar capacidad", JOptionPane.QUESTION_MESSAGE));
     		double pTamanio = Integer.parseInt(JOptionPane.showInputDialog (this, "Tamaño?", "Adicionar tamaño", JOptionPane.QUESTION_MESSAGE));
     		double pPrecio = Integer.parseInt(JOptionPane.showInputDialog (this, "Precio?", "Adicionar precio", JOptionPane.QUESTION_MESSAGE));
-    		Date pFecha = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		String pFecha = JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE);
     		int pDiasR = Integer.parseInt(JOptionPane.showInputDialog (this, "Dias reservados?", "Adicionar dias reservados", JOptionPane.QUESTION_MESSAGE));
     		int pPiso = Integer.parseInt(JOptionPane.showInputDialog (this, "Piso?", "Adicionar piso", JOptionPane.QUESTION_MESSAGE));
     		String pDireccion = JOptionPane.showInputDialog (this, "Direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);
@@ -743,7 +743,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
     		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null)
     		{
-        		VOHabitacion c = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+        		VOHabitacion c = alohandes.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pIndiv, pEsquema, pTipo, pOperador);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear una habitación" );

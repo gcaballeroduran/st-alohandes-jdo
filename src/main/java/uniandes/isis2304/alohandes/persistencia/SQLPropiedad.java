@@ -49,10 +49,10 @@ class SQLPropiedad
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 * @return El número de tuplas insertadas
 	 */
-	public long adicionarPropiedad (PersistenceManager pm, long idProp, int capacidad, double precio, double tam, int diasR, int piso, Date fechaCrea, String direccion) 
+	public long adicionarPropiedad (PersistenceManager pm, long idProp, int capacidad, double precio, double tam, int diasR,String fechaCrea, int piso) 
 	{
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaPropiedad () + "(id, capacidad, precio, tamanio, dias_reservados, piso, fecha_creacion, direccion) values (?, ?, ?, ?, ?)");
-		q.setParameters(idProp, capacidad, precio, tam, diasR, piso,  fechaCrea, direccion);
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaPropiedad () + "(id, capacidad, precio, tamanio, dias_reservados,piso, fecha_creacion) values (?,?,?, ?, ?,?, TO_DATE(?))");
+		q.setParameters(idProp, capacidad, precio, tam, diasR, piso,  fechaCrea);
 		return (long) q.executeUnique();
 	}
 

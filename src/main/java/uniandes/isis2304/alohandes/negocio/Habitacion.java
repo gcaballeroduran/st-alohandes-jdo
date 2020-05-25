@@ -49,9 +49,9 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	public Habitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso,  boolean pIndiv, String pEsquema, int pTipo, long pOperador)
 	{
-		super(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		super(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso);
 		individual = pIndiv;
 		esquema = pEsquema;
 		tipo = pTipo;
@@ -140,7 +140,7 @@ public class Habitacion extends Propiedad implements VOHabitacion
 	{
 		return "Habitacion [id=" + super.getId() + ", capacidad="+ super.getCapacidad() +
 				", tamanio="+super.getTamanio() + ", precio="+ super.getPrecio() + ", fechaCreacion=" + super.getFechaCreacion()+
-				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
+				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso()  + 
 				", habilitada= "+ boolToInt(super.isHabilitada())+", individual=" + boolToInt(individual) + ", esquema="+ esquema + ", tipo="+ tipo + ", operador="+ operador + 
 				", reservas=" + reservasToString() + ", servicios=" + serviciosToString() +"]";
 	}

@@ -32,7 +32,7 @@ public interface VOPropiedad
 	/**
 	 * @return La fecha de creación de la propiedad
 	 */
-	public Date getFechaCreacion();
+	public String getFechaCreacion();
 	
 	/**
 	 * @return El número de días reservados de la propiedad
@@ -44,9 +44,6 @@ public interface VOPropiedad
 	 */
 	public int getPiso();
 	
-	/**
-	 * @return La dirección de la propiedad
-	 */
-	public String getDireccion();
+
 	
 }

@@ -54,7 +54,7 @@ class SQLHabitacion
 	 */
 	public long adicionarHabitacion (PersistenceManager pm, long idHab, int tipo, boolean individual, String esquema, long idOp) 
 	{
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?, ?, ?)");
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaHabitacion () + "(id, tipo, individual, esquema) values (?, ?, ?, ?)");
 		q.setParameters(idHab, tipo, individual, esquema, idOp);
 		return (long) q.executeUnique();
 	}

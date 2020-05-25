@@ -342,10 +342,10 @@ public class Alohandes
 	 * @param pPiso piso en el que se encuentra la propiedad
 	 * @param pDireccion direccion en la que se encuentra la propiedad
 	 */
-	public Propiedad adicionarPropiedad(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion)
+	public Propiedad adicionarPropiedad(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso)
 	{
         log.info ("Adicionando Propiedad: " + pID);
-        Propiedad propiedad = pp.adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha, pDireccion);	
+        Propiedad propiedad = pp.adicionarPropiedad(pID, pCapacidad, pPrecio, pTamanio, pDiasR, pPiso, pFecha);	
         log.info ("Adicionando propiedad: " + propiedad);
         return propiedad;
 	}
@@ -465,17 +465,17 @@ public class Alohandes
 	 * @param pDSeguro
 	 */
 	public Propiedad adicionarApartamento(long pId, int pCapacidad, double pTamanio, 
-			double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, 
+			double pPrecio, String pFecha, int pDiasR, int pPiso,  
 			boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, 
 			String pDSeguro, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
-		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso);
 		
         log.info ("Adicionando Apartamento: " + pId);
         Propiedad apartamento = pp.adicionarApartamento( pId, pCapacidad, pTamanio, pPrecio,
-        		pFecha, pDiasR, pPiso, pDireccion, pAmueblado, pHabitaciones, pDMenaje,
+        		pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje,
         		pVenceSeguro, pDSeguro, pOperador);		
         log.info ("Adicionando apartamento: " + apartamento);
         return apartamento;
@@ -563,14 +563,14 @@ public class Alohandes
 	 * @param pEsquema
 	 * @param pTipo
 	 */
-	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
+	public Habitacion adicionarHabitacion(long pId, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pIndiv, String pEsquema, int pTipo, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
 		
-		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		adicionarPropiedad( pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso);
 		
         log.info ("Adicionando Habitacion: " + pId);
-        Habitacion habitacion = pp.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion, pIndiv, pEsquema, pTipo, pOperador);
+        Habitacion habitacion = pp.adicionarHabitacion(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pIndiv, pEsquema, pTipo, pOperador);
         log.info ("Adicionando Habitacion: " + habitacion);
         return habitacion;
 	}

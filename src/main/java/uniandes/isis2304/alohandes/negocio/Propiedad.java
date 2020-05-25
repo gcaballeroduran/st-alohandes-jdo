@@ -21,7 +21,7 @@ public class Propiedad implements VOPropiedad
 	private double precio;
 
 	/** La fecha creación de la propiedad en la aplicación */
-	private Date fechaCreacion;
+	private String fechaCreacion;
 
 	/** Cantidad de Días en los que la propiedad ha estado reservada desde su fecha de creación */
 	private int diasReservados;
@@ -29,9 +29,7 @@ public class Propiedad implements VOPropiedad
 	/** Piso en el que se encuentra ubicada la propiedad, si es una casa que se renta completa el piso será 0 */
 	private int piso;
 
-	/** Dirección donde está ubicada la propiedad */
-	private String direccion;
-	
+
 	/** Indica si la propiedad esta habilitada para ser reservada */
 	private boolean habilitada;
 
@@ -64,7 +62,7 @@ public class Propiedad implements VOPropiedad
 	 * @param pPiso piso en el que se encuentra la propiedad
 	 * @param pDireccion direccion en la que se encuentra la propiedad
 	 */
-	public Propiedad(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion)
+	public Propiedad(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso)
 	{
 		id = pID;
 		capacidad = pCapacidad;
@@ -73,7 +71,6 @@ public class Propiedad implements VOPropiedad
 		fechaCreacion = pFecha;
 		diasReservados = pDiasR;
 		piso = pPiso;
-		direccion = pDireccion;
 		habilitada = true;
 	}
 
@@ -113,11 +110,11 @@ public class Propiedad implements VOPropiedad
 		this.precio = precio;
 	}
 
-	public Date getFechaCreacion() {
+	public String getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(String fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -135,14 +132,6 @@ public class Propiedad implements VOPropiedad
 
 	public void setPiso(int piso) {
 		this.piso = piso;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
 	}
 	
 	public boolean isHabilitada() {

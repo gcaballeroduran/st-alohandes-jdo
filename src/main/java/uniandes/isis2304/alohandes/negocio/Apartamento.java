@@ -42,7 +42,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	/** Constructor por defecto */
 	public Apartamento()
 	{
-		super(-1, -1, -1, -1, null, -1, -1, "");
+		super(-1, -1, -1, -1, null, -1, -1);
 		amueblado = false;
 		habitaciones = 0;
 		descripcionMenaje = "";
@@ -71,10 +71,10 @@ public class Apartamento extends Propiedad implements VOApartamento
 	 * @param pDSeguro
 	 */
 
-	public Apartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, Date pFecha, int pDiasR, int pPiso, String pDireccion, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador)
+	public Apartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador)
 
 	{
-		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pDireccion);
+		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso);
 		amueblado = pAmueblado;
 		habitaciones = pHabitaciones;
 		descripcionMenaje = pDMenaje;
@@ -167,7 +167,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	{
 		return "Apartamento [id=" + super.getId() + ", capacidad="+ super.getCapacidad() +
 				", tamanio="+super.getTamanio() + ", precio="+ super.getPrecio() + ", fechaCreacion=" + super.getFechaCreacion()+
-				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso() + ", direccion=" + super.getDireccion() + 
+				", diasReservados=" + super.getDiasReservados() + ", piso=" + super.getPiso()  + 
 				", habilitada=" + boolToInt(super.isHabilitada()) +", amueblado=" + boolToInt(amueblado) + ", habitaciones="+ habitaciones + ", descripcionMenaje=" + descripcionMenaje +
 				" , vencimientoSeguro=" + vencimientoSeguro + ", descripcionSeguro="+ descripcionSeguro + 
 				", operador="+ operador + ", reservas=" + reservasToString() + ", servicios=" + serviciosToString() + "]";

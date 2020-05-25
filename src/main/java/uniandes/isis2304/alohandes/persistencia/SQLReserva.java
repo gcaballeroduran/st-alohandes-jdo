@@ -49,7 +49,7 @@ public class SQLReserva {
 	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarReserva(PersistenceManager pm,long id, Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
+	public long adicionarReserva(PersistenceManager pm,long id, String fechaInicio, String fechaFin, int personas, String finCancelacionOportuna,
 			double porcentajeAPagar, double montoTotal){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReserva() + "(id, fecha_Inicio,fecha_Fin,personas,fin_Cancelacion_Oportuna,porcentaje_A_Pagar,monto_Total)"

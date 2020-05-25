@@ -20,7 +20,7 @@ public class ReservaColectiva implements VOReservaColectiva{
 	private String tipoAlojamiento;
 
 	/** Fecha de inicio de la reserva */
-	private Date fechaInicio;
+	private String fechaInicio;
 
 	/** Días que dura la reserva  */
 	private int duracion;
@@ -47,7 +47,7 @@ public class ReservaColectiva implements VOReservaColectiva{
 	}
 
 	/** Constructor con informacion por parametro*/
-	public ReservaColectiva(long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
+	public ReservaColectiva(long pId, int pCantidad, String pTipo, String pInicio, int pDuracion)
 	{
 		id = pId;
 		cantidad = pCantidad;
@@ -85,11 +85,11 @@ public class ReservaColectiva implements VOReservaColectiva{
 		this.tipoAlojamiento = tipoAlojamiento;
 	}
 
-	public Date getFechaInicio() {
+	public String getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 

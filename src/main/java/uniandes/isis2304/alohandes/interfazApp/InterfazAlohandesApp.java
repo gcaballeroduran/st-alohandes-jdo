@@ -497,16 +497,16 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     {
     	try 
     	{
-    		Date fechaInicio = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha de inicio?", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE));
-    		Date fechaFin =Date.valueOf( JOptionPane.showInputDialog (this,"Fecha de fin?", "Fecha de fin",JOptionPane.QUESTION_MESSAGE));
-    		Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE));
+    		String fechaInicio = JOptionPane.showInputDialog (this, "Fecha de inicio?", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE);
+    		String fechaFin = JOptionPane.showInputDialog (this,"Fecha de fin?", "Fecha de fin",JOptionPane.QUESTION_MESSAGE);
+    		//Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE));
     		int personas = Integer.parseInt(JOptionPane.showInputDialog (this, "numero de personas?", "Adicionar numero de personas", JOptionPane.QUESTION_MESSAGE));
-    		double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "Porcentaje a pagar?", "Adicionar porcenaje a pagar", JOptionPane.QUESTION_MESSAGE));
-    		double montoTotal = Double.parseDouble(JOptionPane.showInputDialog (this, "monto total?", "Adicionar monto total a pagar ", JOptionPane.QUESTION_MESSAGE));
+    		//double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "Porcentaje a pagar?", "Adicionar porcenaje a pagar", JOptionPane.QUESTION_MESSAGE));
+    		//double montoTotal = Double.parseDouble(JOptionPane.showInputDialog (this, "monto total?", "Adicionar monto total a pagar ", JOptionPane.QUESTION_MESSAGE));
     		long idPropiedad = Long.parseLong(JOptionPane.showInputDialog (this, "ID propiedad?", "Adicionar id de la propiedad asociada a la reserva ", JOptionPane.QUESTION_MESSAGE));
-    		if (fechaInicio != null && fechaFin != null && finCancelacionOportuna != null && personas != 0 )
+    		if (fechaInicio != null && fechaFin != null && personas != 0 )
     		{
-        		VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idPropiedad);
+    			VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, 1, idPropiedad);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear una reserva " );
@@ -582,6 +582,8 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 			panelDatos.actualizarInterfaz(resultado);
 		}
     }
+    
+   
  
     /* ****************************************************************
 	 * 			CRUD de Apartamento
@@ -836,11 +838,11 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		int pId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
     		int pCantidad = Integer.parseInt(JOptionPane.showInputDialog (this, "cantidad?", "Adicionar cantidad", JOptionPane.QUESTION_MESSAGE));
     		String pTipo = JOptionPane.showInputDialog (this, "Tipo?", "Adicionar tipo", JOptionPane.QUESTION_MESSAGE);
-    		Date pInicio = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE));
+    		String pInicio = JOptionPane.showInputDialog (this, "Fecha?", "adicionar fecha", JOptionPane.QUESTION_MESSAGE);
     		int pDuracion = Integer.parseInt(JOptionPane.showInputDialog (this, "Duracion?", "Adicionar duracion", JOptionPane.QUESTION_MESSAGE));
     		if ( pDuracion > 0 )
     		{
-        		VOReservaColectiva c=alohandes.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        		VOReservaColectiva c=alohandes.adicionarReservaColectiva(pId, pCantidad, pTipo, pInicio, pDuracion);
         		if (c == null)
         		{
         			throw new Exception ("No se pudo crear una reservaColectiva" );

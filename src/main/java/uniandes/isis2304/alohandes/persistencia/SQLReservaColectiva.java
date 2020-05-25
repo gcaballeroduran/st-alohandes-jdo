@@ -46,7 +46,7 @@ public class SQLReservaColectiva {
 	 * @param tipo -  el tipo de alojamiento que se desea reservar
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarReservaColectiva(PersistenceManager pm,long id, Date fechaInicio, int duracion, int cantidad, String tipo ){
+	public long adicionarReservaColectiva(PersistenceManager pm,long id, String fechaInicio, int duracion, int cantidad, String tipo ){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReservaColectiva() + "(id, fechaInicio, duracion, cantidad, tipoAlojamiento)"
 				+ " values (?, ?, ?, ?, ?)");

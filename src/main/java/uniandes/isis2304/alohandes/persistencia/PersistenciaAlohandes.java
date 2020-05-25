@@ -13,6 +13,10 @@ package uniandes.isis2304.alohandes.persistencia;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -1226,7 +1230,7 @@ public class PersistenciaAlohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
-	public ReservaColectiva adicionarReservaColectiva(int pCantidad, String pTipo, Date pInicio, int pDuracion) 
+	public ReservaColectiva adicionarReservaColectiva(int pCantidad, String pTipo, String pInicio, int pDuracion) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -1284,7 +1288,7 @@ public class PersistenciaAlohandes
 	 * @param pDuracion
 	 * @return
 	 */
-	public List<Reserva> adicionarReservaColectivaApartamento( long idColectiva, int pCantidad, Date pInicio, int pDuracion) 
+	public List<Reserva> adicionarReservaColectivaApartamento( long idColectiva, int pCantidad, String pInicio, int pDuracion) 
 	{
 
 		// Primero se verifica que se tiene la capacidad suficiente
@@ -1298,8 +1302,22 @@ public class PersistenciaAlohandes
 			{
 				Apartamento a = apartamentosD.get(i);
 				double montoTotal = a.getPrecio()*pDuracion;
-				Date fechaFin = new Date(pInicio.getTime()+pDuracion);
-				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
+				
+				
+				Date fechaInicio = Date.valueOf(pInicio);		
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+				
+				// Calcular la fecha final
+				LocalDate tf = fechaInicio.toLocalDate().plusDays(pDuracion);
+				Date dtf = (Date) Date.from(tf.atStartOfDay().toInstant(null));
+				String fechaFin = dateFormat.format(dtf);
+				
+				// Calcular la fecha de cancelacion oportuna: 5 días antes de la fecha de inicio
+				LocalDate t = fechaInicio.toLocalDate().minusDays(5);
+				Date fco = (Date) Date.from(t.atStartOfDay().toInstant(null));
+				String finCancelacionOportuna = dateFormat.format(fco);
+				
+				
 				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, a.getId());
 				r.setIdRColectiva(idColectiva);
 				adicionarReservaApartamento(a.getId(), r.getId());
@@ -1309,7 +1327,7 @@ public class PersistenciaAlohandes
 		}
 	}
 
-	public List<Reserva> adicionarReservaColectivaHabitacion( long idColectiva, int pCantidad, Date pInicio, int pDuracion) 
+	public List<Reserva> adicionarReservaColectivaHabitacion( long idColectiva, int pCantidad, String pInicio, int pDuracion) 
 	{
 
 		// Primero se verifica que se tiene la capacidad suficiente
@@ -1323,8 +1341,20 @@ public class PersistenciaAlohandes
 			{
 				Habitacion h = habitacionesD.get(i);
 				double montoTotal = h.getPrecio()*pDuracion;
-				Date fechaFin = new Date(pInicio.getTime()+pDuracion);
-				Date finCancelacionOportuna = new Date(pInicio.getTime()-5);
+				
+				Date fechaInicio = Date.valueOf(pInicio);		
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+				
+				// Calcular la fecha final
+				LocalDate tf = fechaInicio.toLocalDate().plusDays(pDuracion);
+				Date dtf = (Date) Date.from(tf.atStartOfDay().toInstant(null));
+				String fechaFin = dateFormat.format(dtf);
+				
+				// Calcular la fecha de cancelacion oportuna: 5 días antes de la fecha de inicio
+				LocalDate t = fechaInicio.toLocalDate().minusDays(5);
+				Date fco = (Date) Date.from(t.atStartOfDay().toInstant(null));
+				String finCancelacionOportuna = dateFormat.format(fco);
+				
 				Reserva r = adicionarReserva(pInicio, fechaFin, 1, finCancelacionOportuna, 1, montoTotal, h.getId());
 				adicionarReservaHabitacion(h.getId(), r.getId());
 				r.setIdRColectiva(idColectiva);
@@ -1475,7 +1505,7 @@ public class PersistenciaAlohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Bar adicionado. null si ocurre alguna Excepción
 	 */
-	public Reserva adicionarReserva( Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
+	public Reserva adicionarReserva( String fechaInicio, String fechaFin, int personas, String finCancelacionOportuna,
 			double porcentajeAPagar, double montoTotal, long idProp) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();

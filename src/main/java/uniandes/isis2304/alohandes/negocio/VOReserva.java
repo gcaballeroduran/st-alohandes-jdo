@@ -22,13 +22,13 @@ public interface VOReserva {
 	 * 
 	 * @return fechaInicio
 	 */
-	public Date getFechaInicio();
+	public String getFechaInicio();
 
 	/**
 	 * 
 	 * @return fechaFin.
 	 */
-	public Date getFechaFin();
+	public String getFechaFin();
 
 	/**
 	 * 
@@ -40,7 +40,7 @@ public interface VOReserva {
 	 * 
 	 * @return finCancelacionOporuna.
 	 */
-	public Date getFinCancelacionOportuna();
+	public String getFinCancelacionOportuna();
 
 	/**
 	 * 

@@ -1,6 +1,7 @@
 package uniandes.isis2304.alohandes.negocio;
 
 import java.sql.Date;
+import java.time.Duration;
 
 public class Reserva implements VOReserva {
 	
@@ -16,12 +17,12 @@ public class Reserva implements VOReserva {
 	/**
 	 * fecha de inicio de la reservacion.
 	 */
-	private Date fechaInicio;
+	private String fechaInicio;
 	
 	/**
 	 * fecha del fin de la reservacion.
 	 */
-	private Date fechaFin;
+	private String fechaFin;
 	
 	/**
 	 * numero de personas para la reservacion.
@@ -31,7 +32,7 @@ public class Reserva implements VOReserva {
 	/**
 	 *  fecha final para cancelar la reservacion.
 	 */
-	private Date finCancelacionOportuna;
+	private String finCancelacionOportuna;
 	
 	/**
 	 *  porcentaje que se tiene que pagar de la reservacion.
@@ -77,7 +78,7 @@ public class Reserva implements VOReserva {
 	 * @param porcentajeAPagar - porcentaje a pagar de la reserva.
 	 * @param montoTotal - monto total de la reserva.
 	 */
-	public Reserva(long id, Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
+	public Reserva(long id, String fechaInicio, String fechaFin, int personas, String finCancelacionOportuna,
 			double porcentajeAPagar, double montoTotal) {
 		
 		this.id = id;
@@ -109,7 +110,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @return fechaInicio
 	 */
-	public Date getFechaInicio() {
+	public String getFechaInicio() {
 		return fechaInicio;
 	}
 
@@ -117,7 +118,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @param fechaInicio -  nueva fecha de inicio de la reserva.
 	 */
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
@@ -125,7 +126,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @return fechaFin.
 	 */
-	public Date getFechaFin() {
+	public String getFechaFin() {
 		return fechaFin;
 	}
 
@@ -133,7 +134,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @param fechaFin - nueva fecha final de la reserva.
 	 */
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(String fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
@@ -157,7 +158,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @return finCancelacionOporuna.
 	 */
-	public Date getFinCancelacionOportuna() {
+	public String getFinCancelacionOportuna() {
 		return finCancelacionOportuna;
 	}
 
@@ -165,7 +166,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @param finCancelacionOportuna - nueva fecha de cancelacion oportuna.
 	 */
-	public void setFinCancelacionOportuna(Date finCancelacionOportuna) {
+	public void setFinCancelacionOportuna(String finCancelacionOportuna) {
 		this.finCancelacionOportuna = finCancelacionOportuna;
 	}
 
@@ -189,7 +190,7 @@ public class Reserva implements VOReserva {
 	 * 
 	 * @return montoTotal.
 	 */
-	public double getMontoTotal() {
+	public double getMontoTotal() {		
 		return montoTotal;
 	}
 

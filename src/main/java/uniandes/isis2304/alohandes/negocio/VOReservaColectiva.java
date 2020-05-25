@@ -20,7 +20,7 @@ public interface VOReservaColectiva
 	 * 
 	 * @return fechaInicio
 	 */
-	public Date getFechaInicio();
+	public String getFechaInicio();
 
 	/**
 	 * 

@@ -17,7 +17,12 @@ package uniandes.isis2304.alohandes.negocio;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -647,11 +652,25 @@ public class Alohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
 	 */
-	public Reserva adicionarReserva (Date fechaInicio, Date fechaFin, int personas, Date finCancelacionOportuna,
-			double porcentajeAPagar, double montoTotal, long idProp)
+	public Reserva adicionarReserva (String pfechaInicio, String pfechaFin, int personas,
+			double porcentajeAPagar, long idProp)
 	{
+		Date fechaInicio = Date.valueOf(pfechaInicio);
+		Date fechaFin = Date.valueOf(pfechaFin);
+		
+		// Calcular el monto total
+		int duracion = (int) Duration.between(fechaInicio.toInstant(), fechaFin.toInstant()).toDays();
+		double montoTotal = duracion*darPropiedadPorId(idProp).getPrecio();
+		
+		// Calcular la fecha de cancelacion oportuna: una semana antes de la fecha de inicio
+		LocalDate t = fechaInicio.toLocalDate().minusDays(7);
+		Date fco = (Date) Date.from(t.atStartOfDay().toInstant(null));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+		String finCancelacionOportuna = dateFormat.format(fco);
+		
+		
         log.info ("Adicionando reserva: " );
-        Reserva reserva = pp.adicionarReserva(fechaInicio, fechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);        
+        Reserva reserva = pp.adicionarReserva(pfechaInicio, pfechaFin, personas, finCancelacionOportuna, porcentajeAPagar, montoTotal, idProp);        
         log.info ("Adicionando reserva: " + reserva);
         return reserva;
 	}	
@@ -748,10 +767,10 @@ public class Alohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
 	 */
-	public ReservaColectiva adicionarReserva (long pId, int pCantidad, String pTipo, Date pInicio, int pDuracion)
+	public ReservaColectiva adicionarReservaColectiva (long pId, int pCantidad, String pTipo, String pInicio, int pDuracion)
 	{
         log.info ("Adicionando reserva colectiva: " );
-        ReservaColectiva reserva = null; //pp.adicionarReserva(pId, pCantidad, pTipo, pInicio, pDuracion);
+        ReservaColectiva reserva = pp.adicionarReservaColectiva(pCantidad, pTipo, pInicio, pDuracion);
         log.info ("Adicionando reserva colectiva: " + reserva);
         return reserva;
 	}

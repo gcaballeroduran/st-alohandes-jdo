@@ -52,9 +52,9 @@ class SQLApartamento
 	 * @param esquema - Ruta del esquema de la Habitacion
 	 * @return El número de tuplas insertadas
 	 */
-	public long adicionarApartamento (PersistenceManager pm, long idApt, boolean am, String desMenaje, String descrSeguro, Date venceSeguro, long idOp) 
+	public long adicionarApartamento (PersistenceManager pm, long idApt, boolean am, String desMenaje, String descrSeguro, int venceSeguro, long idOp) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaApartamento () + "(id, amueblado, habitaciones, descripcion_menaje, descripcion_seguro, vence_seguro) values (?, ?, ?, ?, ?)");
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pa.darTablaApartamento () + "(id, amueblado, habitaciones, descripcion_menaje, descripcion_seguro, tiene_seguro) values ( ?, ?, ?, ?,?,?)");
         q.setParameters(idApt, am, desMenaje, descrSeguro, venceSeguro);
         return (long) q.executeUnique();
 	}
@@ -115,15 +115,15 @@ class SQLApartamento
 	 * Crea y ejecuta la sentencia SQL para encontrar la información de LOS Servicios de la 
 	 * base de datos de Alohandes
 	 * @param pm - El manejador de persistencia
-	 * @return Una lista de objetos Servicio
+	 * @return Una lista de objetos Apartamento
 	 */
 	public ArrayList<Apartamento> darApartamentosDisponibles(PersistenceManager pm)
 	{
-		String sql = "SELECT * FROM " + pa.darTablaApartamento () + "AS ap"; 
-		sql+="INNER JOIN "+ pa.darTablaPropiedad() +"AS prop ON (habilitada=1)";
-		sql+= "INNER JOIN "+ pa.darTablaReservaApartamento()+ "AS ra ON (ap.idApartamento=ra.id)";
-		sql+= "INNER JOIN "+ pa.darTablaReserva()+ "AS re ON (ra.re = re.id)";
-		sql += "WHERE (fechaInicio > currentDate() ) AND (fechaFin < currentDate() )";
+		String sql = "SELECT * FROM " + pa.darTablaApartamento () + " AS ap"; 
+		sql+=" INNER JOIN "+ pa.darTablaPropiedad() +" AS prop ON (habilitada=1)";
+		sql+= " INNER JOIN "+ pa.darTablaReservaApartamento()+ " AS ra ON (ap.idApartamento=ra.id)";
+		sql+= " INNER JOIN "+ pa.darTablaReserva()+ " AS re ON (ra.re = re.id)";
+		sql += " WHERE (fechaInicio > currentDate() ) AND (fechaFin < currentDate() )";
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Habitacion.class);
 		return (ArrayList<Apartamento>) q.executeList();

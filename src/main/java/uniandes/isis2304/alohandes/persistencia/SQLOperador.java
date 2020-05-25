@@ -57,11 +57,10 @@ public class SQLOperador {
 	 * @param apartamentos - apartamentos del operador.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
-			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
+	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,"
-				+ "hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)");
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, TO_DATE(?), ?,TO_DATE(?),?,?,TO_DATE(?),TO_DATE(?),?,?,?,?,?)");
         q.setParameters(id, numeroRNT,vencimientoRNT,registroSuperTurismo,vencimientoRegistroSuperTurismo,categoria,direccion,
 				horaApertura,horaCierre,tiempoMinimo,gananciaAnioActual,gananciAnioCorrido,habitaciones,apartamentos);
         return (long) q.executeUnique();
@@ -165,22 +164,19 @@ public class SQLOperador {
 	 */
 	public List<Object> darDineroAnioActual(PersistenceManager pm)
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "with anio as(";
+		String sql =  "with anio as(";
 		sql += "select EXTRACT(YEAR FROM fecha_fin) AS fecha, res.monto_total AS monto, op.id as id ";
-		sql += " FROM " + pp.darTablaOperador()+"op";
-		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitaciones = hab.id)";
-		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamentos = ap.id)";
-		sql+= "INNER JOIN" + pp.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
-		sql+= "INNER JOIN" + pp.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
-		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = respa.id_Reserva)";
+		sql += " FROM " + pp.darTablaOperador()+" op ";
+		sql+= " INNER JOIN " + pp.darTablaHabitacion()+" hab ON(op.habitacion = hab.id)";
+		sql+= "INNER JOIN " + pp.darTablaApartamento() +" ap ON(op.apartamento = ap.id)";
+		sql+= "INNER JOIN " + pp.darTablaReservaHabitacion()+" resha ON(hab.id = resha.id_Habitacion)";
+		sql+= "INNER JOIN " + pp.darTablaReservaApartamento()+" resap ON(ap.id = resap.id_Apartamento)";
+		sql+= "INNER JOIN " + pp.darTablaReserva()+" res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
 		sql += ")";
-		sql +="SELCT id,  count(monto) AS gananciaActual";
-		sql += "FROM anio";
-		sql += "WHERE EXTRACT(YEAR FROM CURRENT_TIMESTAMP) = fecha";
-		sql += "GROUP BY id, fecha";
-		sql += sql += "COMMIT TRAN";
+		sql +=" SELECT id,  count(monto) AS gananciaActual";
+		sql += " FROM anio";
+		sql += " WHERE EXTRACT(YEAR FROM CURRENT_TIMESTAMP) = fecha";
+		sql += " GROUP BY id, fecha";
 		
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
@@ -194,17 +190,15 @@ public class SQLOperador {
 	 */
 	public List<Object> darDineroAnioCorrido(PersistenceManager pm)
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "select op.id , count( res.monto_total )";
-		sql += " FROM " + pp.darTablaOperador()+"op";
-		sql+= "INNER JOIN" + pp.darTablaHabitacion()+"hab ON(op.habitaciones = hab.id)";
-		sql+= "INNER JOIN" + pp.darTablaApartamento() +"ap ON(op.apartamentos = ap.id)";
-		sql+= "INNER JOIN" + pp.darTablaReservaHabitacion()+"resha ON(hab.id = resha.id_Habitacion)";
-		sql+= "INNER JOIN" + pp.darTablaReservaApartamento()+"resap ON(ap.id = resap.id_Apartamento)";
-		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(res.id = resha.id_Reserva AND res.id = respa.id_Reserva)";
-		sql += "WHERE  fecha_fin > DATE_SUB(CURRENT_TIMESTRAP, INTERVAL 1 YEAR)  AND fecha_fin <= CURRENT_TIMESTRAP";
-		sql += sql += "COMMIT TRAN";
+		String sql = "select op.id , count( res.monto_total )";
+		sql += " FROM " + pp.darTablaOperador()+" op";
+		sql+= " INNER JOIN" + pp.darTablaHabitacion()+" hab ON(op.habitacion = hab.id)";
+		sql+= " INNER JOIN" + pp.darTablaApartamento() +" ap ON(op.apartamento = ap.id)";
+		sql+= " INNER JOIN" + pp.darTablaReservaHabitacion()+" resha ON(hab.id = resha.id_Habitacion)";
+		sql+= " INNER JOIN" + pp.darTablaReservaApartamento()+" resap ON(ap.id = resap.id_Apartamento)";
+		sql+= " INNER JOIN" + pp.darTablaReserva()+" res ON(res.id = resha.id_Reserva AND res.id = resap.id_Reserva)";
+		sql += " WHERE  fecha_fin > DATE_SUB(CURRENT_TIMESTRAP, INTERVAL 1 YEAR)  AND fecha_fin <= CURRENT_TIMESTRAP";
+		sql += " GROUP BY op.id";
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}

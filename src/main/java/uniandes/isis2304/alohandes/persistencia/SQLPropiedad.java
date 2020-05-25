@@ -84,10 +84,7 @@ class SQLPropiedad
 	 */
 	public Propiedad darPropiedadPorId (PersistenceManager pm, long idSer) 
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM " + pa.darTablaPropiedad() + " WHERE id = ?";
-		sql += "COMMIT TRAN";
+		String sql = "SELECT * FROM " + pa.darTablaPropiedad() + " WHERE id = ?";
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Propiedad.class);
 		q.setParameters(idSer);

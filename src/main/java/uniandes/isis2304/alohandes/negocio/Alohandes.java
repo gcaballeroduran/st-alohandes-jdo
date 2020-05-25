@@ -26,6 +26,9 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Transaction;
+
 import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
 
@@ -264,8 +267,8 @@ public class Alohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,String tipoId, long numeroId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
-			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
+	public Operador adicionarOperador(String logIn,String tipoId, long numeroId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
 	{
 		log.info ("Adicionando operador " + logIn);
 		Operador operador = pp.adicionarOperador(numeroId,logIn, tipoId, relacionU, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
@@ -471,7 +474,7 @@ public class Alohandes
 	 */
 	public Propiedad adicionarApartamento(long pId, int pCapacidad, double pTamanio, 
 			double pPrecio, String pFecha, int pDiasR, int pPiso,  
-			boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, 
+			boolean pAmueblado, int pHabitaciones, String pDMenaje, int pVenceSeguro, 
 			String pDSeguro, long pOperador)
 	{
 		//Se adiciona la propiedad porque el apartamento es un tipo de propiedad
@@ -652,7 +655,7 @@ public class Alohandes
 	 * @param montoTotal - monto total de la reserva.
 	 * @return El objeto Reserva adicionado. null si ocurre alguna Excepción
 	 */
-	public Reserva adicionarReserva (String pfechaInicio, String pfechaFin, int personas,
+	public Reserva adicionarReserva (String pfechaInicio, String pfechaFin,String finCancelacionOportuna, int personas,
 			double porcentajeAPagar, long idProp)
 	{
 		Date fechaInicio = Date.valueOf(pfechaInicio);
@@ -661,12 +664,12 @@ public class Alohandes
 		// Calcular el monto total
 		int duracion = (int) Duration.between(fechaInicio.toInstant(), fechaFin.toInstant()).toDays();
 		double montoTotal = duracion*darPropiedadPorId(idProp).getPrecio();
-		
+//		
 		// Calcular la fecha de cancelacion oportuna: una semana antes de la fecha de inicio
-		LocalDate t = fechaInicio.toLocalDate().minusDays(7);
-		Date fco = (Date) Date.from(t.atStartOfDay().toInstant(null));
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
-		String finCancelacionOportuna = dateFormat.format(fco);
+//		LocalDate t = fechaInicio.toLocalDate().minusDays(7);
+//		Date fco = (Date) Date.from(t.atStartOfDay().toInstant(null));
+//		DateFormat dateFormat = new SimpleDateFormat("dd-mm-yy"); 
+//		String finCancelacionOportuna = dateFormat.format(fco);
 		
 		
         log.info ("Adicionando reserva: " );
@@ -904,7 +907,48 @@ public class Alohandes
 	}
 	
 
+
+	/* ****************************************************************
+	 * 			Métodos para Requerimientos 
+	 *****************************************************************/
 	
+	/**
+	 * RFC1
+	 * @param pm
+	 * @return
+	 */
+	public List<Object> darDineroAnioActual()
+	{
+		
+		log.info ("RFC1  " );
+		List<Object> lista = pp.darDineroAnioActual();		
+        log.info ("RFC1: " + lista);
+        return lista;
+	  
+	}
+	
+	public List<Object> darDineroAnioCorrido (){
+		
+		log.info ("RFC1  " );
+		List<Object> lista = pp.darDineroAnioCorrido();		
+        log.info ("RFC1: " + lista);
+        return lista;
+		
+	}
+	
+	public void hablitarApartamento(long id){
+		
+		log.info("Habilitar apartamneto");
+		pp.habilitarApartamento(id);;
+	}
+	
+    public void deshablitarApartamento(long id){
+		
+		log.info("deshabilitar apartamneto");
+		pp.deshabilitarApartamento(id);
+	}
+    
+ 
 	
 	/* ****************************************************************
 	 * 			Métodos para administración

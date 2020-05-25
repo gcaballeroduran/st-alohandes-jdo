@@ -396,13 +396,13 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE));
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
     		int numeroRNT = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero RNT?", "Adicionar numero RNT", JOptionPane.QUESTION_MESSAGE));
-    		Date vencimientoRNT = Date.valueOf(JOptionPane.showInputDialog (this, "vencimiento RNT?", "Adicionar vencimiento RNT", JOptionPane.QUESTION_MESSAGE));
+    		String vencimientoRNT = JOptionPane.showInputDialog (this, "vencimiento RNT?", "Adicionar vencimiento RNT", JOptionPane.QUESTION_MESSAGE);
     		String registroSuperTurismo = JOptionPane.showInputDialog (this, "registro super turismo?", "Adicionar registro super turismo", JOptionPane.QUESTION_MESSAGE);
-    		Date vencimientoRegistroSuperTurismo = Date.valueOf(JOptionPane.showInputDialog (this, "vencimiento super T?", "Adicionar vencimiento super T", JOptionPane.QUESTION_MESSAGE));
+    		String vencimientoRegistroSuperTurismo = JOptionPane.showInputDialog (this, "vencimiento super T?", "Adicionar vencimiento super T", JOptionPane.QUESTION_MESSAGE);
     		String categoria = JOptionPane.showInputDialog (this, "Categoria?", "adicionar categoria", JOptionPane.QUESTION_MESSAGE);
     		String direccion = JOptionPane.showInputDialog (this, "direccion?", "Adicionar direccion", JOptionPane.QUESTION_MESSAGE);;
-    		Date horaApertura = Date.valueOf(JOptionPane.showInputDialog (this, "hora de apertura?", "Adicionar hora de apertura", JOptionPane.QUESTION_MESSAGE));
-    		Date horaCierre = Date.valueOf(JOptionPane.showInputDialog (this, "hora de cierre?", "Adicionar hora de cierre", JOptionPane.QUESTION_MESSAGE));
+    		String horaApertura = JOptionPane.showInputDialog (this, "hora de apertura?", "Adicionar hora de apertura", JOptionPane.QUESTION_MESSAGE);
+    		String horaCierre = JOptionPane.showInputDialog (this, "hora de cierre?", "Adicionar hora de cierre", JOptionPane.QUESTION_MESSAGE);
     		int tiempoMinimo = Integer.parseInt(JOptionPane.showInputDialog (this, "Tiempo minimo?", "Adicionar tiempo minimo", JOptionPane.QUESTION_MESSAGE));
     		ArrayList<Habitacion> habitaciones = new ArrayList<>();
     		ArrayList<Apartamento> apartamentos = new ArrayList<>();
@@ -499,17 +499,17 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	{
     		String fechaInicio = JOptionPane.showInputDialog (this, "Fecha de inicio?", "Fecha de inicio", JOptionPane.QUESTION_MESSAGE);
     		String fechaFin = JOptionPane.showInputDialog (this,"Fecha de fin?", "Fecha de fin",JOptionPane.QUESTION_MESSAGE);
-    		//Date finCancelacionOportuna = Date.valueOf(JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE));
+    		String finCancelacionOportuna = JOptionPane.showInputDialog (this, "Fecha cancelación oportuna?", "Adicionar fin cancelación oportuna", JOptionPane.QUESTION_MESSAGE);
     		int personas = Integer.parseInt(JOptionPane.showInputDialog (this, "numero de personas?", "Adicionar numero de personas", JOptionPane.QUESTION_MESSAGE));
     		//double porcentajeAPagar = Double.parseDouble(JOptionPane.showInputDialog (this, "Porcentaje a pagar?", "Adicionar porcenaje a pagar", JOptionPane.QUESTION_MESSAGE));
     		//double montoTotal = Double.parseDouble(JOptionPane.showInputDialog (this, "monto total?", "Adicionar monto total a pagar ", JOptionPane.QUESTION_MESSAGE));
     		long idPropiedad = Long.parseLong(JOptionPane.showInputDialog (this, "ID propiedad?", "Adicionar id de la propiedad asociada a la reserva ", JOptionPane.QUESTION_MESSAGE));
     		if (fechaInicio != null && fechaFin != null && personas != 0 )
     		{
-    			VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin, personas, 1, idPropiedad);
+    			VOReserva c = alohandes.adicionarReserva(fechaInicio, fechaFin,finCancelacionOportuna, personas, 1, idPropiedad);
         		if (c == null)
         		{
-        			throw new Exception ("No se pudo crear una reserva " );
+        			throw new Exception ("No se pudo crear una reserva " ); 
         		}
         		String resultado = "En adicionarReserva\n\n";
         		resultado += "Cliente adicionado exitosamente: " + c;
@@ -608,10 +608,10 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		boolean pAmueblado = JOptionPane.showInputDialog(this,"Amuablado?","Adicionar amuablado", JOptionPane.YES_NO_OPTION) != null;
     		int pHabitaciones = Integer.parseInt(JOptionPane.showInputDialog (this, "Habitaciones?", "Adicionar habitaciones", JOptionPane.QUESTION_MESSAGE));
     		String pDMenaje = JOptionPane.showInputDialog (this, "Mensaje?", "Adicionar mensaje", JOptionPane.QUESTION_MESSAGE);
-    		Date pVenceSeguro =Date.valueOf( JOptionPane.showInputDialog (this,"Vencimiento seguro?", " Adicionar vencimiento seguro",JOptionPane.QUESTION_MESSAGE));
+    		int pVenceSeguro = Integer.parseInt(JOptionPane.showInputDialog (this,"Tiene seguro?", " Adicionar vencimiento seguro",JOptionPane.QUESTION_MESSAGE));
     		String pDSeguro = JOptionPane.showInputDialog (this, "Descripción seguro?", "Adicionar descripcion seguro", JOptionPane.QUESTION_MESSAGE);
     		long pOperador = Long.parseLong(JOptionPane.showInputDialog (this, "Id Operador?", "Adicionar id operador", JOptionPane.QUESTION_MESSAGE));
-    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pVenceSeguro != null && pDSeguro != null)
+    		if ( pCapacidad > 0 && pFecha != null && pPiso > 0 && pDireccion != null && pHabitaciones > 0 && pDMenaje != null && pDSeguro != null)
     		{
         		VOPropiedad c =  alohandes.adicionarApartamento(pId, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, pOperador);
         		if (c == null)
@@ -690,6 +690,71 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 		}
     }
 
+    
+    public void habilitarApartamento(){
+    	try{
+    		String idApartamento = JOptionPane.showInputDialog (this, "Id del apartamento?", "Borrar apartamento por Id", JOptionPane.QUESTION_MESSAGE);
+    		long id = Long.valueOf (idApartamento);
+    		alohandes.hablitarApartamento(id);
+    		String resultado = "En habilitar Apartamento\n\n";
+			resultado +=  " Aartamento habilitado\n";
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
+    public void deshabilitarApartamento(){
+    	try{
+    		String idApartamento = JOptionPane.showInputDialog (this, "Id del apartamento?", "Borrar apartamento por Id", JOptionPane.QUESTION_MESSAGE);
+    		long id = Long.valueOf (idApartamento);
+    		alohandes.deshablitarApartamento(id);
+    		String resultado = "En deshabilitar Apartamento\n\n";
+			resultado +=  " Aartamento deshabilitado\n";
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
+    public void apartamentosDisponibles(){
+    	try{
+    		
+    		List<Apartamento> c = alohandes.darApartamentosDisponibles();
+    		String resultado = "En Apartamentos disponibles\n\n";
+    		for (int i = 0 ; i< c.size(); i++)
+    		{
+    		  resultado += c.get(i).toString();	
+    		}
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
     
     /* ****************************************************************
 	 * 			CRUD de Propiedad
@@ -820,6 +885,71 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 			String resultado = generarMensajeError(e);
 			panelDatos.actualizarInterfaz(resultado);
 		}
+    }
+    
+    public void habilitarHabitacion(){
+    	try{
+    		String idApartamento = JOptionPane.showInputDialog (this, "Id del apartamento?", "Borrar apartamento por Id", JOptionPane.QUESTION_MESSAGE);
+    		long id = Long.valueOf (idApartamento);
+    		alohandes.habilitarHabitacion(id);;
+    		String resultado = "En habilitar Habitacion\n\n";
+			resultado +=  " Aartamento habilitado\n";
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
+    public void deshabilitarHabitacion(){
+    	try{
+    		String idApartamento = JOptionPane.showInputDialog (this, "Id del apartamento?", "Borrar apartamento por Id", JOptionPane.QUESTION_MESSAGE);
+    		long id = Long.valueOf (idApartamento);
+    		alohandes.deshabilitarHabitacion(id);;
+    		String resultado = "En deshabilitar Habitacion\n\n";
+			resultado +=  " habitacion deshabilitado\n";
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
+    public void habitacionesDisponibles(){
+    	try{
+    		
+    		List<Habitacion> c = alohandes.darHabitacionesDisponibles();
+    		String resultado = "En Habitaciones disponibles\n\n";
+    		for (int i = 0 ; i< c.size(); i++)
+    		{
+    		  resultado += c.get(i).toString();	
+    		}
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+    		
+    	}
+    	
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
     }
 
     
@@ -1014,6 +1144,60 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 			panelDatos.actualizarInterfaz(resultado);
 		}
     }
+    
+    /* ****************************************************************
+	 * 			Métodos Requerimientos
+	 *****************************************************************/
+    public void darDineroAnioActual(){
+    	
+    	try 
+    	{
+    	 
+    	List<Object> c =alohandes.darDineroAnioActual();
+   		String resultado = "En RFC1\n\n";
+   		for (int i = 0; i< c.size(); i++){
+   			
+   			resultado += c.get(i).toString();
+   		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+   
+    	
+    	}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
+public void darDineroAnioCorrido(){
+    	
+    	try 
+    	{
+    	 
+    	List<Object> c =alohandes.darDineroAnioCorrido();
+   		String resultado = "En RFC1\n\n";
+   		for (int i = 0; i< c.size(); i++){
+   			
+   			resultado += c.get(i).toString();
+   		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+   
+    	
+    	}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+    
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/

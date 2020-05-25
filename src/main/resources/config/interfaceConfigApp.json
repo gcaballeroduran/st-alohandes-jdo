@@ -74,6 +74,18 @@
 				{
 					"label": "Borrar por Id",
 					"event": "eliminarApartamentoId"
+				},
+				{
+					"label": "Habilitar",
+					"event": "habilitarApartamento"
+				},
+				{
+					"label": "Desabilitar",
+					"event": "deshabilitarApartamento"
+				},
+				{
+					"label": "Disponibles",
+					"event": "apartamentosDisponibles"
 				}
 			]
 		},
@@ -100,6 +112,18 @@
 				{
 					"label": "Borrar por Id",
 					"event": "eliminarHabitacionId"
+				},
+				{
+					"label": "Habilitar",
+					"event": "habilitarHabitacion"
+				},
+				{
+					"label": "Desabilitar",
+					"event": "deshabilitarHabitacion"
+				},
+				{
+					"label": "Disponibles",
+					"event": "habitacionesDisponibles"
 				}
 			]
 		},
@@ -191,6 +215,19 @@
 				}
 			]
 		},		
+		{ "menuTitle": "Requeriminetos ",
+		  "options":
+			[
+				{
+					"label": "RFC1 (Año Actual)",
+					"event": "darDineroAnioActual"
+				},
+				{
+					"label": "RFC1 (Año Corrido)",
+					"event": "darDineroAnioCorrido"
+				}
+			]
+		},
 		{ "menuTitle": "Acerca de ...",
 		  "options":
 			[

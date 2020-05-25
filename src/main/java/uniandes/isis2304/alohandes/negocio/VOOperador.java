@@ -22,7 +22,7 @@ public interface VOOperador {
 	 * 
 	 * @return vencimiento del RNT
 	 */
-	public Date getVencimiento_RNT();
+	public String getVencimiento_RNT();
 
 	/**
 	 * 
@@ -34,7 +34,7 @@ public interface VOOperador {
 	 * 
 	 * @return fecha de vencimiento del super tutimo.
 	 */
-	public Date getVencimiento_Registro_ST();
+	public String getVencimiento_Registro_ST();
 
 	/**
 	 * 
@@ -52,13 +52,13 @@ public interface VOOperador {
 	 * 
 	 * @return hora de apertura.
 	 */
-	public Date getHora_Apertura();
+	public String getHora_Apertura();
 
 	/**
 	 * 
 	 * @return hora de cierre.
 	 */
-	public Date getHora_Cierre();
+	public String getHora_Cierre();
 
 	/**
 	 * 

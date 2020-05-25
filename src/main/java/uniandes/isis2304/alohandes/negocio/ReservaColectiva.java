@@ -86,7 +86,7 @@ public class ReservaColectiva implements VOReservaColectiva{
 	}
 
 	public String getFechaInicio() {
-		return fechaInicio;
+		return fechaInicio; 
 	}
 
 	public void setFechaInicio(String fechaInicio) {

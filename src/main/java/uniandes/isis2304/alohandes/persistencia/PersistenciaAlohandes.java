@@ -514,8 +514,8 @@ public class PersistenciaAlohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(long numeroId,String logIn,String tipoId,String relacionU,int numeroRNT, Date vencimientoRNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
-			Date horaApertura, Date horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos) 
+	public Operador adicionarOperador(long numeroId,String logIn,String tipoId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -819,7 +819,7 @@ public class PersistenciaAlohandes
 	 * @param pDSeguro
 	 */
 
-	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso,  boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador) 
+	public Apartamento adicionarApartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso,  boolean pAmueblado, int pHabitaciones, String pDMenaje, int pVenceSeguro, String pDSeguro, long pOperador) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -1248,7 +1248,7 @@ public class PersistenciaAlohandes
 			}
 			else
 			{
-				r = adicionarReservaColectivaApartamento(id, pCantidad, pInicio, pDuracion);
+				r = adicionarReservaColectivaHabitacion(id, pCantidad, pInicio, pDuracion);
 			}
 
 			if(r.size()==0)
@@ -1305,7 +1305,7 @@ public class PersistenciaAlohandes
 				
 				
 				Date fechaInicio = Date.valueOf(pInicio);		
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+				DateFormat dateFormat = new SimpleDateFormat("DD-MM-YY"); 
 				
 				// Calcular la fecha final
 				LocalDate tf = fechaInicio.toLocalDate().plusDays(pDuracion);
@@ -1343,7 +1343,7 @@ public class PersistenciaAlohandes
 				double montoTotal = h.getPrecio()*pDuracion;
 				
 				Date fechaInicio = Date.valueOf(pInicio);		
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+				DateFormat dateFormat = new SimpleDateFormat("DD-MM-YY"); 
 				
 				// Calcular la fecha final
 				LocalDate tf = fechaInicio.toLocalDate().plusDays(pDuracion);
@@ -1880,5 +1880,72 @@ public class PersistenciaAlohandes
 
 	}
 
+	/* ****************************************************************
+	 * 			Métodos Requerimientos
+	 *****************************************************************/
 
+	/**
+	 * RFC1
+	 * @param pm
+	 * @return
+	 */
+	public List<Object> darDineroAnioActual()
+	{
+		
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{	
+		 List<Object> lista =  sqlOperador.darDineroAnioActual(pm);
+		 return lista;
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null; 
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	  
+	}
+	
+     public List<Object> darDineroAnioCorrido (){
+		
+		
+    	 PersistenceManager pm = pmf.getPersistenceManager();
+ 		Transaction tx=pm.currentTransaction();
+ 		try
+ 		{	
+ 		 List<Object> lista =  sqlOperador.darDineroAnioCorrido(pm);
+ 		 return lista;
+ 		}
+ 		catch (Exception e)
+ 		{
+ 			//        	e.printStackTrace();
+ 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+ 			return null; 
+ 		}
+ 		finally
+ 		{
+ 			if (tx.isActive())
+ 			{
+ 				tx.rollback();
+ 			}
+ 			pm.close();
+ 		}
+    	 
+	}
+    
+     public void habilitarApartamento(){
+    	 
+    	 
+     }
+	
 }

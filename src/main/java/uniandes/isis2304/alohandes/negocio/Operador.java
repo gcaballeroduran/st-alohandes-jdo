@@ -18,7 +18,7 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 * fecha de vencimiento del RNT.
 	 */
-	private Date vencimiento_RNT;
+	private String vencimiento_RNT;
 	
 	/**
 	 *  regsitro del super turismo del operador.
@@ -28,7 +28,7 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 * fecha devencimiento del regsitro del super turismo del operador..
 	 */
-	private Date vencimiento_Registro_ST;
+	private String vencimiento_Registro_ST;
 	
 	/**
 	 *  Categoria a la que pertenece el operador.
@@ -43,12 +43,12 @@ public class Operador extends Usuario implements VOOperador {
 	/**
 	 *  Hora de apertura.
 	 */
-	private Date hora_Apertura;
+	private String hora_Apertura;
 	
 	/**
 	 *  Hora de cierre.
 	 */
-	private Date hora_Cierre;
+	private String hora_Cierre;
 	
 	/**
 	 * Tiempo minimo de estadia.
@@ -121,8 +121,8 @@ public class Operador extends Usuario implements VOOperador {
 	 * @param habitaciones - habitaciones del operador.
 	 * @param apartamentos - apartamentos del operador.
 	 */
-	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numero_RNT, Date vencimiento_RNT, String registroSuperTurismo,Date vencimientoRegistroSuperTurismo,String categoria, String direccion, 
-			Date horaApertura, Date horaCierre, int tiempo_Minimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
+	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numero_RNT, String vencimiento_RNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+			String horaApertura, String horaCierre, int tiempo_Minimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
 		super(numeroId, tipoId, logIn, relacionU);
 		this.numero_RNT = numero_RNT;
@@ -163,7 +163,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return vencimiento del RNT
 	 */
-	public Date getVencimiento_RNT() {
+	public String getVencimiento_RNT() {
 		return vencimiento_RNT;
 	}
 
@@ -171,7 +171,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @param vencimientoRNT - nueva fecha de vencimiento del RNT del operador.
 	 */
-	public void setVencimiento_RNT(Date vencimiento_RNT) {
+	public void setVencimiento_RNT(String vencimiento_RNT) {
 		this.vencimiento_RNT = vencimiento_RNT;
 	}
 
@@ -195,7 +195,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return fecha de vencimiento del super tutimo.
 	 */
-	public Date getVencimiento_Registro_ST() {
+	public String getVencimiento_Registro_ST() {
 		return vencimiento_Registro_ST;
 	}
 
@@ -203,7 +203,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @param vencimientoRegistroSuperTurismo - nueva fecha de vencimiento del super turismo.
 	 */
-	public void setVencimiento_Registro_ST(Date vencimientoRegistroSuperTurismo) {
+	public void setVencimiento_Registro_ST(String vencimientoRegistroSuperTurismo) {
 		this.vencimiento_Registro_ST = vencimientoRegistroSuperTurismo;
 	}
 
@@ -243,7 +243,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return hora de apertura.
 	 */
-	public Date getHora_Apertura() {
+	public String getHora_Apertura() {
 		return hora_Apertura;
 	}
 
@@ -251,7 +251,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @param horaApertura - nueva hora de apertura.
 	 */
-	public void setHora_Apertura(Date horaApertura) {
+	public void setHora_Apertura(String horaApertura) {
 		this.hora_Apertura = horaApertura;
 	}
 
@@ -259,7 +259,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @return hora de cierre.
 	 */
-	public Date getHora_Cierre() {
+	public String getHora_Cierre() {
 		return hora_Cierre;
 	}
 
@@ -267,7 +267,7 @@ public class Operador extends Usuario implements VOOperador {
 	 * 
 	 * @param horaCierre - nueva hora de cierre.
 	 */
-	public void setHora_Cierre(Date horaCierre) {
+	public void setHora_Cierre(String horaCierre) {
 		this.hora_Cierre = horaCierre;
 	}
 	
@@ -360,7 +360,7 @@ public class Operador extends Usuario implements VOOperador {
 	}
 	
 	
-	public void agregarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro)
+	public void agregarApartamento(int pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pAmueblado, int pHabitaciones, String pDMenaje, int pVenceSeguro, String pDSeguro)
 	{
 		Apartamento nuevo = new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, this.getNumeroId());
 		apartamentos.add(nuevo);

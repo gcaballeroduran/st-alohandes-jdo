@@ -53,7 +53,7 @@ public class SQLReserva {
 			double porcentajeAPagar, double montoTotal){
 		
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaReserva() + "(id, fecha_Inicio,fecha_Fin,personas,fin_Cancelacion_Oportuna,porcentaje_A_Pagar,monto_Total)"
-				+ " values (?, ?, ?, ?,?,?,?)");
+				+ " values (?, TO_DATE(?), TO_DATE(?), ?,?,?,?)");
         q.setParameters(id, fechaInicio,fechaFin,personas,finCancelacionOportuna,porcentajeAPagar,montoTotal);
         return (long) q.executeUnique();
 		

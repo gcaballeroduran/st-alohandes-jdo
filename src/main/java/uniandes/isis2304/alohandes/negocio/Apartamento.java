@@ -21,7 +21,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	private String descripcionMenaje;
 
 	/** Fecha de vencimiento del seguro */
-	private Date vencimientoSeguro;
+	private int vencimientoSeguro;
 
 	/** Describe el seguro con el que cuenta el apartamento */
 	private String descripcionSeguro;
@@ -46,7 +46,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 		amueblado = false;
 		habitaciones = 0;
 		descripcionMenaje = "";
-		vencimientoSeguro = null;
+		vencimientoSeguro = 0;
 		descripcionSeguro = null;
 		operador = -1;
 		reservas = new ArrayList<Reserva>();
@@ -71,7 +71,7 @@ public class Apartamento extends Propiedad implements VOApartamento
 	 * @param pDSeguro
 	 */
 
-	public Apartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pAmueblado, int pHabitaciones, String pDMenaje, Date pVenceSeguro, String pDSeguro, long pOperador)
+	public Apartamento(long pID, int pCapacidad, double pTamanio, double pPrecio, String pFecha, int pDiasR, int pPiso, boolean pAmueblado, int pHabitaciones, String pDMenaje, int pVenceSeguro, String pDSeguro, long pOperador)
 
 	{
 		super(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso);
@@ -114,11 +114,11 @@ public class Apartamento extends Propiedad implements VOApartamento
 		this.descripcionMenaje = descripcionMenaje;
 	}
 
-	public Date getVencimientoSeguro() {
+	public int getTiene_Seguro() {
 		return vencimientoSeguro;
 	}
 
-	public void setVencimientoSeguro(Date vencimientoSeguro) {
+	public void setTiene_Seguro(int vencimientoSeguro) {
 		this.vencimientoSeguro = vencimientoSeguro;
 	}
 

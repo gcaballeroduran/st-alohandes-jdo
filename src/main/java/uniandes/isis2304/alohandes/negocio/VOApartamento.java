@@ -26,7 +26,7 @@ public interface VOApartamento
 	/**
 	 * @return La fecha de vencimiento del seguro del apartamento
 	 */
-	public Date getVencimientoSeguro();
+	public int getTiene_Seguro();
 	
 	/**
 	 * @return La descripcion del seguro del apartamento

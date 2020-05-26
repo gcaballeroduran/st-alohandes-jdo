@@ -160,11 +160,11 @@ public class SQLReserva {
 	public List<Reserva> darReservasActivasApartamento(PersistenceManager pm, long apt) 
 	{
 		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM "+ pp.darTablaReserva() + "r";
-		sql += "INNER JOIN "+ pp.darTablaReservaApartamento() + "ap ON (idapartamento = " + apt +")";
-		sql += "WHERE fechaInicio>=getDate() OR fechaFin<getDate()";
-		sql += "COMMIT TRAN";
+		sql += " BEGIN TRAN ";
+		sql += " SELECT * FROM "+ pp.darTablaReserva() + " r";
+		sql += " INNER JOIN "+ pp.darTablaReservaApartamento() + " ap ON (idapartamento = " + apt +")";
+		sql += " WHERE fechaInicio>=getDate() OR fechaFin<getDate()";
+		sql += " COMMIT TRAN";
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Reserva.class);
 		q.setParameters(apt);
@@ -180,10 +180,10 @@ public class SQLReserva {
 	 */
 	public List<Reserva> darReservasHabitacion(PersistenceManager pm, long hab) 
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM " + pp.darTablaReserva() + " WHERE propiedad = ?";
-		sql += "COMMIT TRAN";
+		String sql = " SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
+		sql += " BEGIN TRAN";
+		sql += " SELECT * FROM " + pp.darTablaReserva() + " WHERE propiedad = ?";
+		sql += " COMMIT TRAN";
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Reserva.class);
 		q.setParameters(hab);
@@ -200,11 +200,11 @@ public class SQLReserva {
 	public List<Reserva> darReservasActivasHabitacion(PersistenceManager pm, long apt) 
 	{
 		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM "+ pp.darTablaReserva() + "r";
-		sql += "INNER JOIN "+ pp.darTablaReservaHabitacion() + "ap ON (idhabitacion = " + apt +")";
-		sql += "WHERE fechaInicio>=getDate() OR fechaFin<getDate()";
-		sql += "COMMIT TRAN";
+		sql += " BEGIN TRAN ";
+		sql += " SELECT * FROM "+ pp.darTablaReserva() + " r";
+		sql += " INNER JOIN "+ pp.darTablaReservaHabitacion() + " ap ON (idhabitacion = " + apt +")";
+		sql += " WHERE fechaInicio>= getDate() OR fechaFin< getDate()";
+		sql += " COMMIT TRAN";
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Reserva.class);
 		q.setParameters(apt);

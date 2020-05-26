@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import uniandes.isis2304.alohandes.negocio.Operador;
 import uniandes.isis2304.alohandes.negocio.Propiedad;
 
 class SQLPropiedad
@@ -193,6 +194,100 @@ class SQLPropiedad
 		sql += "FROM tab t, "+ pa.darTablaPropiedad()+"p";
 		sql +="group by  p.id , p.capacidad, p.tamanio, p.dias_reservados, p.fecha_creacion, p.piso";
 		sql += sql += "COMMIT TRAN";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	} 
+	
+	/* *****************************************************
+	 *                REQUERIMIENTO: RFC12
+	******************************************************* */
+
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de la oferta de alohamiento con mayor ocupación
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de propiedades 
+	 */
+	public List<Propiedad> darOfertaMayorOcupacion(PersistenceManager pm)
+	{
+		String sql =  "with semana as(";
+		sql += " SELECT to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')) week_num , MAX(p.dias_reservados) AS personas, p.id as id ";
+		sql += " FROM " + pa.darTablaReserva()+" r ";
+		sql+= "  INNER JOIN " +pa.darTablaPropiedad()+" p ON (p.id = r.propiedad) ";
+		sql+= " group by to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')),p.id ";
+		sql+= ")";
+		sql+= " SELECT p.*";
+		sql+= " FROM " + pa.darTablaPropiedad() +" p ";
+		sql +="  INNER JOIN semana s ON (s.id = p.id)";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información de la oferta de alohamiento con menor ocupación
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de propiedades 
+	 */
+	public List<Propiedad> darOfertaMenorOcupacion(PersistenceManager pm)
+	{
+		String sql =  "with semana as(";
+		sql += " SELECT to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')) week_num , MIN(p.dias_reservados) AS personas, p.id as id ";
+		sql += " FROM " + pa.darTablaReserva()+" r ";
+		sql+= "  INNER JOIN " +pa.darTablaPropiedad()+" p ON (p.id = r.propiedad) ";
+		sql+= " group by to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')),p.id ";
+		sql+= ")";
+		sql+= " SELECT p.*";
+		sql+= " FROM " + pa.darTablaPropiedad() +" p ";
+		sql +="  INNER JOIN semana s ON (s.id = p.id)";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
+	
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información del operador menos solicidado
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de Operadores 
+	 */
+	public List<Object> darOperadorMenosSolicitado(PersistenceManager pm)
+	{
+		String sql =  "with semana as(";
+		sql += " SELECT to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')) week_num , COUNT(r.propiedad) AS res, o.id as id";
+		sql += " FROM " + pa.darTablaReserva()+" r ";
+		sql+= "  INNER JOIN " +pa.darTablaPropiedad()+" p ON (p.id = r.propiedad) ";
+		sql+= "  INNER JOIN " +pa.darTablaOperador()+" o ON (o.id = p.operador) ";
+		sql+= " group by to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')),o.id ";
+		sql+= ")";
+		sql+= " SELECT MIN(s.res), o.id, o.numero_rnt, o.vencimiento_rnt, o.registro_super_turismo, o.vencimiento_registro_st, o.categoria, o.direccion, o.hora_apertura,o.hora_cierre"+
+         ",o.tiempo_minimo, o.ganancia_anio_actual, o.ganancia_anio_corrido, o.habitacion, o.apartamento";
+		sql+= " FROM " + pa.darTablaOperador() +" o ";
+		sql +="  INNER JOIN semana s ON (s.id = o.id)";
+		sql+="group by o.id, o.numero_rnt, o.vencimiento_rnt, o.registro_super_turismo, o.vencimiento_registro_st, o.categoria, o.direccion, o.hora_apertura, o.hora_cierre, o.tiempo_minimo," 
+        +"o.ganancia_anio_actual, o.ganancia_anio_corrido, o.habitacion, o.apartamento";
+		
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
+	/**
+	 * Crea y ejecuta la sentencia SQL para encontrar la información del operador mas solicidado
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de Operadores 
+	 */
+	public List<Object> darOperadorMasSolicitado(PersistenceManager pm)
+	{
+		String sql =  "with semana as(";
+		sql += " SELECT to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')) week_num , COUNT(r.propiedad) AS res, o.id as id";
+		sql += " FROM " + pa.darTablaReserva()+" r ";
+		sql+= "  INNER JOIN " +pa.darTablaPropiedad()+" p ON (p.id = r.propiedad) ";
+		sql+= "  INNER JOIN " +pa.darTablaOperador()+" o ON (o.id = p.operador) ";
+		sql+= " group by to_number(to_char(to_date(r.fecha_inicio,'MM/DD/YYYY'),'WW')),o.id ";
+		sql+= ")";
+		sql+= " SELECT MAX(s.res), o.id, o.numero_rnt, o.vencimiento_rnt, o.registro_super_turismo, o.vencimiento_registro_st, o.categoria, o.direccion, o.hora_apertura,o.hora_cierre"+
+         ",o.tiempo_minimo, o.ganancia_anio_actual, o.ganancia_anio_corrido, o.habitacion, o.apartamento";
+		sql+= " FROM " + pa.darTablaOperador() +" o ";
+		sql +="  INNER JOIN semana s ON (s.id = o.id)";
+		sql+="group by o.id, o.numero_rnt, o.vencimiento_rnt, o.registro_super_turismo, o.vencimiento_registro_st, o.categoria, o.direccion, o.hora_apertura, o.hora_cierre, o.tiempo_minimo," 
+        +"o.ganancia_anio_actual, o.ganancia_anio_corrido, o.habitacion, o.apartamento";
 		
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();

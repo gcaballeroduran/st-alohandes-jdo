@@ -1943,9 +1943,111 @@ public class PersistenciaAlohandes
     	 
 	}
     
-     public void habilitarApartamento(){
-    	 
-    	 
-     }
+     public List<Propiedad> darOfertaMayorOcupacion()
+ 	{
+ 		
+ 		PersistenceManager pm = pmf.getPersistenceManager();
+ 		Transaction tx=pm.currentTransaction();
+ 		try
+ 		{	
+ 		 List<Propiedad> lista =  sqlPropiedad.darOfertaMayorOcupacion(pm);
+ 		 return lista;
+ 		}
+ 		catch (Exception e)
+ 		{
+ 			//        	e.printStackTrace();
+ 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+ 			return null; 
+ 		}
+ 		finally
+ 		{
+ 			if (tx.isActive())
+ 			{
+ 				tx.rollback();
+ 			}
+ 			pm.close();
+ 		}
+ 	  
+ 	}
+     
+     public List<Propiedad> darOfertaMenorOcupacion()
+  	{
+  		
+  		PersistenceManager pm = pmf.getPersistenceManager();
+  		Transaction tx=pm.currentTransaction();
+  		try
+  		{	
+  		 List<Propiedad> lista =  sqlPropiedad.darOfertaMenorOcupacion(pm);
+  		 return lista;
+  		}
+  		catch (Exception e)
+  		{
+  			//        	e.printStackTrace();
+  			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+  			return null; 
+  		}
+  		finally
+  		{
+  			if (tx.isActive())
+  			{
+  				tx.rollback();
+  			}
+  			pm.close();
+  		}
+  	  
+  	}
+     
+     public List<Object> darOperadorMenosSolicitado()
+   	{
+   		
+   		PersistenceManager pm = pmf.getPersistenceManager();
+   		Transaction tx=pm.currentTransaction();
+   		try
+   		{	
+   		 List<Object> lista =  sqlPropiedad.darOperadorMenosSolicitado(pm);
+   		 return lista;
+   		}
+   		catch (Exception e)
+   		{
+   			//        	e.printStackTrace();
+   			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+   			return null; 
+   		}
+   		finally
+   		{
+   			if (tx.isActive())
+   			{
+   				tx.rollback();
+   			}
+   			pm.close();
+   		}
+   	  
+   	}
 	
+     public List<Object> darOperadorMasSolicitado()
+    	{
+    		
+    		PersistenceManager pm = pmf.getPersistenceManager();
+    		Transaction tx=pm.currentTransaction();
+    		try
+    		{	
+    		 List<Object> lista =  sqlPropiedad.darOperadorMasSolicitado(pm);
+    		 return lista;
+    		}
+    		catch (Exception e)
+    		{
+    			//        	e.printStackTrace();
+    			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+    			return null; 
+    		}
+    		finally
+    		{
+    			if (tx.isActive())
+    			{
+    				tx.rollback();
+    			}
+    			pm.close();
+    		}
+    	  
+    	}
 }

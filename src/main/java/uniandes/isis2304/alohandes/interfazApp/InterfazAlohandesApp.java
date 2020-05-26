@@ -54,6 +54,7 @@ import uniandes.isis2304.alohandes.negocio.Alohandes;
 import uniandes.isis2304.alohandes.negocio.Apartamento;
 import uniandes.isis2304.alohandes.negocio.Cliente;
 import uniandes.isis2304.alohandes.negocio.Habitacion;
+import uniandes.isis2304.alohandes.negocio.Propiedad;
 import uniandes.isis2304.alohandes.negocio.VOApartamento;
 import uniandes.isis2304.alohandes.negocio.VOCliente;
 import uniandes.isis2304.alohandes.negocio.VOHabitacion;
@@ -1173,7 +1174,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	
     }
     
-public void darDineroAnioCorrido(){
+    public void darDineroAnioCorrido(){
     	
     	try 
     	{
@@ -1197,6 +1198,106 @@ public void darDineroAnioCorrido(){
 		}
     	
     }
+    
+    public void darOfertaMayorOcupacion(){
+    	
+    	try 
+    	{
+    	 
+    	List<Propiedad> c =alohandes.darOfertaMayorOcupacion();
+   		String resultado = "En RFC12\n\n";
+   		for (int i = 0; i< c.size(); i++){
+   			
+   			resultado += c.get(i).toString();
+   		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+   
+    	
+    	}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+ 
+    public void darOfertaMenorOcupacion(){
+ 	
+ 	try 
+ 	{
+ 	 
+ 	 List<Propiedad> c =alohandes.darOfertaMerorOcupacion();
+		String resultado = "En RFC12\n\n";
+		for (int i = 0; i< c.size(); i++){
+			
+			resultado += c.get(i).toString();
+		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+
+ 	
+ 	}
+ 	catch (Exception e) 
+ 	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+ 	
+ }
+    
+   public void darOperadorMasSolicitado(){
+    	
+    	try 
+    	{
+    	 
+    	List<Object> c =alohandes.darOperadorMasSolicitado();
+   		String resultado = "En RFC12\n\n";
+   		for (int i = 0; i< c.size(); i++){
+   			
+   			resultado += c.get(i).toString();
+   		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+   
+    	
+    	}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    	
+    }
+   
+   public void darOperadorMenosSolicitado(){
+   	
+   	try 
+   	{
+   	 
+   	List<Object> c =alohandes.darOperadorMenosSolicitado();
+  		String resultado = "En RFC12\n\n";
+  		for (int i = 0; i< c.size(); i++){
+  			
+  			resultado += c.get(i).toString();
+  		}
+		resultado += "\n Operación terminada";
+		panelDatos.actualizarInterfaz(resultado);
+  
+   	
+   	}
+   	catch (Exception e) 
+   	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+   	
+   }
     
 	/* ****************************************************************
 	 * 			Métodos administrativos

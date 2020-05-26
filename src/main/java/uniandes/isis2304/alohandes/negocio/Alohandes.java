@@ -948,6 +948,37 @@ public class Alohandes
 		pp.deshabilitarApartamento(id);
 	}
     
+    public List<Propiedad> darOfertaMayorOcupacion(){
+    	
+    	log.info ("Mayor ocupación  " );
+		List<Propiedad> lista = pp.darOfertaMayorOcupacion();		
+        log.info ("Mayor ocupación : " + lista);
+        return lista;	
+    }
+    
+     public List<Propiedad> darOfertaMerorOcupacion(){
+    	
+    	log.info ("Menor ocupación  " );
+		List<Propiedad> lista = pp.darOfertaMenorOcupacion();		
+        log.info ("Menor ocupación : " + lista);
+        return lista;	
+    }
+     
+     public List<Object> darOperadorMenosSolicitado(){
+     	
+     	log.info (" Operador Menos Solicitado  " );
+ 		List<Object> lista = pp.darOperadorMenosSolicitado();		
+         log.info ("Operador Menos Solicitado  : " + lista);
+         return lista;	
+     }
+    
+     public List<Object> darOperadorMasSolicitado(){
+      	
+      	log.info (" Operador Mas Solicitado  " );
+  		List<Object> lista = pp.darOperadorMasSolicitado();		
+          log.info ("Operador Mas Solicitado  : " + lista);
+          return lista;	
+      }
  
 	
 	/* ****************************************************************

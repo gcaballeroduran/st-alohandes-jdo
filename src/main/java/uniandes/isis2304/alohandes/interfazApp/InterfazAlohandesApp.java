@@ -1299,6 +1299,30 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
    	
    }
     
+   public void darBuenosClientes(){
+	   	
+	   	try 
+	   	{
+	   	 
+	   	List<Object> c =alohandes.darBuenosClientes();
+	  		String resultado = "En RFC13\n\n";
+	  		for (int i = 0; i< c.size(); i++){
+	  			
+	  			resultado += c.get(i).toString();
+	  		}
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+	  
+	   	
+	   	}
+	   	catch (Exception e) 
+	   	{
+//				e.printStackTrace();
+				String resultado = generarMensajeError(e);
+				panelDatos.actualizarInterfaz(resultado);
+			}
+	   	
+	   }
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/

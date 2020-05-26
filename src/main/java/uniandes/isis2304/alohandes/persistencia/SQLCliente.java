@@ -106,7 +106,7 @@ public class SQLCliente {
 	public List<Object> darDineroAnioActual(PersistenceManager pm)
 	{
 		String sql = "with tiempo as(";
-		sql += " count( cli.reservas )as num, (res.fecha_fin - res.fecha_inicio ) as noches";
+		sql += " SELECT count( cli.reservas )as num, (res.fecha_fin - res.fecha_inicio ) as noches";
 		sql += " FROM " + pp.darCliente()+"cl";
 		sql+= "INNER JOIN" + pp.darTablaReserva()+"res ON(cl.reservas = res.id)";
 		sql += "group by (res.fecha_fin - res.fecha_inicio) ";
@@ -117,6 +117,43 @@ public class SQLCliente {
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}
+	
+	/* *****************************************************
+	 *                REQUERIMIENTO: RFC13
+	******************************************************* */
+	
 
+	/**
+	 * Mostrar clientes buenos.
+	 * @param pm - El manejador de persistencia
+	 * @return Una lista de arreglos de objetos,con los datos del cliente y de por que es un buen cliente.
+	 */
+	public List<Object> darBuenosClientes(PersistenceManager pm)
+	{
+		String sql = "with res as (";
+		sql += " SELECT count(*) AS mes , c.id as id, count(c.reservas) as reservas";
+		sql += " FROM " + pp.darTablaCliente()+" c";
+		sql+= " INNER JOIN " + pp.darTablaReserva()+" r ON (c.reservas = r.id)";
+		sql+= " INNER JOIN " + pp.darTablaPropiedad()+" p ON (p.id = r.propiedad)";
+		sql += " WHERE to_char(r.fecha_inicio,'MM')- to_char(( ";
+		sql += " SELECT r2.fecha_inicio";
+		sql += " FROM " + pp.darTablaCliente()+" c2";
+		sql+= " INNER JOIN " + pp.darTablaReserva()+" r2 ON (c2.reservas = r2.id)";
+		sql+= " INNER JOIN " + pp.darTablaPropiedad()+" p2 ON (p2.id = r2.propiedad)";
+		sql += " WHERE c.id = c2.id";
+		sql += ")) = -1";
+		sql += "  group by c.id";
+		sql += ")";
+		sql +=" SELECT  c.*, p.precio , h.tipo, re.mes";
+		sql += " FROM "+ pp.darTablaCliente()+" c";
+		sql+= " INNER JOIN " + pp.darTablaReserva()+" r ON (c.reservas = r.id)";
+		sql+= " INNER JOIN " + pp.darTablaPropiedad()+" p ON (p.id = r.propiedad)";
+		sql+= " INNER JOIN " + pp.darTablaHabitacion()+" h ON (p.id = h.id)";
+		sql+= " INNER JOIN " + pp.darTablaApartamento()+" ap ON (p.id = ap.id)";
+		sql +=" INNER JOIN res re ON (re.id = c.id)";
+		sql += " WHERE p.precio > 150 OR h.tipo = 3 OR re.mes = re.reservas";
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
 	
 }

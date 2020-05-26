@@ -241,6 +241,10 @@
 				{
 					"label": "RFC12 (Operador menos solicitado)",
 					"event": "darOperadorMenosSolicitado"
+				},
+				{
+					"label": "RFC13 (Buenos Clientes)",
+					"event": "darBuenosClientes"
 				}
 			]
 		},

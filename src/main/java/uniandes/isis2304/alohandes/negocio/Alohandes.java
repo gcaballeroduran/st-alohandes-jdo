@@ -979,6 +979,14 @@ public class Alohandes
           log.info ("Operador Mas Solicitado  : " + lista);
           return lista;	
       }
+     
+     public List<Object> darBuenosClientes(){
+       	
+       	log.info (" Buenos Clientes  " );
+   		List<Object> lista = pp.darBuenosClientes();		
+           log.info ("Buenos clientes : " + lista);
+           return lista;	
+       }
  
 	
 	/* ****************************************************************

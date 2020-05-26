@@ -2050,4 +2050,32 @@ public class PersistenciaAlohandes
     		}
     	  
     	}
+     
+     public List<Object> darBuenosClientes()
+ 	{
+ 		
+ 		PersistenceManager pm = pmf.getPersistenceManager();
+ 		Transaction tx=pm.currentTransaction();
+ 		try
+ 		{	
+ 		 List<Object> lista =  sqlCliente.darBuenosClientes(pm);
+ 		 return lista;
+ 		}
+ 		catch (Exception e)
+ 		{
+ 			//        	e.printStackTrace();
+ 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+ 			return null; 
+ 		}
+ 		finally
+ 		{
+ 			if (tx.isActive())
+ 			{
+ 				tx.rollback();
+ 			}
+ 			pm.close();
+ 		}
+ 	  
+ 	}
+     
 }

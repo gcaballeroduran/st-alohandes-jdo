@@ -25,6 +25,7 @@ import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import org.apache.log4j.Logger;
@@ -2076,6 +2077,30 @@ public class PersistenciaAlohandes
  			pm.close();
  		}
  	  
+ 	}
+     
+ 	public List<Object> consumoSI(PersistenceManager pm, String orden, String FI, String FF)
+ 	{
+ 		String sql = "SELECT count(c.reservas) * ";
+ 		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+ 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
+
+ 		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res>0";
+ 		sql+="ORDERED BY "+orden;
+ 		Query q = pm.newQuery(SQL, sql); 
+ 		return q.executeList();
+ 	}
+ 	
+ 	public List<Object> consumoNO(PersistenceManager pm, String orden, String FI, String FF)
+ 	{
+ 		String sql = "SELECT count(c.reservas) as * ";
+ 		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+ 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
+
+ 		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res=0";
+ 		sql+="ORDERED BY "+orden;
+ 		Query q = pm.newQuery(SQL, sql); 
+ 		return q.executeList();
  	}
      
 }

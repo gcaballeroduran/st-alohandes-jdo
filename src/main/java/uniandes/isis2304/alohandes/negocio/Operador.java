@@ -374,6 +374,8 @@ public class Operador extends Usuario implements VOOperador {
 	}
 	
 	
+	
+	
 	@Override
 	/**
 	 * @return Una cadena de caracteres con todos los atributos del operador.

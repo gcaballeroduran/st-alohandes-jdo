@@ -15,9 +15,9 @@ public class SQLOperador {
 	/* ****************************************************************
 	 * 			Constantes
 	 *****************************************************************/
-	
+
 	private final static String SQL = PersistenciaAlohandes.SQL;
-	
+
 	/* ****************************************************************
 	 * 			Atributos
 	 *****************************************************************/
@@ -25,11 +25,11 @@ public class SQLOperador {
 	 * El manejador de persistencia general de la aplicación
 	 */
 	private PersistenciaAlohandes pp;
-	
+
 	/* ****************************************************************
 	 * 			Métodos
 	 *****************************************************************/
-	
+
 	/**
 	 * Constructor
 	 * @param pp - El Manejador de persistencia de la aplicación
@@ -38,9 +38,9 @@ public class SQLOperador {
 	{
 		this.pp = pp;
 	}
-	
+
 	/**
-	  * Crea y ejecuta la sentencia SQL para adicionar un OPERADOR a la base de datos de Alohandes
+	 * Crea y ejecuta la sentencia SQL para adicionar un OPERADOR a la base de datos de Alohandes
 	 * @param id -  id del operador.
 	 * @param numeroRNT -  numero de RNT.
 	 * @param vencimientoRNT - fecha de vencimiento de RNT.
@@ -59,14 +59,14 @@ public class SQLOperador {
 	 */
 	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
-		
+
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, TO_DATE(?), ?,TO_DATE(?),?,?,TO_DATE(?),TO_DATE(?),?,?,?,?,?)");
-        q.setParameters(id, numeroRNT,vencimientoRNT,registroSuperTurismo,vencimientoRegistroSuperTurismo,categoria,direccion,
+		q.setParameters(id, numeroRNT,vencimientoRNT,registroSuperTurismo,vencimientoRegistroSuperTurismo,categoria,direccion,
 				horaApertura,horaCierre,tiempoMinimo,gananciaAnioActual,gananciAnioCorrido,habitaciones,apartamentos);
-        return (long) q.executeUnique();
-		
+		return (long) q.executeUnique();
+
 	}
-	
+
 	/**
 	 * Crea y ejecuta la sentencia SQL para eliminar OPERADORES de la base de datos de Alohandes, por su id
 	 * @param pm - El manejador de persistencia
@@ -79,9 +79,9 @@ public class SQLOperador {
 		sql += "BEGIN TRAN";
 		sql += "DELETE FROM " + pp.darTablaOperador() + " WHERE id = ?";
 		sql += "COMMIT TRAN";
-        Query q = pm.newQuery(SQL, sql);
-        q.setParameters(idOperador);
-        return (long) q.executeUnique();            
+		Query q = pm.newQuery(SQL, sql);
+		q.setParameters(idOperador);
+		return (long) q.executeUnique();            
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class SQLOperador {
 		q.setParameters(idOperador);
 		return (Operador) q.executeUnique();
 	}
-	
+
 	/**
 	 * Crea y ejecuta la sentencia SQL para eliminar OPERADORES de la base de datos de Alohandes, por su login
 	 * @param pm - El manejador de persistencia
@@ -115,9 +115,9 @@ public class SQLOperador {
 		sql += "BEGIN TRAN";
 		sql += "DELETE FROM " + pp.darTablaOperador() + " WHERE login = ?";
 		sql += "COMMIT TRAN";
-        Query q = pm.newQuery(SQL, sql);
-        q.setParameters(loginOperador);
-        return (long) q.executeUnique();            
+		Query q = pm.newQuery(SQL, sql);
+		q.setParameters(loginOperador);
+		return (long) q.executeUnique();            
 	}
 
 	/**
@@ -152,10 +152,10 @@ public class SQLOperador {
 		q.setResultClass(Operador.class);
 		return (List<Operador>) q.executeList();
 	}
-	
+
 	/* *****************************************************
 	 *                REQUERIMIENTO: RFC1
-	******************************************************* */
+	 ******************************************************* */
 	/**
 	 * Mostrar el dinero recibido por cada operador de alojamiento durante el anio actual.
 	 * @param pm - El manejador de persistencia
@@ -177,11 +177,14 @@ public class SQLOperador {
 		sql += " FROM anio";
 		sql += " WHERE EXTRACT(YEAR FROM CURRENT_TIMESTAMP) = fecha";
 		sql += " GROUP BY id, fecha";
-		
+
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}
-	
+
+
+
+
 	/**
 	 * Mostrar el dinero recibido por cada operador de alojamiento durante el anio de corrido.
 	 * @param pm - El manejador de persistencia
@@ -202,4 +205,33 @@ public class SQLOperador {
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}
+
+
+	public List<Object> consumoSI(PersistenceManager pm, String orden, String FI, String FF)
+	{
+		String sql = "SELECT count(c.reservas) as res,p.id, p.capacidad, p.precio, p.tamanio, p.diasReservados, p.piso, p.habilitada";
+		sql+="p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
+		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
+
+		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res>0";
+		sql+="ORDERED BY "+orden;
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
+	
+	public List<Object> consumoNO(PersistenceManager pm, String orden, String FI, String FF)
+	{
+		String sql = "SELECT count(c.reservas) as res,p.id, p.capacidad, p.precio, p.tamanio, p.diasReservados, p.piso, p.habilitada";
+		sql+="p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
+		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
+
+		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res=0";
+		sql+="ORDERED BY "+orden;
+		Query q = pm.newQuery(SQL, sql); 
+		return q.executeList();
+	}
+
+
 }

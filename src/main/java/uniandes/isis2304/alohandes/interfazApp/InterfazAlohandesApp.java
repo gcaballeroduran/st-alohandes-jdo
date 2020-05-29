@@ -268,7 +268,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "relacionU", JOptionPane.QUESTION_MESSAGE);
     		String medioPago = JOptionPane.showInputDialog (this, "Medio de pago?", "Adicionar medio de pago", JOptionPane.QUESTION_MESSAGE);
     		int reservas = 0;
-    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE));
+    		String numeroId = JOptionPane.showInputDialog (this, "numero Id?", "Adicionar numero Id", JOptionPane.QUESTION_MESSAGE);
     		if (logIn != null && tipoId != null && relacionU != null && medioPago != null)
     		{
         		VOCliente c = alohandes.adicionarCliente(numeroId,logIn, tipoId, relacionU, medioPago, reservas);
@@ -394,7 +394,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
     	{
     		String logIn = JOptionPane.showInputDialog (this, "LogIn?", "Adicionar LogIn", JOptionPane.QUESTION_MESSAGE);
     		String tipoId = JOptionPane.showInputDialog (this, "Tipo de identificación?", "adicionar tipoId", JOptionPane.QUESTION_MESSAGE);
-    		long numeroId = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE));
+    		String numeroId = JOptionPane.showInputDialog (this, "Numero id?", "Adicionar numero id", JOptionPane.QUESTION_MESSAGE);
     		String relacionU = JOptionPane.showInputDialog (this, "Relación con la Universidad?", "adicionar relacionU", JOptionPane.QUESTION_MESSAGE);
     		int numeroRNT = Integer.parseInt(JOptionPane.showInputDialog (this, "Numero RNT?", "Adicionar numero RNT", JOptionPane.QUESTION_MESSAGE));
     		String vencimientoRNT = JOptionPane.showInputDialog (this, "vencimiento RNT?", "Adicionar vencimiento RNT", JOptionPane.QUESTION_MESSAGE);
@@ -1323,6 +1323,63 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener
 			}
 	   	
 	   }
+   
+   public void consumoNO(){
+   	
+	   	try 
+	   	{
+	   		String orden = JOptionPane.showInputDialog (this, "Orden?", "orden", JOptionPane.QUESTION_MESSAGE);
+	   		String FI = JOptionPane.showInputDialog (this, "Fecha inicial?", "Fecha inicial", JOptionPane.QUESTION_MESSAGE);
+	   		String FF = JOptionPane.showInputDialog (this, "Fecha final?", "Fecha final", JOptionPane.QUESTION_MESSAGE);
+    		
+	   	List<Object> c =alohandes.consumoNO(orden, FI, FF);
+	  		String resultado = "En Consumo NO\n\n";
+	  		for (int i = 0; i< c.size(); i++){
+	  			
+	  			resultado += c.get(i).toString();
+	  		}
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+	  
+	   	
+	   	}
+	   	catch (Exception e) 
+	   	{
+//				e.printStackTrace();
+				String resultado = generarMensajeError(e);
+				panelDatos.actualizarInterfaz(resultado);
+			}
+	   	
+	   }
+   
+   public void consumoSI(){
+	   	
+	   	try 
+	   	{
+	   		String orden = JOptionPane.showInputDialog (this, "Orden?", "orden", JOptionPane.QUESTION_MESSAGE);
+	   		String FI = JOptionPane.showInputDialog (this, "Fecha inicial?", "Fecha inicial", JOptionPane.QUESTION_MESSAGE);
+	   		String FF = JOptionPane.showInputDialog (this, "Fecha final?", "Fecha final", JOptionPane.QUESTION_MESSAGE);
+   		
+	   	List<Object> c =alohandes.consumoSI(orden, FI, FF);
+	  		String resultado = "En Consumo SI\n\n";
+	  		for (int i = 0; i< c.size(); i++){
+	  			
+	  			resultado += c.get(i).toString();
+	  		}
+			resultado += "\n Operación terminada";
+			panelDatos.actualizarInterfaz(resultado);
+	  
+	   	
+	   	}
+	   	catch (Exception e) 
+	   	{
+//				e.printStackTrace();
+				String resultado = generarMensajeError(e);
+				panelDatos.actualizarInterfaz(resultado);
+			}
+	   	
+	   }
+   
 	/* ****************************************************************
 	 * 			Métodos administrativos
 	 *****************************************************************/

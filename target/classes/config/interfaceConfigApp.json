@@ -245,6 +245,14 @@
 				{
 					"label": "RFC13 (Buenos Clientes)",
 					"event": "darBuenosClientes"
+				},
+				{
+					"label": "Consumo SI",
+					"event": "consumoSI"
+				},
+				{
+					"label": "Consumo NO",
+					"event": "consumoNO"
 				}
 			]
 		},

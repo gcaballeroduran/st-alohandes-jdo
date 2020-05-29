@@ -17,7 +17,7 @@ public class Cliente  extends Usuario implements VOCliente {
 	 */
 	private int reservas;
 	
-	private long id ;
+	private String id ;
 	
 	/* ****************************************************************
 	 * 			Métodos
@@ -31,7 +31,7 @@ public class Cliente  extends Usuario implements VOCliente {
 		super(0,null, "", null);
 		this.medio_Pago = "";
 		this.reservas = 0;
-		this.id = super.getNumeroId();
+		this.id = Long.toString(super.getNumeroId());
 	}
 	
 	/**
@@ -44,9 +44,9 @@ public class Cliente  extends Usuario implements VOCliente {
 	 * @param medioPago - medio de pago del cliente.
 	 * @param reservas - reservas del cliente.(Mayor o igual a 0)
 	 */
-	public Cliente (String logIn,String tipoId, long numeroId,String relacionU, String medio_Pago, int reservas){
+	public Cliente (String logIn,String tipoId, String numeroId,String relacionU, String medio_Pago, int reservas){
 		
-		super(numeroId, tipoId, logIn, relacionU);
+		super(Integer.parseInt(numeroId), tipoId, logIn, relacionU);
 		this.medio_Pago = medio_Pago;
 		this.reservas = reservas;
 		this.id = numeroId;
@@ -60,11 +60,11 @@ public class Cliente  extends Usuario implements VOCliente {
 		return medio_Pago;
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

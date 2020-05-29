@@ -180,7 +180,7 @@ public class Alohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente (long numeroId,String logIn,String tipoId, String relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente (String numeroId,String logIn,String tipoId, String relacionU, String medioPago, int reservas)
 	{
         log.info ("Adicionando Cliente: " + logIn);
         Cliente cliente = pp.adicionarCliente(numeroId,logIn, tipoId,  relacionU, medioPago, reservas);		
@@ -267,7 +267,7 @@ public class Alohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(String logIn,String tipoId, long numeroId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public Operador adicionarOperador(String logIn,String tipoId, String numeroId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos)
 	{
 		log.info ("Adicionando operador " + logIn);
@@ -987,6 +987,22 @@ public class Alohandes
            log.info ("Buenos clientes : " + lista);
            return lista;	
        }
+     
+     public List<Object> consumoNO( String orden, String FI, String FF){
+        	
+        	log.info (" Consumo NO  " );
+    		List<Object> lista = pp.consumoNO(orden, FI, FF);		
+            log.info ("Consumo No: " + lista);
+            return lista;	
+       }
+     
+     public List<Object> consumoSI( String orden, String FI, String FF){
+     	
+     	log.info (" Consumo SI  " );
+ 		List<Object> lista = pp.consumoSI(orden, FI, FF);		
+         log.info ("Consumo Si: " + lista);
+         return lista;	
+    }
  
 	
 	/* ****************************************************************

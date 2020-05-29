@@ -57,7 +57,7 @@ public class SQLOperador {
 	 * @param apartamentos - apartamentos del operador.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarOperador(PersistenceManager pm,long id, int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public long adicionarOperador(PersistenceManager pm,String id, int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 
 		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, TO_DATE(?), ?,TO_DATE(?),?,?,TO_DATE(?),TO_DATE(?),?,?,?,?,?)");
@@ -210,12 +210,12 @@ public class SQLOperador {
 	public List<Object> consumoSI(PersistenceManager pm, String orden, String FI, String FF)
 	{
 		String sql = "SELECT count(c.reservas) as res,p.id, p.capacidad, p.precio, p.tamanio, p.diasReservados, p.piso, p.habilitada";
-		sql+="p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
-		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+		sql+=",p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
+		sql +=" FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
 
-		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res>0";
-		sql+="ORDERED BY "+orden;
+		sql+=" WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res>0";
+		sql+=" ORDERED BY "+orden;
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}
@@ -223,12 +223,12 @@ public class SQLOperador {
 	public List<Object> consumoNO(PersistenceManager pm, String orden, String FI, String FF)
 	{
 		String sql = "SELECT count(c.reservas) as res,p.id, p.capacidad, p.precio, p.tamanio, p.diasReservados, p.piso, p.habilitada";
-		sql+="p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
-		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
+		sql+=",p.fechaCreacion, h.individual, h.esquema, h.tipo, a.amueblado, a.habitaciones, a.descripcionMenaje, a.tieneSeguro ";
+		sql +=" FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
 
-		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res=0";
-		sql+="ORDERED BY "+orden;
+		sql+=" WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res=0";
+		sql+=" ORDERED BY "+orden;
 		Query q = pm.newQuery(SQL, sql); 
 		return q.executeList();
 	}

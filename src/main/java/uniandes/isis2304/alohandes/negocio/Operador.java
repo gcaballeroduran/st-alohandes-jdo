@@ -75,7 +75,7 @@ public class Operador extends Usuario implements VOOperador {
 	 */
 	private ArrayList<Apartamento> apartamentos;
 	
-	private long id;
+	private String id;
 	
 	
 	/* ****************************************************************
@@ -101,7 +101,7 @@ public class Operador extends Usuario implements VOOperador {
 		ganancia_Anio_Corrido = 0;
 		habitaciones = new ArrayList<>();
 		apartamentos = new ArrayList<>();
-		id = 0;
+		id = "";
 	}
 	
 	/**
@@ -121,10 +121,10 @@ public class Operador extends Usuario implements VOOperador {
 	 * @param habitaciones - habitaciones del operador.
 	 * @param apartamentos - apartamentos del operador.
 	 */
-	public Operador(String logIn,String tipoId, long numeroId,String relacionU, int numero_RNT, String vencimiento_RNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public Operador(String logIn,String tipoId, String  numeroId,String relacionU, int numero_RNT, String vencimiento_RNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			String horaApertura, String horaCierre, int tiempo_Minimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos ){
 		
-		super(numeroId, tipoId, logIn, relacionU);
+		super(Integer.parseInt(numeroId), tipoId, logIn, relacionU);
 		this.numero_RNT = numero_RNT;
 		this.vencimiento_RNT = vencimiento_RNT;
 		this.registro_Super_Turismo = registroSuperTurismo;
@@ -365,11 +365,11 @@ public class Operador extends Usuario implements VOOperador {
 		Apartamento nuevo = new Apartamento(pID, pCapacidad, pTamanio, pPrecio, pFecha, pDiasR, pPiso, pAmueblado, pHabitaciones, pDMenaje, pVenceSeguro, pDSeguro, this.getNumeroId());
 		apartamentos.add(nuevo);
 	}
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

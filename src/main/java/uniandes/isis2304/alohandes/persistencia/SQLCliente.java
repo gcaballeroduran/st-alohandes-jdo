@@ -43,9 +43,9 @@ public class SQLCliente {
 	 * @param reservas - reservas del cliente.
 	 * @return EL número de tuplas insertadas
 	 */
-	public long adicionarCliente(PersistenceManager pm,long id, String medioPago, int reservas){
+	public long adicionarCliente(PersistenceManager pm,String id, String medioPago, int reservas){
 		
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCliente() + "(id, medio_Pago,reservas) values (?, ?, ?)");
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaCliente() + "(id, medio_Pago) values (?, ?)");
         q.setParameters(id, medioPago,reservas);
         return (long) q.executeUnique();
 		

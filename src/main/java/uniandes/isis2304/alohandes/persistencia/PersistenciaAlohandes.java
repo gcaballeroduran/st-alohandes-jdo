@@ -515,7 +515,7 @@ public class PersistenciaAlohandes
 	 * @param apartamentos - apartamentos del operador.
 	 * @return El objeto Operador adicionado. null si ocurre alguna Excepción
 	 */
-	public Operador adicionarOperador(long numeroId,String logIn,String tipoId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
+	public Operador adicionarOperador(String numeroId,String logIn,String tipoId,String relacionU,int numeroRNT, String vencimientoRNT, String registroSuperTurismo,String vencimientoRegistroSuperTurismo,String categoria, String direccion, 
 			String horaApertura, String horaCierre, int tiempoMinimo, double gananciaAnioActual, double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -523,7 +523,7 @@ public class PersistenciaAlohandes
 		try
 		{
 			tx.begin();            
-			adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+			adicionarUsuario(logIn, tipoId, Integer.parseInt(numeroId), relacionU);
 			long tuplasInsertadas = sqlOperador.adicionarOperador(pm, numeroId, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria, direccion, horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones, apartamentos);
 			tx.commit();
 
@@ -616,14 +616,14 @@ public class PersistenciaAlohandes
 	 * @param reservas - reservas del cliente.
 	 * @return El objeto Cliente adicionado. null si ocurre alguna Excepción
 	 */
-	public Cliente adicionarCliente(long numeroId,String logIn,String tipoId,String relacionU, String medioPago, int reservas)
+	public Cliente adicionarCliente(String numeroId,String logIn,String tipoId,String relacionU, String medioPago, int reservas)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
 		try
 		{
 			tx.begin();
-			adicionarUsuario(logIn, tipoId, numeroId, relacionU);
+			adicionarUsuario(logIn, tipoId, Integer.parseInt(numeroId), relacionU);
 			long tuplasInsertadas = sqlCliente.adicionarCliente(pm, numeroId, medioPago, reservas);
 			tx.commit();
 
@@ -2079,28 +2079,61 @@ public class PersistenciaAlohandes
  	  
  	}
      
- 	public List<Object> consumoSI(PersistenceManager pm, String orden, String FI, String FF)
+ 	public List<Object> consumoSI( String orden, String FI, String FF)
  	{
- 		String sql = "SELECT count(c.reservas) * ";
- 		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
- 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
+ 		PersistenceManager pm = pmf.getPersistenceManager();
+ 		Transaction tx=pm.currentTransaction();
+ 		
+ 		try{
+ 		
+ 			 List<Object> lista = sqlOperador.consumoSI(pm, orden, FI, FF);
+ 			 return lista;
+ 		}
+ 		
+ 		
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null; 
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 
- 		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res>0";
- 		sql+="ORDERED BY "+orden;
- 		Query q = pm.newQuery(SQL, sql); 
- 		return q.executeList();
  	}
  	
- 	public List<Object> consumoNO(PersistenceManager pm, String orden, String FI, String FF)
+ 	public List<Object> consumoNO( String orden, String FI, String FF)
  	{
- 		String sql = "SELECT count(c.reservas) as * ";
- 		sql +="FROM A_Cliente c NATURAL INNER JOIN A_PROPIEDAD p, A_HABITACION h, A_APARTAMENTO a, ";
- 		sql += "A_RESERVAHABITACION rh, A_RESESRVAAPARTAMENTO ra";
-
- 		sql+="WHERE p.id = #pIdProp AND r.FechaInicio BETWEEN TO_DATE("+FI+") AND TO_DATE ("+FF+") AND res=0";
- 		sql+="ORDERED BY "+orden;
- 		Query q = pm.newQuery(SQL, sql); 
- 		return q.executeList();
+ 		PersistenceManager pm = pmf.getPersistenceManager();
+ 		Transaction tx=pm.currentTransaction();
+ 		
+ 		try{
+ 		
+ 			 List<Object> lista = sqlOperador.consumoNO(pm, orden, FI, FF);
+ 			 return lista;
+ 		}
+ 		
+ 		
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null; 
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
  	}
      
 }
